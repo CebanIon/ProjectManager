@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.MVC", "ProjectManager.MVC.csproj", "{852E263A-95CC-477B-B97F-8E15220B7805}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManager.MVC", "ProjectManager.MVC.csproj", "{852E263A-95CC-477B-B97F-8E15220B7805}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D63A7170-E43C-4108-A935-59BA67D3CA01} = {D63A7170-E43C-4108-A935-59BA67D3CA01}
+		{9BC30EED-128D-4744-8477-4BA824705980} = {9BC30EED-128D-4744-8477-4BA824705980}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.Common", "..\ProjectManager.Common\ProjectManager.Common.csproj", "{8F4E8087-7073-4BD5-9D32-74A0B0B9F473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManager.Application", "..\ProjectManager.Application\ProjectManager.Application.csproj", "{D63A7170-E43C-4108-A935-59BA67D3CA01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BAB1B532-E19D-4AAC-A0B4-D8C0E24A7E40} = {BAB1B532-E19D-4AAC-A0B4-D8C0E24A7E40}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.Application", "..\ProjectManager.Application\ProjectManager.Application.csproj", "{D63A7170-E43C-4108-A935-59BA67D3CA01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManager.Domain", "..\ProjectManager.Domain\ProjectManager.Domain.csproj", "{BAB1B532-E19D-4AAC-A0B4-D8C0E24A7E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.Domain", "..\ProjectManager.Domain\ProjectManager.Domain.csproj", "{BAB1B532-E19D-4AAC-A0B4-D8C0E24A7E40}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.Infrastructure", "..\ProjectManager.Infrastructure\ProjectManager.Infrastructure.csproj", "{9BC30EED-128D-4744-8477-4BA824705980}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager.Persistance", "..\ProjectManager.Persistance\ProjectManager.Persistance.csproj", "{95F00E2D-7339-4333-AB99-BC616E651FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManager.Infrastructure", "..\ProjectManager.Infrastructure\ProjectManager.Infrastructure.csproj", "{9BC30EED-128D-4744-8477-4BA824705980}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D63A7170-E43C-4108-A935-59BA67D3CA01} = {D63A7170-E43C-4108-A935-59BA67D3CA01}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +31,6 @@ Global
 		{852E263A-95CC-477B-B97F-8E15220B7805}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852E263A-95CC-477B-B97F-8E15220B7805}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{852E263A-95CC-477B-B97F-8E15220B7805}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F4E8087-7073-4BD5-9D32-74A0B0B9F473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F4E8087-7073-4BD5-9D32-74A0B0B9F473}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F4E8087-7073-4BD5-9D32-74A0B0B9F473}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F4E8087-7073-4BD5-9D32-74A0B0B9F473}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D63A7170-E43C-4108-A935-59BA67D3CA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D63A7170-E43C-4108-A935-59BA67D3CA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D63A7170-E43C-4108-A935-59BA67D3CA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +43,6 @@ Global
 		{9BC30EED-128D-4744-8477-4BA824705980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BC30EED-128D-4744-8477-4BA824705980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BC30EED-128D-4744-8477-4BA824705980}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95F00E2D-7339-4333-AB99-BC616E651FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95F00E2D-7339-4333-AB99-BC616E651FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95F00E2D-7339-4333-AB99-BC616E651FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95F00E2D-7339-4333-AB99-BC616E651FB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

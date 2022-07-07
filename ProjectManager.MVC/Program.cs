@@ -1,7 +1,20 @@
+using ProjectManager.Infrastructure;
+using ProjectManager.Application;
+using ProjectManager.Application.Common.Interfaces;
+using ProjectManager.WebUI.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
 
 var app = builder.Build();
 
