@@ -1,11 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using ProjectManager.Application.Common.Interfaces;
+@inject ICurrentUserService currentUserService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ProjectManager</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -22,8 +24,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="user-footer">
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Logoff" class="btn btn-default btn-flat float-right">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -37,7 +39,6 @@
     </div>
 
     <footer class="border-top footer text-muted">
-    
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -4,9 +4,10 @@ namespace ProjectManager.MVC.Controllers
 {
     public class UserController : BaseController
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View("_Index");
         }
     }
 }

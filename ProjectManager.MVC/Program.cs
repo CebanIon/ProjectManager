@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using ProjectManager.Infrastructure.Persistence;
 using System.Security.Claims;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +18,29 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => options.LoginPath = "/Account/Login");
-builder.Services.AddAuthorization();
+    .AddCookie(options => options.LoginPath = "/Account/_Login");
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("administrator", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "user", "admin"));
+});
+
+builder.Services.AddMvc()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IProjectManagerDbContext>());
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ProjectManagerDbContext>();
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(1800);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -42,7 +59,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseSession();
+app.UseSession();
 
 
 app.MapControllerRoute(

@@ -1,8 +1,9 @@
 ﻿@model ProjectManager.Application.Users.Queries.GetUserByUserName.UserVm
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+
 
 <div class="text-center login-form-vertical-middle">
     <form class="login-form bg-white" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
@@ -13,7 +14,7 @@
                 <label asp-for="UserName" class="col-form-label text-right"></label>
             </div>
             <div class="col-sm-9">
-                <input asp-for="UserName" class="form-control" required autofocus />
+                <input asp-for="UserName" class="form-control" placeholder="Login" required autofocus />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
         </div>
@@ -23,7 +24,7 @@
                 <label asp-for="Password" class="col-form-label text-right"></label>
             </div>
             <div class="col-sm-9">
-                <input asp-for="Password" class="form-control" required />
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
         </div>
@@ -31,4 +32,3 @@
         <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Login <i class="fas fa-sign-in-alt"></i></button>
     </form>
 </div>
-

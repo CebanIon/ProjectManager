@@ -1,0 +1,12 @@
+main page will be the page with project stats
+there will be baners with curent projects and their stats
+on the left menu there will be all available projects for the current user and a button to add a project 
+
+a project manager page
+in which projectmanager will add task or confirm tasks from users
+
+a user notification menu like on youtube
+
+user page 
+user's worked hours and settings
+ 

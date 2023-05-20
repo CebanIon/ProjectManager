@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.Roles.Queries.GetRoleByUserId;
 using ProjectManager.Application.Users.Queries.GetUserByUserName;
+using ProjectManager.Domain.Entities;
 using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
@@ -13,14 +15,15 @@ namespace ProjectManager.MVC.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Login()
+        public IActionResult Login()
         {
-            return View();
+            return View("_Login");
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string userName, string password)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginAsync(string userName, string password)
         {
             try
             {
@@ -29,7 +32,7 @@ namespace ProjectManager.MVC.Controllers
                 if (userVm == null || !userVm.IsEnabled)
                 {
                     ModelState.TryAddModelError("IncorrectLogin", "Non-existent or disabled user");
-                    return View("Login");
+                    return View("_Login");
                 }
                 else
                 {
@@ -43,17 +46,26 @@ namespace ProjectManager.MVC.Controllers
                         new Claim(ClaimTypes.Role, userVm.Role),
 
                     };
+                    RoleVM userRolesList = await Mediator.Send(new GetRoleByUserIdQuery { UserId = userVm.Id });
+                    userClaims.Add(new Claim(ClaimTypes.Role, userRolesList.Name));
+
                     var claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var userPrincipal = new ClaimsPrincipal(new[] { claimsIdentity });
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                     return RedirectToAction("Index", "User");
                 }
             }
             catch (Exception)
             {
-                return View("Login");
+                return View("_Login");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LogoffAsync()
+        {
+            await HttpContext.SignOutAsync();
+            return View("_Login");
         }
     }
 }

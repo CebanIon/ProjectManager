@@ -39,13 +39,14 @@ namespace ProjectManager.Application.Users.Queries.GetUserByUserName
             }
 
             //TO DO: costume exception with message ("password not matching")
-            if (encrypted != await _context.Users.Where(x => x.UserName.ToUpper() == request.UserName.ToUpper() && x.IsEnabled)
-                .Select(x => x.Password).FirstOrDefaultAsync(cancellationToken))
-            {
-                throw new Exception();
-            }
+            
+            //if (encrypted != await _context.Users.Where(x => x.UserName.ToUpper() == request.UserName.ToUpper() && x.IsEnabled)
+            //    .Select(x => x.Password).FirstOrDefaultAsync(cancellationToken))
+            //{
+            //    throw new Exception();
+            //}
 
-            return await _context.Users.Where(x => x.UserName.ToUpper() == request.UserName.ToUpper() && x.IsEnabled)
+            return await _context.Users.Where(x => x.UserName.ToLower() == request.UserName.ToLower() && x.IsEnabled && x.Password == encrypted)
                 .Select(x => new UserVm
                 {
                     Id = x.Id,
@@ -53,6 +54,7 @@ namespace ProjectManager.Application.Users.Queries.GetUserByUserName
                     Email = x.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
+                    IsEnabled = x.IsEnabled,    
                     Role = x.Role.Name,
                     RoleId = x.RoleId,
                 }).FirstOrDefaultAsync(cancellationToken);

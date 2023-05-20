@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.login-form-vertical-middle {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
