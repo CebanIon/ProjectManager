@@ -22,6 +22,7 @@ public class ProjectTaskStateConfiguration : IEntityTypeConfiguration<ProjectTas
         builder.HasData(ProjectManagerDbContextSeed.ProjectTaskStateDone,
             ProjectManagerDbContextSeed.ProjectTaskStatePending,
             ProjectManagerDbContextSeed.ProjectTaskStateConfirmed,
-            ProjectManagerDbContextSeed.ProjectTaskStateRejected);
+            ProjectManagerDbContextSeed.ProjectTaskStateRejected,
+            ProjectManagerDbContextSeed.ProjectTaskStateInProgress);
     }
 }

@@ -36,5 +36,10 @@ public class ProjectTaskConfiguration : IEntityTypeConfiguration<ProjectTask>
             .WithMany(x => x.ProjectTasks)
             .HasForeignKey(x => x.ProjectId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(x => x.Priority)
+            .WithMany(x => x.ProjectTasks)
+            .HasForeignKey(x => x.PriorityId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

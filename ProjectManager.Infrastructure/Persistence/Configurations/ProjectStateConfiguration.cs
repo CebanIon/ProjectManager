@@ -21,6 +21,7 @@ public class ProjectStateConfiguration : IEntityTypeConfiguration<ProjectState>
 
         builder.HasData(ProjectManagerDbContextSeed.projectStateDevelopment,
             ProjectManagerDbContextSeed.projectStateMaintenance,
-            ProjectManagerDbContextSeed.projectStateFrozen);
+            ProjectManagerDbContextSeed.projectStateFrozen,
+            ProjectManagerDbContextSeed.projectStateDone);
     }
 }

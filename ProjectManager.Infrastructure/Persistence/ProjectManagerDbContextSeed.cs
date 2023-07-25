@@ -1,4 +1,5 @@
 ﻿using ProjectManager.Domain.Entities;
+using System.Xml.Linq;
 
 namespace ProjectManager.Infrastructure.Persistence
 {
@@ -28,6 +29,7 @@ namespace ProjectManager.Infrastructure.Persistence
         public static readonly ProjectTaskState ProjectTaskStatePending = new ProjectTaskState { Id = 2, Name = "Pending" };
         public static readonly ProjectTaskState ProjectTaskStateRejected = new ProjectTaskState { Id = 3, Name = "Rejected" };
         public static readonly ProjectTaskState ProjectTaskStateConfirmed = new ProjectTaskState { Id = 4, Name = "Confirmed" };
+        public static readonly ProjectTaskState ProjectTaskStateInProgress = new ProjectTaskState { Id = 5, Name = "In progress" };
         #endregion
 
         #region ProjectTaskTypes
@@ -40,7 +42,14 @@ namespace ProjectManager.Infrastructure.Persistence
         public static readonly ProjectState projectStateDevelopment = new ProjectState { Id = 1, Name = "Development" };
         public static readonly ProjectState projectStateMaintenance = new ProjectState { Id = 2, Name = "Maintenance" };
         public static readonly ProjectState projectStateFrozen = new ProjectState { Id = 3, Name = "Frozen" };
+        public static readonly ProjectState projectStateDone = new ProjectState { Id = 4, Name = "Done" };
         #endregion
 
+        #region Priorities
+        public static readonly Priority lowPriority = new Priority { Id = 1, Name="Low", PriorityValue = 1 };
+        public static readonly Priority mediumPriority = new Priority { Id = 2, Name = "Medium", PriorityValue = 2 };
+        public static readonly Priority highPriority = new Priority { Id = 3, Name = "High", PriorityValue = 3 };
+        public static readonly Priority urgentPriority = new Priority { Id = 4, Name = "Urgent", PriorityValue = 4 };
+        #endregion
     }
 }
