@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManager.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using ProjectManager.Infrastructure.Persistence;
 namespace ProjectManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ProjectManagerDbContext))]
-    partial class ProjectManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220707180209_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace ProjectManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("ProjectEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ProjectStartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProjectStateId")
@@ -153,13 +152,7 @@ namespace ProjectManager.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("TaskEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("TaskStartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TaskStateId")
@@ -176,8 +169,6 @@ namespace ProjectManager.Infrastructure.Migrations
                         .IsUnique();
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Name"));
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TaskStateId");
 
@@ -407,36 +398,6 @@ namespace ProjectManager.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProjectManager.Domain.Entities.UserProject", b =>
-                {
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProjectId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProject");
-                });
-
-            modelBuilder.Entity("ProjectManager.Domain.Entities.UserProjectTask", b =>
-                {
-                    b.Property<int>("ProjectTaskId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProjectTaskId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProjectTask");
-                });
-
             modelBuilder.Entity("ProjectManager.Domain.Entities.Project", b =>
                 {
                     b.HasOne("ProjectManager.Domain.Entities.ProjectState", "ProjectState")
@@ -450,12 +411,6 @@ namespace ProjectManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjectManager.Domain.Entities.ProjectTask", b =>
                 {
-                    b.HasOne("ProjectManager.Domain.Entities.Project", "Project")
-                        .WithMany("ProjectTasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProjectManager.Domain.Entities.ProjectTaskState", "TaskState")
                         .WithMany("ProjectTasks")
                         .HasForeignKey("TaskStateId")
@@ -467,8 +422,6 @@ namespace ProjectManager.Infrastructure.Migrations
                         .HasForeignKey("TaskTypeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Project");
 
                     b.Navigation("TaskState");
 
@@ -486,59 +439,9 @@ namespace ProjectManager.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ProjectManager.Domain.Entities.UserProject", b =>
-                {
-                    b.HasOne("ProjectManager.Domain.Entities.Project", "Project")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjectManager.Domain.Entities.User", "User")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ProjectManager.Domain.Entities.UserProjectTask", b =>
-                {
-                    b.HasOne("ProjectManager.Domain.Entities.ProjectTask", "ProjectTask")
-                        .WithMany("UserProjectTasks")
-                        .HasForeignKey("ProjectTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjectManager.Domain.Entities.User", "User")
-                        .WithMany("UserProjectTasks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectTask");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ProjectManager.Domain.Entities.Project", b =>
-                {
-                    b.Navigation("ProjectTasks");
-
-                    b.Navigation("UserProjects");
-                });
-
             modelBuilder.Entity("ProjectManager.Domain.Entities.ProjectState", b =>
                 {
                     b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("ProjectManager.Domain.Entities.ProjectTask", b =>
-                {
-                    b.Navigation("UserProjectTasks");
                 });
 
             modelBuilder.Entity("ProjectManager.Domain.Entities.ProjectTaskState", b =>
@@ -554,13 +457,6 @@ namespace ProjectManager.Infrastructure.Migrations
             modelBuilder.Entity("ProjectManager.Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ProjectManager.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserProjectTasks");
-
-                    b.Navigation("UserProjects");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,5 +18,7 @@ namespace ProjectManager.Domain.Entities
         public ProjectTaskType TaskType { get; set; }
         public ProjectTaskState TaskState { get; set; }
         public Project Project { get; set; }
+
+        public List<UserProjectTask> UserProjectTasks { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace ProjectManager.Domain.Entities
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
-        public List<UserProject> PersonClubs { get; set; }
+        public List<UserProject> UserProjects { get; set; }
+
+        public List<UserProjectTask> UserProjectTasks { get; set; }
     }
 }
