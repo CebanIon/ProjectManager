@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using IdentityModel;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +21,14 @@ namespace ProjectManager.MVC.Controllers
             return View("_Login");
         }
 
-        [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(string userName, string password)
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> LoginAsync(string username, string password)
         {
             try
             {
-                UserVm userVm = await Mediator.Send(new GetUserByUserNameQuery { UserName = userName, Password = password });
+                UserVm userVm = await Mediator.Send(new GetUserByUserNameQuery { UserName = username, Password = password });
 
                 if (userVm == null || !userVm.IsEnabled)
                 {
@@ -46,17 +47,20 @@ namespace ProjectManager.MVC.Controllers
                         new Claim(ClaimTypes.Role, userVm.Role),
 
                     };
-                    RoleVM userRolesList = await Mediator.Send(new GetRoleByUserIdQuery { UserId = userVm.Id });
-                    userClaims.Add(new Claim(ClaimTypes.Role, userRolesList.Name));
 
-                    var claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    claimsIdentity.AddClaims(userClaims);
 
-                    return RedirectToAction("Index", "User");
+                    var principal = new ClaimsPrincipal(claimsIdentity);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    return LocalRedirect("/Home");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 return View("_Login");
             }
         }
@@ -65,7 +69,7 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> LogoffAsync()
         {
             await HttpContext.SignOutAsync();
-            return View("_Login");
+            return RedirectToAction("Login");
         }
     }
 }

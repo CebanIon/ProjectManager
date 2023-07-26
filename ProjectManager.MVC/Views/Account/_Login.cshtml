@@ -5,25 +5,26 @@
 }
 
 
-<div class="text-center login-form-vertical-middle">
+<div class="text-center container-sm mt-4 pt-5" style="max-width:700px">
     <form class="login-form bg-white" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
         <h1 class="mb-4">ProjectManager</h1>
         <h1 class="h3 mb-3 font-weight-normal">Authentication</h1>
+        <br>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-3">
                 <label asp-for="UserName" class="col-form-label text-right"></label>
             </div>
-            <div class="col-sm-9">
+            <div class="col-8">
                 <input asp-for="UserName" class="form-control" placeholder="Login" required autofocus />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
         </div>
-        <div class="mb-2"></div>
+        <br>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-3">
                 <label asp-for="Password" class="col-form-label text-right"></label>
             </div>
-            <div class="col-sm-9">
+            <div class="col-8">
                 <input asp-for="Password" type="password" class="form-control" placeholder="Password" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>

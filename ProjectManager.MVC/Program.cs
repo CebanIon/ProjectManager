@@ -10,7 +10,6 @@ using System.Security.Claims;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -18,11 +17,13 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => options.LoginPath = "/Account/_Login");
+    .AddCookie(options => { options.LoginPath = "/Account/Login";
+                            options.Cookie.Name = "AuthCookieTaskManager";
+    });
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("administrator", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
-    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "user", "admin"));
+    options.AddPolicy("administrator", policy => policy.RequireClaim(ClaimTypes.Role, "Administrator"));
+    options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "User", "Administrator"));
 });
 
 builder.Services.AddMvc()
@@ -31,7 +32,7 @@ builder.Services.AddMvc()
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ProjectManagerDbContext>();
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ProjectManagerDbContext>();
 
 builder.Services.AddDistributedMemoryCache();
 
