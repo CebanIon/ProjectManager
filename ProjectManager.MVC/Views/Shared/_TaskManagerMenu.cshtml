@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="h-100 col-2 ms-1 border-end border-1 pe-0">
+    <ul class="list-group h-100">
+        @foreach (var project in ViewBag.Projects)
+        {
+            <li class="list-group-item border-top-0"><a class="nav-link text-dark" asp-controller="TaskManager" asp-action="Index" asp-route-projectId="@project.Id">@project.Name</a></li>
+        }
+        <li class="list-group-item border-top-0"><a class="nav-link text-dark align-text-bottom" asp-controller="TaskManager" asp-action="CreateProject">Add project</a></li>
+    </ul>
+</div>

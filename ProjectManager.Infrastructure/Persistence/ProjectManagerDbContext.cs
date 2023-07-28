@@ -26,6 +26,8 @@ namespace ProjectManager.Infrastructure.Persistence
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<ProjectTaskState> ProjectTaskStates { get; set; }
         public DbSet<ProjectTaskType> ProjectTaskTypes { get; set; }
+        public DbSet<Priority> Priority { get; set; }
+        public DbSet<UserProject> UserProject { get; set; }
         public DbSet<User> Users { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

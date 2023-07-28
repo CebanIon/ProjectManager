@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjectManager.MVC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="TaskManager" asp-action="Index" class="btn btn-default btn-flat float-right">Task Manager</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item d-flex">
+                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index" class="btn btn-default btn-flat float-right">Users</a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index" class="btn btn-default btn-flat float-right">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Logoff" class="btn btn-default btn-flat float-right">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

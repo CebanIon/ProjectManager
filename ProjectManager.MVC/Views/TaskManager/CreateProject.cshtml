@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_TaskLayout.cshtml";
+}
+<div class="container">
+    <form class="bg-white" asp-controller="TaskManager" asp-action="CreateProjectPost" asp-antiforgery="true" method="post">
+        <div class="mb-3">
+            <label  class=" form-label">Name</label>
+            <input class=" form-control" type="text" name="Name"><br>
+        </div>
+
+        <div class="mb-3">
+            <label class=" form-label">Description</label>
+            <input class=" form-control" type="text" name="Description"><br>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create <i class="fas fa-sign-in-alt"></i></button>
+    </form>
+</div>

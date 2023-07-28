@@ -11,6 +11,9 @@ namespace ProjectManager.Application.Common.Interfaces
         DbSet<ProjectTask> ProjectTasks { get; }
         DbSet<ProjectTaskState> ProjectTaskStates { get; }
         DbSet<ProjectTaskType> ProjectTaskTypes { get; }
+
+        DbSet<UserProject> UserProject { get; }
+        DbSet<Priority> Priority{get;}
         DbSet<User> Users { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

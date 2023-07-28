@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\css\jquery.dataTables.css" />
+    <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\css\jquery.dataTables.min.css" />
+    <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.d.ts" />
+    <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.js" />
+    <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="datatables.net-dt" Version="1.12.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
+    <PackageReference Include="jquery.datatables" Version="1.10.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.3" />
@@ -19,11 +28,73 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.15" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectManager.Application\ProjectManager.Application.csproj" />
     <ProjectReference Include="..\ProjectManager.Infrastructure\ProjectManager.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
+    <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
+    <Folder Include="wwwroot\lib\jquery-validation\" />
+    <Folder Include="wwwroot\lib\jquery-validation\dist\" />
+    <Folder Include="wwwroot\lib\jquery\" />
+    <Folder Include="wwwroot\lib\jquery\dist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap4.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap4.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap5.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bootstrap5.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bulma.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.bulma.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.dataTables.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.dataTables.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.foundation.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.foundation.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.jqueryui.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.jqueryui.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.semanticui.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\dataTables.semanticui.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\jquery.dataTables.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\css\jquery.dataTables.min.css" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\images\sort_asc.png" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\images\sort_asc_disabled.png" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\images\sort_both.png" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\images\sort_desc.png" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\images\sort_desc_disabled.png" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap5.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bootstrap5.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bulma.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.bulma.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.dataTables.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.dataTables.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.foundation.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.foundation.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.jqueryui.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.jqueryui.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.semanticui.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\dataTables.semanticui.min.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\jquery.dataTables.js" />
+    <None Include="wwwroot\DataTables\DataTables-1.13.5\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\DataTables\datatables.css" />
+    <None Include="wwwroot\DataTables\datatables.js" />
+    <None Include="wwwroot\DataTables\datatables.min.css" />
+    <None Include="wwwroot\DataTables\datatables.min.js" />
   </ItemGroup>
 
 </Project>
