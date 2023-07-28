@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
 {
-    public class ProjectTaskVM
+    public class ProjectTaskRowVM
     {
         public int Id { get; set; }
 

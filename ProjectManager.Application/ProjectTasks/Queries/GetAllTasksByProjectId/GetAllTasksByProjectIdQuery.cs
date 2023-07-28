@@ -5,23 +5,23 @@ using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 
 namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
 {
-    public class GetAllTasksByProjectIdQuery : IRequest<List<ProjectTaskVM>>
+    public class GetAllTasksByProjectIdQuery : IRequest<List<ProjectTaskRowVM>>
     {
         public int ProjectId { get; set; }
     }
 
-    public class GetAllTasksByProjectIdHandler : IRequestHandler<GetAllTasksByProjectIdQuery, List<ProjectTaskVM>>
+    public class GetAllTasksByProjectIdHandler : IRequestHandler<GetAllTasksByProjectIdQuery, List<ProjectTaskRowVM>>
     {
         private readonly IProjectManagerDbContext _context;
         public GetAllTasksByProjectIdHandler(IProjectManagerDbContext context)
         {
             _context = context;
         }
-        public async Task<List<ProjectTaskVM>> Handle(GetAllTasksByProjectIdQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProjectTaskRowVM>> Handle(GetAllTasksByProjectIdQuery request, CancellationToken cancellationToken)
         {
-            List<ProjectTaskVM> result = await _context.ProjectTasks.Where(x => x.ProjectId == request.ProjectId)
+            List<ProjectTaskRowVM> result = await _context.ProjectTasks.Where(x => x.ProjectId == request.ProjectId)
                 .Include(x => x.TaskType)
-                .Select(x => new ProjectTaskVM 
+                .Select(x => new ProjectTaskRowVM 
                 {
                     Id = x.Id,
                     Name = x.Name,

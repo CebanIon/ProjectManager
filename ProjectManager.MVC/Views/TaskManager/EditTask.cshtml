@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_TaskLayout.cshtml";
+}
+<div class="container">
+<form class="bg-white" asp-controller="TaskManager" asp-action="EditTaskPost" asp-route-taskId="@ViewBag.ProjectTaskId" asp-antiforgery="true" method="post">
+    <div class="mb-3">
+        <label class=" form-label">ProjectId</label>
+        <input class=" form-control" type="number" name="ProjectId" value="@ViewBag.ProjectTask.ProjectId"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">Name</label>
+        <input class=" form-control" type="text" name="Name" value="@ViewBag.ProjectTask.Name"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">Description</label>
+        <input class=" form-control" type="text" name="Description" value="@ViewBag.ProjectTask.Description"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">TaskTypeId</label>
+        <input class=" form-control" type="number" name="TaskTypeId" value="@ViewBag.ProjectTask.TaskTypeId"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">TaskStateId</label>
+        <input class=" form-control" type="number" name="TaskTypeId" value="@ViewBag.ProjectTask.TaskStateId"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">PriorityId</label>
+        <input class=" form-control" type="number" name="PriorityId" value="@ViewBag.ProjectTask.PriorityId"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">TaskStartDate</label>
+        <input class=" form-control" type="datetime" name="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate"><br>
+    </div>
+    <div class="mb-1">
+        <label class=" form-label">TaskEndDate</label>
+        <input class=" form-control" type="datetime" name="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate"><br>
+    </div>
+    <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+</form>
+</div>

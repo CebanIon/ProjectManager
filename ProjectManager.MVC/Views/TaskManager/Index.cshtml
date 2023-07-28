@@ -5,10 +5,13 @@
     Layout = "~/Views/Shared/_TaskLayout.cshtml";
 }
 @section scripts
-{
+    {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
         $(document).ready(function () {
-            $('#example').DataTable({
+            var table = $('#example').DataTable({
                 "ajax": {
                     url: "TaskManager/ReturnData?projectId=@ViewBag.ProjectId",
                     type: "POST",
@@ -22,7 +25,38 @@
                     { "data": "taskType", title: "TaskType" }
                 ]
             });
+            $.contextMenu({
+                selector: 'tr',
+                trigger: 'right',
+                callback: function (key, options) {
+                    var row = table.row(options.$trigger)
+                    switch (key) {
+                        case 'edit':
+                            window.location.href = "/TaskManager/editTask?taskId=" + row.data()["id"];
+                            break;
+                        case 'delete':
+                            myFunction(row.data()["id"]);
+                            break;
+                        default:
+                            break
+                    }
+                },
+                items: {
+                    "edit": { name: "Edit", icon: "edit" },
+                    "delete": { name: "Delete", icon: "delete" },
+                }
+            })
         });
+
+        function myFunction(taskId) {
+            $.ajax({
+                url: "TaskManager/DeleteTask?taskId=" + taskId,
+                type: "DELETE",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
     </script>
 }
 <a asp-controller="TaskManager" asp-action="CreateTask" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
