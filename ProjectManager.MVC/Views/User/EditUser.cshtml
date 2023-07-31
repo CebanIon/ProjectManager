@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container">
+    @if (ViewBag.UserDetails != null)
+    {
+        <div class="mb-3">
+            <label class="form-label">Projects</label>
+            <div class="row">
+                @foreach (var project in ViewBag.UserDetails.Projects)
+                {
+                    <div class="col-4 p-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="h4 card-title">Project name : @project.Item2</p>
+                                <a href="" class="card-link">Edit project</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tasks</label>
+            <div class="row">
+                @foreach (var projectTask in ViewBag.UserDetails.ProjectTasks)
+                {
+                    <div class="col-4 p-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="h4 card-title">Task name : @projectTask.Item2.Item1</p>
+                                <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
+                                <a href="" class="card-link">Edit task</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <form class="bg-white" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
+            <div class="mb-3">
+                <label class=" form-label">UserName</label>
+                <input class=" form-control" type="text" name="UserName" value="@ViewBag.UserDetails.UserName"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">FirstName</label>
+                <input class=" form-control" type="text" name="FirstName" value="@ViewBag.UserDetails.FirstName"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">LastName</label>
+                <input class=" form-control" type="text" name="LastName" value="@ViewBag.UserDetails.LastName"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">Email</label>
+                <input class=" form-control" type="text" name="Email" value="@ViewBag.UserDetails.Email"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">IsEnabled</label>
+                <input class=" form-control" type="text" name="IsEnabled" value="@ViewBag.UserDetails.IsEnabled.ToString()"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">RoleId</label>
+                <input class=" form-control" type="text" name="RoleId" value="@ViewBag.UserDetails.RoleId"><br>
+            </div>
+            <div class="mb-3">
+                <label class=" form-label">RoleName</label>
+                <input class=" form-control" type="text" value="@ViewBag.UserDetails.RoleName"><br>
+            </div>
+            <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+        </form>
+    }
+</div>

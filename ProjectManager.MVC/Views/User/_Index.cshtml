@@ -8,6 +8,52 @@
         <button id="addBtn" class="btn btn-sm btn-success mr-2 float-right"><i class="fas fa-plus-circle mr-1"></i>Add</button>
     </div>
     <div class="card-body">
-        <table id="usersTable" class="display table table-striped table-bordered" style="width:100%"></table>
+        <table id="userTable" class="mt-2 display" style="width:100%">
+        </table>
     </div>
 </div>
+@section scripts{
+    <link rel="stylesheet" href="~/DataTables/datatables.min.css" />
+    <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+<script>
+    $(document).ready(function () {
+            var table = $('#userTable').DataTable({
+                "ajax": {
+                    url: "User/GetAllUsers",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataSrc: ''
+                },
+            "columns": [
+                { "data": "id", title: "Id" },
+                { "data": "userName", title: "UserName" },
+                { "data": "firstName", title: "FirstName" },
+                { "data": "lastName", title: "LastName" },
+                { "data": "email", title: "Email" },
+                { "data": "isEnabled", title: "IsEnabled" },
+                { "data": "role", title: "Role" }
+            ]
+        });
+            $.contextMenu({
+                selector: 'tr',
+                trigger: 'right',
+                callback: function (key, options) {
+                    var row = table.row(options.$trigger)
+                    switch (key) {
+                        case 'edit':
+                            window.location.href = "/User/EditUser?userId=" + row.data()["id"];
+                            break;
+                        default:
+                            break
+                    }
+                },
+                items: {
+                    "edit": { name: "Edit", icon: "edit" }
+                }
+            })
+    });
+</script>
+}
