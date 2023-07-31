@@ -39,7 +39,8 @@ namespace ProjectManager.Application.Users.Queries.GetUserById
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            await _context.ProjectTasks.Include(x => x.UserProjectTasks.Where(x => x.UserId == request.UserId))
+            await _context.ProjectTasks.Include(x => x.UserProjectTasks)
+                .Where(x => x.UserProjectTasks.Any(j => j.UserId == request.UserId))
                 .Include(x => x.Project)
                 .ForEachAsync(x => 
                 {
@@ -55,7 +56,8 @@ namespace ProjectManager.Application.Users.Queries.GetUserById
                 },
                 cancellationToken);
 
-            await _context.Projects.Include(x => x.UserProjects.Where(x => x.UserId == request.UserId))
+            await _context.Projects.Include(x => x.UserProjects)
+                .Where(j => j.UserProjects.Any(x => x.UserId == request.UserId))
                 .ForEachAsync(x => 
                 {
                     userVM.Projects.Add(new Tuple<int, string>(item1: x.Id, item2: x.Name));

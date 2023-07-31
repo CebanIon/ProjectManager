@@ -1,0 +1,29 @@
+﻿<div class="container">
+    <form class="bg-white" asp-controller="User" asp-action="CreatePost" asp-antiforgery="true" method="post">
+        <div class="mb-3">
+            <label class=" form-label">UserName</label>
+            <input class=" form-control" type="text" name="UserName" ><br>
+        </div>
+        <div class="mb-3">
+            <label class=" form-label">Password</label>
+            <input class=" form-control" type="text" name="Password"><br>
+        </div>
+        <div class="mb-3">
+            <label class=" form-label">FirstName</label>
+            <input class=" form-control" type="text" name="FirstName"><br>
+        </div>
+        <div class="mb-3">
+            <label class=" form-label">LastName</label>
+            <input class=" form-control" type="text" name="LastName"><br>
+        </div>
+        <div class="mb-3">
+            <label class=" form-label">Email</label>
+            <input class=" form-control" type="text" name="Email"><br>
+        </div>
+        <div class="mb-3">
+            <label class=" form-label">RoleId</label>
+            <input class=" form-control" type="text" name="RoleId"><br>
+        </div>
+        <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create<i class="fas fa-sign-in-alt"></i></button>
+    </form>
+</div>

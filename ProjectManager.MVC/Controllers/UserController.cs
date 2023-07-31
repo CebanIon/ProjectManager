@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.Users.Queries.CreateUser;
 using ProjectManager.Application.Users.Queries.GetAllUsers;
 using ProjectManager.Application.Users.Queries.GetUserById;
 using ProjectManager.Application.Users.Queries.GetUserByUserName;
@@ -45,6 +46,24 @@ namespace ProjectManager.MVC.Controllers
             userQuery.LastModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             await Mediator.Send(userQuery);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePost(CreateUserQuery createUserQuery)
+        {
+            createUserQuery.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int result = await Mediator.Send(createUserQuery);
 
             return RedirectToAction("Index");
         }
