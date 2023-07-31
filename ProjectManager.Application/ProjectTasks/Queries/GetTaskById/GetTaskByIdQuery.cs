@@ -38,7 +38,16 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetTaskById
                     PriorityId = x.PriorityId,
                 })
                 .FirstOrDefaultAsync();
-
+            _context.ProjectTasks.Where(x => x.Id == request.ProjectTaskId)
+                .Include(x => x.UserProjectTasks)
+                .ThenInclude(x => x.User)
+                .FirstOrDefault()
+                .UserProjectTasks
+                .ForEach(x => 
+                {
+                    vm.Users.Add(new Tuple<int, string>( item1:x.UserId, item2 : x.User.UserName));
+                });
+                
             return vm;
         }
     }

@@ -17,5 +17,7 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetTaskById
         public int PriorityId { get; set; }
         public DateTime? TaskStartDate { get; set; }
         public DateTime? TaskEndDate { get; set; }
+
+        public List<Tuple<int, string>> Users { get; set; } = new List<Tuple<int, string>>();
     }
 }
