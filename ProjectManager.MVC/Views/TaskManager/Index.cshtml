@@ -77,41 +77,41 @@
 </table>
 @if(ViewBag.SelectedProject != null)
 {
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form class="bg-white" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="true">
-                        Checkbox dropdown
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        @foreach (var user in ViewBag.UserNotIn)
-                        {
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="@user.Id" value="true" />
-                                        <label class="form-check-label">@user.UserName</label>
-                                    </div>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="bg-white" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="true">
+                            Checkbox dropdown
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (var user in ViewBag.UserNotIn)
+                            {
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="@user.Id" value="true" />
+                                            <label class="form-check-label">@user.UserName</label>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 <div class="container">
     <div class="mb-3">
         <label class="form-label">Users</label>
@@ -132,5 +132,36 @@
             }
         </div>
     </div>
+        <form class="bg-white" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+        <div class="mb-1">
+            <label class=" form-label">Name</label>
+            <input class=" form-control" type="text" name="Name" value="@ViewBag.SelectedProject.Name"><br>
+        </div>
+        <div class="mb-1">
+                <label class=" form-label">Description</label>
+                <input class=" form-control" type="text" name="Description" value="@ViewBag.SelectedProject.Description"><br>
+        </div>
+        <div class="mb-1">
+                <label class=" form-label">ProjectStateId</label>
+                <input class=" form-control" type="text" name="ProjectStateId" value="@ViewBag.SelectedProject.ProjectStateId"><br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">IsDeleted</label>
+                <input class=" form-control" type="text" name="IsDeleted" value="@ViewBag.SelectedProject.IsDeleted"><br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">StateName</label>
+            <input class=" form-control" type="text" value="@ViewBag.SelectedProject.StateName"><br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">ProjectStartDate</label>
+            <input class=" form-control" type="text" name="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate"><br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">ProjectEndDate</label>
+            <input class=" form-control" type="text" name="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate"><br>
+        </div>
+            <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+    </form>
 </div>
 }

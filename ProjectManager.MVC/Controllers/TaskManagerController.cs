@@ -6,6 +6,7 @@ using ProjectManager.Application.Projects.Queries.CreateProject;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.Projects.Queries.GetProjectById;
+using ProjectManager.Application.Projects.Queries.ModifyProject;
 using ProjectManager.Application.Projects.Queries.RemoveUserFromProject;
 using ProjectManager.Application.ProjectTasks.Queries.AddUserToTask;
 using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
@@ -42,6 +43,17 @@ namespace ProjectManager.MVC.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ModifyProjectPost(int projectId, [FromForm] ModifyProjectQuery modifyProject)
+        {
+            modifyProject.Id = projectId;
+
+            int result = await Mediator.Send(modifyProject);
+
+            return RedirectToAction("Index");
         }
 
         [Authorize]
