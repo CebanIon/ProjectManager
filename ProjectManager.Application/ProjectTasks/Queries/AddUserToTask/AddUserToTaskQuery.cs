@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace ProjectManager.Application.ProjectTasks.Queries.AddUserToTask
 {
-    public class AddProjectToTaskQuery : IRequest<int>
+    public class AddUserToTaskQuery : IRequest<int>
     {
         public int TaskId { get; set; }
 
         public int UserId { get; set; }
     }
 
-    public class AddProjectToTaskHandler : IRequestHandler<AddProjectToTaskQuery, int>
+    public class AddProjectToTaskHandler : IRequestHandler<AddUserToTaskQuery, int>
     {
         private readonly IProjectManagerDbContext _context;
 
@@ -26,7 +26,7 @@ namespace ProjectManager.Application.ProjectTasks.Queries.AddUserToTask
             this._context = context;
         }
 
-        public async Task<int> Handle(AddProjectToTaskQuery request, CancellationToken cancellationToken)
+        public async Task<int> Handle(AddUserToTaskQuery request, CancellationToken cancellationToken)
         {
             if (await _context.Users.Where(x => x.Id == request.UserId).Include(x => x.UserProjectTasks)
                 .Where(x => x.UserProjectTasks

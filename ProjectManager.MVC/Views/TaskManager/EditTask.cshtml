@@ -4,6 +4,20 @@
 @{
     Layout = "~/Views/Shared/_TaskLayout.cshtml";
 }
+@section scripts
+{
+<script>
+    function RemoveUserFromTask(userId, taskId){
+        $.ajax({
+            url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
+            type: "POST",
+            success: function (result) {
+                location.reload();
+            }
+        });
+        }
+</script>
+}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -52,7 +66,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="h4 card-title">Project name : @user.Item2</p>
-                            <a href="" class="card-link">Remove user</a>
+                            <button type="button" onclick="RemoveUserFromTask(@user.Item1, @ViewBag.TaskId)" class="btn btn-primary">Remove user</button>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ namespace ProjectManager.Application.Users.Queries.GetUsersNotInTask
 {
     public class GetusersNotInTaskQuery : IRequest<List<UsersNotInVM>>
     {
-        public int ProjectTaskId {  get; set; }
+        public int ProjectId {  get; set; }
     }
 
     public class GetusersNotInTaskhandler : IRequestHandler<GetusersNotInTaskQuery, List<UsersNotInVM>>
@@ -26,7 +26,7 @@ namespace ProjectManager.Application.Users.Queries.GetUsersNotInTask
         public async Task<List<UsersNotInVM>> Handle(GetusersNotInTaskQuery request, CancellationToken cancellationToken)
         {
             List<UsersNotInVM> result = await _context.Users.Include(x => x.UserProjectTasks)
-                .Where(x => !x.UserProjectTasks.Any(x => x.ProjectTaskId == request.ProjectTaskId))
+                .Where(x => !x.UserProjects.Any(x => x.ProjectId == request.ProjectId))
                 .Select(x => new UsersNotInVM 
                 { 
                     Id = x.Id,

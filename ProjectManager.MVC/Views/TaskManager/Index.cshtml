@@ -48,9 +48,19 @@
             })
         });
 
+        function RemoveUserFromProject(projectId, userId) {
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
+
         function myFunction(taskId) {
             $.ajax({
-                url: "TaskManager/DeleteTask?taskId=" + taskId,
+                url: "/TaskManager/DeleteTask?taskId=" + taskId,
                 type: "DELETE",
                 success: function (result) {
                     location.reload();
@@ -65,3 +75,62 @@
 <table id="example" class="mt-2 display" style="width:100%">
     
 </table>
+@if(ViewBag.SelectedProject != null)
+{
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="bg-white" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="true">
+                        Checkbox dropdown
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @foreach (var user in ViewBag.UserNotIn)
+                        {
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="@user.Id" value="true" />
+                                        <label class="form-check-label">@user.UserName</label>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="mb-3">
+        <label class="form-label">Users</label>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add user to project
+            </button>
+        <div class="row">
+            @foreach (var user in ViewBag.SelectedProject.Users)
+            {
+                <div class="col-4 p-1">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="h4 card-title">Project name : @user.Item2</p>
+                            <button type="button" onclick="RemoveUserFromProject(@ViewBag.ProjectId,@user.Item1)" class="btn btn-primary">Remove user</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+}

@@ -25,22 +25,6 @@ namespace ProjectManager.Application.ProjectTasks.Queries.DeleteTaskById
 
         public async Task<int> Handle(DeleteTaskByIdQuery request, CancellationToken cancellationToken)
         {
-
-            List<User> users = await _context.Users.Include(x => x.UserProjectTasks).ToListAsync(cancellationToken);
-
-            if (users != default)
-            {
-                foreach (var user in users) 
-                {
-                    foreach (var userTask in user.UserProjectTasks.Where(x => x.ProjectTaskId == request.TaskId))
-                    {
-                        user.UserProjectTasks.Remove(userTask);
-                    }
-                }
-            }
-
-            await _context.SaveChangesAsync(cancellationToken);
-
             ProjectTask projectTask = await _context.ProjectTasks.SingleOrDefaultAsync(x => x.Id == request.TaskId, cancellationToken);
 
             if (projectTask != null)

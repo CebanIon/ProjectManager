@@ -1,17 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using ProjectManager.Application.Projects.Queries.AddUserToProject;
 using ProjectManager.Application.Projects.Queries.CreateProject;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
+using ProjectManager.Application.Projects.Queries.GetProjectById;
+using ProjectManager.Application.Projects.Queries.RemoveUserFromProject;
 using ProjectManager.Application.ProjectTasks.Queries.AddUserToTask;
 using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
 using ProjectManager.Application.ProjectTasks.Queries.DeleteTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
+using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
+using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ProjectManager.MVC.Controllers
 {
@@ -25,6 +32,14 @@ namespace ProjectManager.MVC.Controllers
 
             ViewBag.Projects = projects;
             ViewBag.ProjectId = projectId;
+
+            if (projectId != 0)
+            {
+                ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId});
+                ViewBag.SelectedProject = selectedProject;
+                List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectId= projectId });
+                ViewBag.UserNotIn = usersNoIt;
+            }
 
             return View();
         }
@@ -76,6 +91,7 @@ namespace ProjectManager.MVC.Controllers
         [Authorize]
         public async Task<IActionResult> EditTask(int taskId)
         {
+            ViewBag.TaskId = taskId;
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
 
             ViewBag.Projects = projects;
@@ -87,7 +103,7 @@ namespace ProjectManager.MVC.Controllers
 
             ViewBag.ProjectTaskId = taskId;
 
-            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectTaskId = taskId });
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectTaskId = taskId });
             ViewBag.UserNotIn = usersNoIt;
 
             return View();
@@ -122,6 +138,50 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> RemoveUserFromTask(int userId, int taskId)
+        {
+            int result = await Mediator.Send(new RemoveUserFromTaskQuery { UserId = userId, TaskId = taskId});
+
+            return result > 0 ? Ok() : BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveUserFromProject(int userId, int projectId)
+        {
+            int result = await Mediator.Send(new RemoveUserFromProjectQuery { UserId = userId, ProjectId = projectId });
+
+            return result > 0 ? Ok() : BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUserToProject(int projectId)
+        {
+            if (Request.Form != default && Request.Form.Keys != default)
+            {
+                foreach (string key in Request.Form.Keys)
+                {
+                    int userId = 0;
+                    if (int.TryParse(key, out userId))
+                    {
+                        AddUserToProjectQuery addUserToProjectQuery = new AddUserToProjectQuery
+                        {
+                            ProjectId = projectId,
+                            UserId = userId
+
+                        };
+
+                        await Mediator.Send(addUserToProjectQuery);
+                    }
+                }
+                return RedirectToAction("Index", new { projectId = projectId });
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> AddUserToTask(int taskId)
         {
             if (Request.Form != default && Request.Form.Keys != default)
@@ -131,7 +191,7 @@ namespace ProjectManager.MVC.Controllers
                     int userId = 0;
                     if (int.TryParse(key, out userId))
                     {
-                        AddProjectToTaskQuery addProjectToTaskQuery = new AddProjectToTaskQuery
+                        AddUserToTaskQuery addProjectToTaskQuery = new AddUserToTaskQuery
                         {
                             TaskId = taskId,
                             UserId = userId
