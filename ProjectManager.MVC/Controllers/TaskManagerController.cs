@@ -8,6 +8,7 @@ using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.Projects.Queries.GetProjectById;
 using ProjectManager.Application.Projects.Queries.ModifyProject;
 using ProjectManager.Application.Projects.Queries.RemoveUserFromProject;
+using ProjectManager.Application.ProjectState.Queries;
 using ProjectManager.Application.ProjectTasks.Queries.AddUserToTask;
 using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
 using ProjectManager.Application.ProjectTasks.Queries.DeleteTaskById;
@@ -15,6 +16,8 @@ using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
 using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
+using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
+using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
 using System.Security.Claims;
@@ -40,6 +43,8 @@ namespace ProjectManager.MVC.Controllers
                 ViewBag.SelectedProject = selectedProject;
                 List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectId= projectId });
                 ViewBag.UserNotIn = usersNoIt;
+                List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
+                ViewBag.ProjectStates = projectStates;
             }
 
             return View();
@@ -75,6 +80,11 @@ namespace ProjectManager.MVC.Controllers
 
             ViewBag.Projects = projects;
             ViewBag.ProjectId = projectId;
+
+            List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
+            ViewBag.TaskTypes = taskTypes;
+            List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
+            ViewBag.Priorities = priorities;
 
             return View();
         }
@@ -117,6 +127,11 @@ namespace ProjectManager.MVC.Controllers
 
             List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectTaskId = taskId });
             ViewBag.UserNotIn = usersNoIt;
+
+            List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
+            ViewBag.TaskTypes = taskTypes;
+            List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
+            ViewBag.Priorities = priorities;
 
             return View();
         }

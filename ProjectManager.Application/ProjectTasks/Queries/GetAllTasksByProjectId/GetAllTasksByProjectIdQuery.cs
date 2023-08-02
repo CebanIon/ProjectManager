@@ -21,12 +21,14 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
         {
             List<ProjectTaskRowVM> result = await _context.ProjectTasks.Where(x => x.ProjectId == request.ProjectId)
                 .Include(x => x.TaskType)
+                .Include(x => x.Priority)
                 .Select(x => new ProjectTaskRowVM 
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
-                    TaskType = x.TaskType.Name
+                    TaskType = x.TaskType.Name,
+                    Priority = x.Priority.Name
                 }).ToListAsync();
 
             return result;

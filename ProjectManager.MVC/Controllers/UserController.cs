@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.Roles.Queries.GetAllRoles;
+using ProjectManager.Application.Roles.Queries.GetRoleByUserId;
 using ProjectManager.Application.Users.Queries.CreateUser;
 using ProjectManager.Application.Users.Queries.GetAllUsers;
 using ProjectManager.Application.Users.Queries.GetUserById;
@@ -35,6 +37,9 @@ namespace ProjectManager.MVC.Controllers
             ViewBag.UserDetails = userDetails;
             ViewBag.UserId = userId;
 
+            List<RoleVM> roles = await Mediator.Send(new GetAllRoleQuery());
+            ViewBag.Roles = roles;
+
             return View();
         }
 
@@ -54,6 +59,8 @@ namespace ProjectManager.MVC.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create()
         {
+            List<RoleVM> roles = await Mediator.Send(new GetAllRoleQuery());
+            ViewBag.Roles = roles;
 
             return View();
         }

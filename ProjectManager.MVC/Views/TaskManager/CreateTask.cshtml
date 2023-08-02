@@ -22,14 +22,39 @@
         </div>
 
         <div class="mb-3">
-            <label class=" form-label">TaskTypeId</label>
-            <input class=" form-control" type="number" name="TaskTypeId"><br>
-        </div>
+            <label class=" form-label">TaskType</label>
+            <select class="form-select" name="TaskTypeId">
+                @foreach (var taskType in ViewBag.TaskTypes)
+                {
+                    @if (1 == taskType.Id)
+                    {
+                        <option value="@taskType.Id" selected>@taskType.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@taskType.Id">@taskType.Name</option>
+                    }
+                }
+            </select>
+        </div><br>
+
 
         <div class="mb-3">
-            <label class=" form-label">PriorityId</label>
-            <input class=" form-control" type="number" name="PriorityId"><br>
-        </div>
+            <label class=" form-label">Priority</label>
+            <select class="form-select" name="PriorityId">
+                @foreach (var priority in ViewBag.Priorities)
+                {
+                    @if (1 == priority.Id)
+                    {
+                        <option value="@priority.Id" selected>@priority.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@priority.Id">@priority.Name</option>
+                    }
+                }
+            </select>
+        </div><br>
 
         <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create <i class="fas fa-sign-in-alt"></i></button>
     </form>

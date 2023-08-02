@@ -4,17 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
+namespace ProjectManager.Application.ProjectState.Queries
 {
-    public class ProjectTaskRowVM
+    public class ProjectStateVM
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public string TaskType { get; set; }
-        public string Priority { get; set; }
     }
 }

@@ -5,9 +5,12 @@
 <div class="card shadow">
     <div class="card-header">
         @ViewData["Title"]
-        <a asp-controller="User" asp-action="Create" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">Create user</a>
+
     </div>
     <div class="card-body">
+        <a asp-controller="User" asp-action="Create" class="btn btn-primary float-end" tabindex="-1" role="button" aria-disabled="true">Create user</a>
+        <br>
+        <br>
         <table id="userTable" class="mt-2 display" style="width:100%">
         </table>
     </div>

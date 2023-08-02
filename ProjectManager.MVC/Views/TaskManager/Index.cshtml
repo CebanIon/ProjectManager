@@ -22,7 +22,8 @@
                     { "data": "id", title: "Id" },
                     { "data": "name", title: "Name" },
                     { "data": "description", title: "Description" },
-                    { "data": "taskType", title: "TaskType" }
+                    { "data": "taskType", title: "TaskType" },
+                    { "data": "priority", title: "Priority" }
                 ]
             });
             $.contextMenu({
@@ -69,7 +70,7 @@
         }
     </script>
 }
-<a asp-controller="TaskManager" asp-action="CreateTask" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
+<a asp-controller="TaskManager" asp-action="CreateTask" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary float-end" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
 <br>
 <br>
 <table id="example" class="mt-2 display" style="width:100%">
@@ -114,10 +115,11 @@
     </div>
 <div class="container">
     <div class="mb-3">
-        <label class="form-label">Users</label>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Add user to project
-            </button>
+        <p class="form-label">Users:</p>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add user to project
+        </button>
+        <br>
         <div class="row">
             @foreach (var user in ViewBag.SelectedProject.Users)
             {
@@ -142,16 +144,24 @@
                 <input class=" form-control" type="text" name="Description" value="@ViewBag.SelectedProject.Description"><br>
         </div>
         <div class="mb-1">
-                <label class=" form-label">ProjectStateId</label>
-                <input class=" form-control" type="text" name="ProjectStateId" value="@ViewBag.SelectedProject.ProjectStateId"><br>
-        </div>
+                <label class=" form-label">ProjectState</label>
+                <select class="form-select" name="ProjectStateId">
+                    @foreach (var state in ViewBag.ProjectStates)
+                    {
+                        @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
+                        {
+                            <option value="@state.Id" selected>@state.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@state.Id">@state.Name</option>
+                        }
+                    }
+                </select>
+            </div> <br>
         <div class="mb-1">
             <label class=" form-label">IsDeleted</label>
-                <input class=" form-control" type="text" name="IsDeleted" value="@ViewBag.SelectedProject.IsDeleted"><br>
-        </div>
-        <div class="mb-1">
-            <label class=" form-label">StateName</label>
-            <input class=" form-control" type="text" value="@ViewBag.SelectedProject.StateName"><br>
+                <input class=" form-control" type="text" name="IsDeleted" value="@ViewBag.SelectedProject.IsDeleted.ToString()"><br>
         </div>
         <div class="mb-1">
             <label class=" form-label">ProjectStartDate</label>
