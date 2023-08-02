@@ -58,7 +58,7 @@ namespace ProjectManager.MVC.Controllers
 
             int result = await Mediator.Send(modifyProject);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { projectId = projectId });
         }
 
         [Authorize]
@@ -145,7 +145,7 @@ namespace ProjectManager.MVC.Controllers
 
             await Mediator.Send(modifyTaskQuery);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("EditTask", new { taskId  = taskId });
         }
 
         [HttpPost]

@@ -83,14 +83,25 @@
             </div>
             <div class="mb-3">
                 <label class=" form-label">IsEnabled</label>
-                <input class=" form-control" type="text" name="IsEnabled" value="@ViewBag.UserDetails.IsEnabled.ToString()"><br>
+                <select class="form-select" name="IsEnabled">
+                    @if (ViewBag.UserDetails.IsEnabled.ToString() == "True")
+                    {
+                        <option value="true" selected>True</option>
+                        <option value="false">False</option>
+                    }
+                    else
+                    {
+                        <option value="true">True</option>
+                        <option value="false" selected>False</option>
+                    }
+                </select>
             </div>
             <div class="mb-3">
                 <label class=" form-label">Role</label>
                 <select class="form-select" name="RoleId">
                     @foreach (var role in ViewBag.Roles)
                     {
-                        @if (int.Parse(@ViewBag.UserDetails.RoleId.ToString()) == role.Id)
+                        @if (int.Parse(ViewBag.UserDetails.RoleId.ToString()) == role.Id)
                         {
                             <option value="@role.Id" selected>@role.Name</option>
                         }
