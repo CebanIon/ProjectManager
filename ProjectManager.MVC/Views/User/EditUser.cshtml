@@ -38,7 +38,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <p class="h4 card-title">Project name : @project.Item2</p>
-                                <a href="" class="card-link">Edit project</a>
                                 <button type="button" onclick="RemoveUserFromProject(@project.Item1, @ViewBag.userId)" class="btn btn-primary">Remove project</button>
                             </div>
                         </div>
@@ -56,7 +55,6 @@
                             <div class="card-body">
                                 <p class="h4 card-title">Task name : @projectTask.Item2.Item1</p>
                                 <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
-                                <a href="" class="card-link">Edit task</a>
                                 <button type="button" onclick="RemoveUserFromTask(@ViewBag.userId,@projectTask.Item1)" class="btn btn-primary">Remove task</button>
                             </div>
                         </div>
