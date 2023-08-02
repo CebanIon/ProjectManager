@@ -17,6 +17,7 @@ using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
 using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
 using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
+using ProjectManager.Application.TaskState.Queries;
 using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
@@ -132,6 +133,8 @@ namespace ProjectManager.MVC.Controllers
             ViewBag.TaskTypes = taskTypes;
             List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
             ViewBag.Priorities = priorities;
+            List<TaskStateVM> taskStates = await Mediator.Send(new GetAllTaskStateQuery());
+            ViewBag.TaskStates = taskStates;
 
             return View();
         }

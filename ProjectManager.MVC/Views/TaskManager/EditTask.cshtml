@@ -120,6 +120,22 @@
                 }
             </select>
         </div><br>
+        <div class="mb-3">
+            <label class=" form-label">State</label>
+            <select class="form-select" name="TaskStateId">
+                @foreach (var taskState in ViewBag.TaskStates)
+                {
+                    @if (int.Parse(@ViewBag.ProjectTask.TaskStateId.ToString()) == taskState.Id)
+                    {
+                        <option value="@taskState.Id" selected>@taskState.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@taskState.Id">@taskState.Name</option>
+                    }
+                }
+            </select>
+        </div><br>
         <div class="mb-1">
             <label class=" form-label">TaskStartDate</label>
             <input class=" form-control" type="datetime" name="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate"><br>

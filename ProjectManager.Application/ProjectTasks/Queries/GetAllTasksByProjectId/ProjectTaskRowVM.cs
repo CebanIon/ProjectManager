@@ -16,5 +16,7 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
 
         public string TaskType { get; set; }
         public string Priority { get; set; }
+
+        public string TaskState { get; set; }
     }
 }
