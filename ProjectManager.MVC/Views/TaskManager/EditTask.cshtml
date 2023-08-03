@@ -7,6 +7,29 @@
 @section scripts
 {
 <script>
+     $(document).ready(function () {
+            editTogle();
+     });
+
+    function editTogle() {
+        let editMode = document.querySelector('#editCheckBox').checked;
+        console.log(editMode);
+
+        let elements = document.getElementsByClassName('visibleIfEditClass');
+        [].forEach.call(elements, function (el) {
+            if (editMode) {
+                el.style.visibility = "visible";
+            }
+            else {
+                el.style.visibility = "hidden";
+            }
+        });
+        elements = document.getElementsByClassName('writeIfEditClass');
+        [].forEach.call(elements, function (el) {
+            el.disabled = !editMode;
+        });
+    }
+
     function RemoveUserFromTask(userId, taskId){
         $.ajax({
             url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
@@ -54,6 +77,10 @@
     </div>
 </div>
 <div class="container">
+    <div class="form-check form-switch float-end">
+        <input class="form-check-input" type="checkbox" onclick="editTogle()" role="switch" id="editCheckBox">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+    </div>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Add user to task
     </button>
@@ -66,7 +93,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="h4 card-title">Project name : @user.Item2</p>
-                            <button type="button" onclick="RemoveUserFromTask(@user.Item1, @ViewBag.TaskId)" class="btn btn-primary">Remove user</button>
+                            <button type="button" onclick="RemoveUserFromTask(@user.Item1, @ViewBag.TaskId)" class="btn visibleIfEditClass btn-primary">Remove user</button>
                         </div>
                     </div>
                 </div>
@@ -76,19 +103,19 @@
     <form class="bg-white" asp-controller="TaskManager" asp-action="EditTaskPost" asp-route-taskId="@ViewBag.ProjectTaskId" asp-antiforgery="true" method="post">
         <div class="mb-3">
             <label class=" form-label">ProjectId</label>
-            <input class=" form-control" type="number" name="ProjectId" value="@ViewBag.ProjectTask.ProjectId"><br>
+            <input class=" form-control writeIfEditClass" type="number" name="ProjectId" value="@ViewBag.ProjectTask.ProjectId"><br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Name</label>
-            <input class=" form-control" type="text" name="Name" value="@ViewBag.ProjectTask.Name"><br>
+            <input class=" form-control writeIfEditClass" type="text" name="Name" value="@ViewBag.ProjectTask.Name"><br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Description</label>
-            <input class=" form-control" type="text" name="Description" value="@ViewBag.ProjectTask.Description"><br>
+            <input class=" form-control writeIfEditClass" type="text" name="Description" value="@ViewBag.ProjectTask.Description"><br>
         </div>
         <div class="mb-3">
             <label class=" form-label">TaskType</label>
-            <select class="form-select" name="TaskTypeId">
+            <select class="form-select writeIfEditClass" name="TaskTypeId">
                 @foreach (var taskType in ViewBag.TaskTypes)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskTypeId.ToString()) == taskType.Id)
@@ -106,7 +133,7 @@
 
         <div class="mb-3">
             <label class=" form-label">Priority</label>
-            <select class="form-select" name="PriorityId">
+            <select class="form-select writeIfEditClass" name="PriorityId">
                 @foreach (var priority in ViewBag.Priorities)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.PriorityId.ToString()) == priority.Id)
@@ -122,7 +149,7 @@
         </div><br>
         <div class="mb-3">
             <label class=" form-label">State</label>
-            <select class="form-select" name="TaskStateId">
+            <select class="form-select writeIfEditClass" name="TaskStateId">
                 @foreach (var taskState in ViewBag.TaskStates)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskStateId.ToString()) == taskState.Id)
@@ -138,12 +165,12 @@
         </div><br>
         <div class="mb-1">
             <label class=" form-label">TaskStartDate</label>
-            <input class=" form-control" type="datetime" name="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate"><br>
+            <input class=" form-control writeIfEditClass" type="datetime" name="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate"><br>
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskEndDate</label>
-            <input class=" form-control" type="datetime" name="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate"><br>
+            <input class=" form-control writeIfEditClass" type="datetime" name="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate"><br>
         </div>
-        <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+        <button type="submit" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
     </form>
 </div>

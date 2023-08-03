@@ -52,7 +52,7 @@ namespace ProjectManager.MVC.Controllers
 
             await Mediator.Send(userQuery);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("EditUser", new { userId  = userId });
         }
 
         [HttpGet]

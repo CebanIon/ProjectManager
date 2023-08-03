@@ -11,43 +11,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#example').DataTable({
-                "ajax": {
-                    url: "TaskManager/ReturnData?projectId=@ViewBag.ProjectId",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataSrc: ''
-                },
-                "columns": [
-                    { "data": "id", title: "Id" },
-                    { "data": "name", title: "Name" },
-                    { "data": "description", title: "Description" },
-                    { "data": "taskType", title: "TaskType" },
-                    { "data": "priority", title: "Priority" },
-                    { "data": "taskState", title: "State" }
-                ]
-            });
-            $.contextMenu({
-                selector: 'tr',
-                trigger: 'right',
-                callback: function (key, options) {
-                    var row = table.row(options.$trigger)
-                    switch (key) {
-                        case 'edit':
-                            window.location.href = "/TaskManager/editTask?taskId=" + row.data()["id"];
-                            break;
-                        case 'delete':
-                            myFunction(row.data()["id"]);
-                            break;
-                        default:
-                            break
+            if(@(ViewBag.SelectedProject != null ? "true" : "false"))
+            {
+                editTogle();
+                var table = $('#example').DataTable({
+                    "ajax": {
+                        url: "TaskManager/ReturnData?projectId=@ViewBag.ProjectId",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataSrc: ''
+                    },
+                    "columns": [
+                        { "data": "id", title: "Id" },
+                        { "data": "name", title: "Name" },
+                        { "data": "description", title: "Description" },
+                        { "data": "taskType", title: "TaskType" },
+                        { "data": "priority", title: "Priority" },
+                        { "data": "taskState", title: "State" }
+                    ]
+                });
+                $.contextMenu({
+                    selector: 'tr',
+                    trigger: 'right',
+                    callback: function (key, options) {
+                        var row = table.row(options.$trigger)
+                        switch (key) {
+                            case 'edit':
+                                window.location.href = "/TaskManager/editTask?taskId=" + row.data()["id"];
+                                break;
+                            case 'delete':
+                                myFunction(row.data()["id"]);
+                                break;
+                            default:
+                                break
+                        }
+                    },
+                    items: {
+                        "edit": { name: "Edit", icon: "edit" },
+                        "delete": { name: "Delete", icon: "delete" },
                     }
-                },
-                items: {
-                    "edit": { name: "Edit", icon: "edit" },
-                    "delete": { name: "Delete", icon: "delete" },
-                }
-            })
+                })
+            }
         });
 
         function RemoveUserFromProject(projectId, userId) {
@@ -69,17 +73,42 @@
                 }
             });
         }
+
+        function editTogle(){
+            let editMode = document.querySelector('#editCheckBox').checked;
+            console.log(editMode);
+
+            let elements = document.getElementsByClassName('visibleIfEditClass');
+            [].forEach.call(elements, function (el) { 
+                if(editMode)
+                {
+                    el.style.visibility = "visible";
+                }
+                else
+                {
+                    el.style.visibility = "hidden";
+                }               
+            });
+            elements = document.getElementsByClassName('writeIfEditClass');
+            [].forEach.call(elements, function (el) {
+                el.disabled = !editMode;
+            });
+        }
     </script>
 }
+@if (ViewBag.SelectedProject != null)
+{
 <a asp-controller="TaskManager" asp-action="CreateTask" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-primary float-end" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
 <br>
 <br>
 <table id="example" class="mt-2 display" style="width:100%">
     
 </table>
-@if(ViewBag.SelectedProject != null)
-{
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="form-check form-switch float-end">
+        <input class="form-check-input" type="checkbox" onclick="editTogle()" role="switch" id="editCheckBox">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form class="bg-white" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
@@ -117,7 +146,7 @@
 <div class="container">
     <div class="mb-3">
         <p class="form-label">Users:</p>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="visibleIfEditClass btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add user to project
         </button>
         <br>
@@ -128,7 +157,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="h4 card-title">Project name : @user.Item2</p>
-                            <button type="button" onclick="RemoveUserFromProject(@ViewBag.ProjectId,@user.Item1)" class="btn btn-primary">Remove user</button>
+                                <button type="button" onclick="RemoveUserFromProject(@ViewBag.ProjectId,@user.Item1)" class="btn btn-primary visibleIfEditClass">Remove user</button>
                         </div>
                     </div>
                 </div>
@@ -138,15 +167,15 @@
         <form class="bg-white" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
         <div class="mb-1">
             <label class=" form-label">Name</label>
-            <input class=" form-control" type="text" name="Name" value="@ViewBag.SelectedProject.Name"><br>
+                <input class=" form-control writeIfEditClass" type="text" name="Name" value="@ViewBag.SelectedProject.Name"><br>
         </div>
         <div class="mb-1">
                 <label class=" form-label">Description</label>
-                <input class=" form-control" type="text" name="Description" value="@ViewBag.SelectedProject.Description"><br>
+                <input class=" form-control writeIfEditClass" type="text" name="Description" value="@ViewBag.SelectedProject.Description"><br>
         </div>
         <div class="mb-1">
                 <label class=" form-label">ProjectState</label>
-                <select class="form-select" name="ProjectStateId">
+                <select class="form-select writeIfEditClass" name="ProjectStateId">
                     @foreach (var state in ViewBag.ProjectStates)
                     {
                         @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
@@ -162,7 +191,7 @@
             </div> <br>
         <div class="mb-1">
             <label class=" form-label">IsDeleted</label>
-            <select class="form-select" name="IsDeleted">
+            <select class="form-select writeIfEditClass" name="IsDeleted">
                 @if (ViewBag.SelectedProject.IsDeleted.ToString() == "True")
                 {
                     <option value="true" selected>True</option>
@@ -177,13 +206,13 @@
         </div><br>
         <div class="mb-1">
             <label class=" form-label">ProjectStartDate</label>
-            <input class=" form-control" type="text" name="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate"><br>
+            <input class=" form-control writeIfEditClass" type="text" name="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate"><br>
         </div>
         <div class="mb-1">
             <label class=" form-label">ProjectEndDate</label>
-            <input class=" form-control" type="text" name="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate"><br>
+            <input class=" form-control writeIfEditClass" type="text" name="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate"><br>
         </div>
-            <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+            <button type="submit" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
     </form>
 </div>
 }
