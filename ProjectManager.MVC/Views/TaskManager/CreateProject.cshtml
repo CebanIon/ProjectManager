@@ -6,6 +6,14 @@
 }
 <div class="container">
     <form class="bg-white" asp-controller="TaskManager" asp-action="CreateProjectPost" asp-antiforgery="true" method="post">
+        @if (ViewBag.Error != null)
+        {
+            @foreach (var error in ViewBag.Error)
+            {
+                <p class="text-danger">@error</p>
+            }
+
+        }
         <div class="mb-3">
             <label  class=" form-label">Name</label>
             <input class=" form-control" type="text" name="Name"><br>

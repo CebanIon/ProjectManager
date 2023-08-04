@@ -166,7 +166,15 @@
         </div>
     </div>
         <form class="bg-white" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
-        <div class="mb-1">
+            @if (ViewBag.Error != null)
+            {
+                @foreach (var error in ViewBag.Error)
+                {
+                    <p class="text-danger">@error</p>
+                }
+
+            }
+            <div class="mb-1">
             <label class=" form-label">Name</label>
                 <input class=" form-control writeIfEditClass" type="text" name="Name" value="@ViewBag.SelectedProject.Name"><br>
         </div>

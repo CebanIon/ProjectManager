@@ -1,4 +1,11 @@
 ﻿<div class="container">
+    @if (ViewBag.Error != null)
+    {
+        @foreach (var error in ViewBag.Error)
+        {
+            <p class="text-danger">@error</p>
+        }
+    }
     <form class="bg-white" asp-controller="User" asp-action="CreatePost" asp-antiforgery="true" method="post">
         <div class="mb-3">
             <label class=" form-label">UserName</label>

@@ -50,6 +50,13 @@
 </script>
 }
 <div class="container">
+    @if (ViewBag.Error != null)
+    {
+        @foreach (var error in ViewBag.Error)
+        {
+            <p class="text-danger">@error</p>
+        }
+    }
     @if (ViewBag.UserDetails != null)
     {
         <div class="form-check form-switch float-end">
@@ -137,10 +144,6 @@
                     }
                 </select>
             </div><br>
-            <div class="mb-3">
-                <label class=" form-label">RoleName</label>
-                <input class="writeIfEditClass form-control" type="text" value="@ViewBag.UserDetails.RoleName"><br>
-            </div>
             <button type="submit" class="visibleIfEditClass btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
         </form>
     }

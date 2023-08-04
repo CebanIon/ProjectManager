@@ -1,20 +1,26 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using ProjectManager.Application.Projects.Queries.AddUserToProject;
 using ProjectManager.Application.Projects.Queries.CreateProject;
+using ProjectManager.Application.Projects.Queries.CreateProject.Validator;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.Projects.Queries.GetProjectById;
 using ProjectManager.Application.Projects.Queries.ModifyProject;
+using ProjectManager.Application.Projects.Queries.ModifyProject.Validator;
 using ProjectManager.Application.Projects.Queries.RemoveUserFromProject;
 using ProjectManager.Application.ProjectState.Queries;
 using ProjectManager.Application.ProjectTasks.Queries.AddUserToTask;
 using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
+using ProjectManager.Application.ProjectTasks.Queries.CreateTasks.Validator;
 using ProjectManager.Application.ProjectTasks.Queries.DeleteTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
+using ProjectManager.Application.ProjectTasks.Queries.ModifyTask.Validator;
 using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
 using ProjectManager.Application.TableParameters;
 using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
@@ -22,10 +28,12 @@ using ProjectManager.Application.TaskState.Queries;
 using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
+using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
 using ProjectManager.MVC.Models;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ProjectManager.MVC.Controllers
 {
@@ -33,8 +41,10 @@ namespace ProjectManager.MVC.Controllers
     {
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index(int projectId = 0)
+        public async Task<IActionResult> Index(int projectId = 0,List<string> errors = null)
         {
+            ViewBag.Error = errors;
+
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
 
             ViewBag.Projects = projects;
@@ -59,6 +69,20 @@ namespace ProjectManager.MVC.Controllers
         {
             modifyProject.Id = projectId;
 
+            ModifyProjectQueryValidator validator = new ModifyProjectQueryValidator();
+            ValidationResult validationResult = validator.Validate(modifyProject);
+
+            if (!validationResult.IsValid)
+            {
+                List<string> errors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+
+                return RedirectToAction("Index", new { projectId = projectId, errors = errors });
+            }
+
             int result = await Mediator.Send(modifyProject);
 
             return RedirectToAction("Index", new { projectId = projectId });
@@ -66,8 +90,10 @@ namespace ProjectManager.MVC.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> CreateProject()
+        public async Task<IActionResult> CreateProject(List<string> errors = null)
         {
+            ViewBag.Error = errors;
+
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
 
             ViewBag.Projects = projects;
@@ -77,8 +103,9 @@ namespace ProjectManager.MVC.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> CreateTask(int projectId = 0)
+        public async Task<IActionResult> CreateTask(int projectId = 0, List<string> errors = null)
         {
+            ViewBag.Error = errors;
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
 
             ViewBag.Projects = projects;
@@ -97,6 +124,21 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> CreateTaskPost(CreateTaskQuery query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            CreateTaskQueryValidator validator = new CreateTaskQueryValidator();
+            ValidationResult validationResult = validator.Validate(query);
+
+            if (!validationResult.IsValid)
+            {
+                List<string> errors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+
+                return RedirectToAction("CreateTask", new {errors = errors });
+            }
+
             await Mediator.Send(query);
 
             return RedirectToAction("Index");
@@ -107,6 +149,21 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> CreateProjectPost(CreateProjectQuery query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            CreateProjectQueryValidator validator = new CreateProjectQueryValidator();
+            ValidationResult validationResult = validator.Validate(query);
+
+            if (!validationResult.IsValid)
+            {
+                List<string> errors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+
+                return RedirectToAction("CreateProject", new { errors = errors });
+            }
+
             await Mediator.Send(query);
 
             return RedirectToAction("Index");
@@ -114,8 +171,10 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> EditTask(int taskId)
+        public async Task<IActionResult> EditTask(int taskId, List<string> errors = null)
         {
+            ViewBag.Error = errors;
+
             ViewBag.TaskId = taskId;
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
 
@@ -147,6 +206,20 @@ namespace ProjectManager.MVC.Controllers
         {
             modifyTaskQuery.ModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             modifyTaskQuery.Id = taskId;
+
+            ModifyTaskQueryValidator validator = new ModifyTaskQueryValidator();
+            ValidationResult validationResult = validator.Validate(modifyTaskQuery);
+
+            if (!validationResult.IsValid)
+            {
+                List<string> errors = new List<string>();
+                foreach (var error in validationResult.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+
+                return RedirectToAction("EditTask", new { taskId = taskId,  errors = errors });
+            }
 
             await Mediator.Send(modifyTaskQuery);
 
