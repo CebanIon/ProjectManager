@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Xml.Linq;
 
-namespace ProjectManager.MVC.Models
+namespace ProjectManager.Application.TableParameters
 {
     [Serializable]
     [DataContract]

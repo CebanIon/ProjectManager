@@ -16,11 +16,13 @@ using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
 using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
+using ProjectManager.Application.TableParameters;
 using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
 using ProjectManager.Application.TaskState.Queries;
 using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
+using ProjectManager.MVC.Models;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -152,9 +154,9 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReturnData(int projectId = 0)
+        public async Task<IActionResult> ReturnData(int projectId = 0, DataTablesParameters parameters = null)
         {
-            List<ProjectTaskRowVM> projectTasks = await Mediator.Send(new GetAllTasksByProjectIdQuery { ProjectId = projectId });
+            List<ProjectTaskRowVM> projectTasks = await Mediator.Send(new GetAllTasksByProjectIdQuery { ProjectId = projectId, Parameters = parameters });
 
             return Ok(projectTasks.ToArray());
         }

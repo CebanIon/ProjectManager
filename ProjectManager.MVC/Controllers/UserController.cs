@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Application.Roles.Queries.GetAllRoles;
 using ProjectManager.Application.Roles.Queries.GetRoleByUserId;
+using ProjectManager.Application.TableParameters;
 using ProjectManager.Application.Users.Queries.CreateUser;
 using ProjectManager.Application.Users.Queries.GetAllUsers;
 using ProjectManager.Application.Users.Queries.GetUserById;
@@ -21,9 +22,9 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers(DataTablesParameters parameters = null)
         {
-            List<UserTableRowVM> result = await Mediator.Send(new GetAllUsersQuery());
+            List<UserTableRowVM> result = await Mediator.Send(new GetAllUsersQuery { Parameters = parameters });
 
             return Ok(result);
         }

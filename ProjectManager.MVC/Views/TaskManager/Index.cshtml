@@ -15,19 +15,20 @@
             {
                 editTogle();
                 var table = $('#example').DataTable({
+                    processing: true,
+                    serverSide: true,
                     "ajax": {
                         url: "TaskManager/ReturnData?projectId=@ViewBag.ProjectId",
                         type: "POST",
-                        contentType: "application/json; charset=utf-8",
                         dataSrc: ''
                     },
                     "columns": [
-                        { "data": "id", title: "Id" },
-                        { "data": "name", title: "Name" },
-                        { "data": "description", title: "Description" },
-                        { "data": "taskType", title: "TaskType" },
-                        { "data": "priority", title: "Priority" },
-                        { "data": "taskState", title: "State" }
+                        { "data": "id", title: "Id", name : "id" },
+                        { "data": "name", title: "Name", name: "name" },
+                        { "data": "description", title: "Description", name: "description" },
+                        { "data": "taskType", title: "TaskType", name: "taskType" },
+                        { "data": "priority", title: "Priority", name: "priority" },
+                        { "data": "taskState", title: "State", name: "taskState" }
                     ]
                 });
                 $.contextMenu({

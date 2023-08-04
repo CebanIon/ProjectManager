@@ -24,20 +24,21 @@
 <script>
     $(document).ready(function () {
             var table = $('#userTable').DataTable({
+                processing: true,
+                serverSide: true,
                 "ajax": {
                     url: "User/GetAllUsers",
                     type: "POST",
-                    contentType: "application/json; charset=utf-8",
                     dataSrc: ''
                 },
             "columns": [
-                { "data": "id", title: "Id" },
-                { "data": "userName", title: "UserName" },
-                { "data": "firstName", title: "FirstName" },
-                { "data": "lastName", title: "LastName" },
-                { "data": "email", title: "Email" },
-                { "data": "isEnabled", title: "IsEnabled" },
-                { "data": "role", title: "Role" }
+                { "data": "id", title: "Id", name : "id" },
+                { "data": "userName", title: "UserName", name: "userName" },
+                { "data": "firstName", title: "FirstName", name: "firstName" },
+                { "data": "lastName", title: "LastName", name: "lastName" },
+                { "data": "email", title: "Email", name: "email" },
+                { "data": "isEnabled", title: "IsEnabled", name: "isEnabled" },
+                { "data": "role", title: "Role", name: "role" }
             ]
         });
             $.contextMenu({
