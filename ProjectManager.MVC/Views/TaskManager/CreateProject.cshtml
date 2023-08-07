@@ -4,6 +4,12 @@
 @{
     Layout = "~/Views/Shared/_TaskLayout.cshtml";
 }
+@model ProjectManager.Application.Projects.Queries.CreateProject.CreateProjectQuery;
+@section scripts
+    {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+}
 <div class="container">
     <form class="bg-white" asp-controller="TaskManager" asp-action="CreateProjectPost" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
@@ -16,12 +22,16 @@
         }
         <div class="mb-3">
             <label  class=" form-label">Name</label>
-            <input class=" form-control" type="text" name="Name"><br>
+            <input class=" form-control" type="text" asp-for="Name">
+            <span class="text-danger" asp-validation-for="Name"></span>
+            <br>
         </div>
 
         <div class="mb-3">
             <label class=" form-label">Description</label>
-            <input class=" form-control" type="text" name="Description"><br>
+            <input class=" form-control" type="text" asp-for="Description">
+            <span class="text-danger" asp-validation-for="Description"></span>
+            <br>
         </div>
 
         <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create <i class="fas fa-sign-in-alt"></i></button>

@@ -1,4 +1,10 @@
-﻿<div class="container">
+﻿@model ProjectManager.Application.Users.Queries.CreateUser.CreateUserQuery;
+@section scripts
+    {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+}
+<div class="container">
     @if (ViewBag.Error != null)
     {
         @foreach (var error in ViewBag.Error)
@@ -9,27 +15,37 @@
     <form class="bg-white" asp-controller="User" asp-action="CreatePost" asp-antiforgery="true" method="post">
         <div class="mb-3">
             <label class=" form-label">UserName</label>
-            <input class=" form-control" type="text" name="UserName" ><br>
+            <input class=" form-control" type="text" asp-for="UserName" />
+            <span class="text-danger" asp-validation-for="UserName"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">Password</label>
-            <input class=" form-control" type="text" name="Password"><br>
+            <input class=" form-control" type="text" asp-for="Password" />
+            <span class="text-danger" asp-validation-for="Password"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">FirstName</label>
-            <input class=" form-control" type="text" name="FirstName"><br>
+            <input class=" form-control" type="text" asp-for="FirstName">
+            <span class="text-danger" asp-validation-for="FirstName"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">LastName</label>
-            <input class=" form-control" type="text" name="LastName"><br>
+            <input class=" form-control" type="text" asp-for="LastName">
+            <span class="text-danger" asp-validation-for="LastName"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">Email</label>
-            <input class=" form-control" type="text" name="Email"><br>
+            <input class=" form-control" type="text" asp-for="Email">
+            <span class="text-danger" asp-validation-for="Email"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">Role</label>
-            <select class="form-select" name="RoleId">
+            <select class="form-select" asp-for="RoleId">
                 @foreach (var role in ViewBag.Roles)
                 {
                     @if (1 == role.Id)
@@ -42,7 +58,9 @@
                     }
                 }
             </select>
-        </div><br>
+            <span class="text-danger" asp-validation-for="RoleId"></span>
+            <br>
+        </div>
         <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create<i class="fas fa-sign-in-alt"></i></button>
     </form>
 </div>

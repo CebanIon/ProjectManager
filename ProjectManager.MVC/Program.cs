@@ -8,6 +8,19 @@ using Microsoft.AspNetCore.Identity;
 using ProjectManager.Infrastructure.Persistence;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
+using FluentValidation;
+using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
+using ProjectManager.Application.ProjectTasks.Queries.ModifyTask.Validator;
+using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
+using ProjectManager.Application.ProjectTasks.Queries.CreateTasks.Validator;
+using ProjectManager.Application.Users.Queries.CreateUser;
+using ProjectManager.Application.Users.Queries.CreateUser.Validator;
+using ProjectManager.Application.Users.Queries.UpdateUser;
+using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
+using ProjectManager.Application.Projects.Queries.CreateProject;
+using ProjectManager.Application.Projects.Queries.CreateProject.Validator;
+using ProjectManager.Application.Projects.Queries.ModifyProject;
+using ProjectManager.Application.Projects.Queries.ModifyProject.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -42,6 +55,14 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddScoped<IValidator<CreateProjectQuery>, CreateProjectQueryValidator>();
+builder.Services.AddScoped<IValidator<ModifyProjectQuery>, ModifyProjectQueryValidator>();
+builder.Services.AddScoped<IValidator<CreateTaskQuery>, CreateTaskQueryValidator>();
+builder.Services.AddScoped<IValidator<ModifyTaskQuery>, ModifyTaskQueryValidator>();
+builder.Services.AddScoped<IValidator<CreateUserQuery>, CreateUserQueryValidator>();
+builder.Services.AddScoped<IValidator<UpdateUserQuery>, UpdateUserQueryValidator>();
 
 var app = builder.Build();
 

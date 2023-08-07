@@ -4,42 +4,45 @@
 @{
     Layout = "~/Views/Shared/_TaskLayout.cshtml";
 }
+@model ProjectManager.Application.ProjectTasks.Queries.ModifyTask.ModifyTaskQuery;
 @section scripts
 {
-<script>
-     $(document).ready(function () {
-            editTogle();
-     });
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+         $(document).ready(function () {
+                editTogle();
+         });
 
-    function editTogle() {
-        let editMode = document.querySelector('#editCheckBox').checked;
-        console.log(editMode);
+        function editTogle() {
+            let editMode = document.querySelector('#editCheckBox').checked;
+            console.log(editMode);
 
-        let elements = document.getElementsByClassName('visibleIfEditClass');
-        [].forEach.call(elements, function (el) {
-            if (editMode) {
-                el.style.visibility = "visible";
-            }
-            else {
-                el.style.visibility = "hidden";
-            }
-        });
-        elements = document.getElementsByClassName('writeIfEditClass');
-        [].forEach.call(elements, function (el) {
-            el.disabled = !editMode;
-        });
-    }
-
-    function RemoveUserFromTask(userId, taskId){
-        $.ajax({
-            url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
-            type: "POST",
-            success: function (result) {
-                location.reload();
-            }
-        });
+            let elements = document.getElementsByClassName('visibleIfEditClass');
+            [].forEach.call(elements, function (el) {
+                if (editMode) {
+                    el.style.visibility = "visible";
+                }
+                else {
+                    el.style.visibility = "hidden";
+                }
+            });
+            elements = document.getElementsByClassName('writeIfEditClass');
+            [].forEach.call(elements, function (el) {
+                el.disabled = !editMode;
+            });
         }
-</script>
+
+        function RemoveUserFromTask(userId, taskId){
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+            }
+    </script>
 }
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -111,19 +114,25 @@
         }
         <div class="mb-3">
             <label class=" form-label">ProjectId</label>
-            <input class=" form-control writeIfEditClass" type="number" name="ProjectId" value="@ViewBag.ProjectTask.ProjectId"><br>
+            <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectId" value="@ViewBag.ProjectTask.ProjectId">
+            <span class="text-danger" asp-validation-for="ProjectId"></span>
+            <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Name</label>
-            <input class=" form-control writeIfEditClass" type="text" name="Name" value="@ViewBag.ProjectTask.Name"><br>
+            <input class=" form-control writeIfEditClass" type="text" asp-for="Name" value="@ViewBag.ProjectTask.Name"/>
+            <span class="text-danger" asp-validation-for="Name"></span>
+            <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Description</label>
-            <input class=" form-control writeIfEditClass" type="text" name="Description" value="@ViewBag.ProjectTask.Description"><br>
+            <input class=" form-control writeIfEditClass" type="text" asp-for="Description" value="@ViewBag.ProjectTask.Description">
+            <span class="text-danger" asp-validation-for="Description"></span>
+            <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">TaskType</label>
-            <select class="form-select writeIfEditClass" name="TaskTypeId">
+            <select class="form-select writeIfEditClass" asp-for="TaskTypeId">
                 @foreach (var taskType in ViewBag.TaskTypes)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskTypeId.ToString()) == taskType.Id)
@@ -136,12 +145,12 @@
                     }
                 }
             </select>
+            <span class="text-danger" asp-validation-for="TaskTypeId"></span>
+            <br>
         </div>
-        <br>
-
         <div class="mb-3">
             <label class=" form-label">Priority</label>
-            <select class="form-select writeIfEditClass" name="PriorityId">
+            <select class="form-select writeIfEditClass" asp-for="PriorityId">
                 @foreach (var priority in ViewBag.Priorities)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.PriorityId.ToString()) == priority.Id)
@@ -154,10 +163,12 @@
                     }
                 }
             </select>
-        </div><br>
+            <span class="text-danger" asp-validation-for="PriorityId"></span>
+            <br>
+        </div>
         <div class="mb-3">
             <label class=" form-label">State</label>
-            <select class="form-select writeIfEditClass" name="TaskStateId">
+            <select class="form-select writeIfEditClass" asp-for="TaskStateId">
                 @foreach (var taskState in ViewBag.TaskStates)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskStateId.ToString()) == taskState.Id)
@@ -170,15 +181,21 @@
                     }
                 }
             </select>
-        </div><br>
+            <span class="text-danger" asp-validation-for="TaskStateId"></span>
+            <br>
+        </div>
         <div class="mb-1">
             <label class=" form-label">TaskStartDate</label>
-            <input class=" form-control writeIfEditClass" type="datetime" name="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate"><br>
+            <input class=" form-control writeIfEditClass" type="datetime" asp-for="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate">
+            <span class="text-danger" asp-validation-for="TaskStartDate"></span>
+            <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskEndDate</label>
-            <input class=" form-control writeIfEditClass" type="datetime" name="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate"><br>
+            <input class=" form-control writeIfEditClass" type="datetime" asp-for="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate">
+            <span class="text-danger" asp-validation-for="TaskEndDate"></span>
+            <br>
         </div>
-        <button type="submit" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+        <button type="submit" value="submit" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"/></button>
     </form>
 </div>

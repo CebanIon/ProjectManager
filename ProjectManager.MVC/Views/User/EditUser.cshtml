@@ -3,8 +3,11 @@
 *@
 @{
 }
+@model ProjectManager.Application.Users.Queries.UpdateUser.UpdateUserQuery;
 @section scripts
 {
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
         editTogle();
@@ -99,23 +102,31 @@
         <form class="bg-white" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
             <div class="mb-3">
                 <label class=" form-label">UserName</label>
-                <input class="writeIfEditClass form-control" type="text" name="UserName" value="@ViewBag.UserDetails.UserName"><br>
+                <input class="writeIfEditClass form-control" type="text" asp-for="UserName" value="@ViewBag.UserDetails.UserName">
+                <span class="text-danger" asp-validation-for="UserName"></span>
+                <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">FirstName</label>
-                <input class="writeIfEditClass form-control" type="text" name="FirstName" value="@ViewBag.UserDetails.FirstName"><br>
+                <input class="writeIfEditClass form-control" type="text" asp-for="FirstName" value="@ViewBag.UserDetails.FirstName">
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+                <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">LastName</label>
-                <input class="writeIfEditClass form-control" type="text" name="LastName" value="@ViewBag.UserDetails.LastName"><br>
+                <input class="writeIfEditClass form-control" type="text" asp-for="LastName" value="@ViewBag.UserDetails.LastName">
+                <span class="text-danger" asp-validation-for="LastName"></span>
+                <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">Email</label>
-                <input class="writeIfEditClass form-control" type="text" name="Email" value="@ViewBag.UserDetails.Email"><br>
+                <input class="writeIfEditClass form-control" type="text" asp-for="Email" value="@ViewBag.UserDetails.Email">
+                <span class="text-danger" asp-validation-for="Email"></span>
+                <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">IsEnabled</label>
-                <select class="writeIfEditClass form-select" name="IsEnabled">
+                <select class="writeIfEditClass form-select" asp-for="IsEnabled">
                     @if (ViewBag.UserDetails.IsEnabled.ToString() == "True")
                     {
                         <option value="true" selected>True</option>
@@ -127,10 +138,12 @@
                         <option value="false" selected>False</option>
                     }
                 </select>
+                <span class="text-danger" asp-validation-for="IsEnabled"></span>
+                <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">Role</label>
-                <select class="writeIfEditClass form-select" name="RoleId">
+                <select class="writeIfEditClass form-select" naasp-forme="RoleId">
                     @foreach (var role in ViewBag.Roles)
                     {
                         @if (int.Parse(ViewBag.UserDetails.RoleId.ToString()) == role.Id)
@@ -143,7 +156,9 @@
                         }
                     }
                 </select>
-            </div><br>
+                <span class="text-danger" asp-validation-for="RoleId"></span>
+                <br>
+            </div>
             <button type="submit" class="visibleIfEditClass btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
         </form>
     }
