@@ -18,9 +18,9 @@
 @section scripts{
     <link rel="stylesheet" href="~/DataTables/datatables.min.css" />
     <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+    <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
+    <script type="text/javascript" src="~/ContextMenu/jquery.contextMenu.min.js"></script>
+    <script type="text/javascript" src="~/ContextMenu/jquery.ui.position.js"></script>
 <script>
     $(document).ready(function () {
             var table = $('#userTable').DataTable({
@@ -55,7 +55,7 @@
                     }
                 },
                 items: {
-                    "edit": { name: "Edit", icon: "edit" }
+                    "edit": { name: "Edit" }
                 }
             })
     });

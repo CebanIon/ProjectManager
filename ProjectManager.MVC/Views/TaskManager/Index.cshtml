@@ -6,9 +6,9 @@
 }
 @section scripts
     {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+    <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
+    <script type="text/javascript" src="~/ContextMenu/jquery.contextMenu.min.js"></script>
+    <script type="text/javascript" src="~/ContextMenu/jquery.ui.position.js"></script>
     <script>
         $(document).ready(function () {
             if(@(ViewBag.SelectedProject != null ? "true" : "false"))
@@ -48,8 +48,8 @@
                         }
                     },
                     items: {
-                        "edit": { name: "Edit", icon: "edit" },
-                        "delete": { name: "Delete", icon: "delete" },
+                        "edit": { name: "Edit" },
+                        "delete": { name: "Delete" },
                     }
                 })
             }
