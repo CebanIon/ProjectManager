@@ -45,7 +45,7 @@ namespace ProjectManager.MVC.Controllers
             List<RoleVM> roles = await Mediator.Send(new GetAllRoleQuery());
             ViewBag.Roles = roles;
 
-            return View();
+            return View("EditUser");
         }
 
         [HttpPost]
@@ -66,12 +66,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("EditUser", new { userId = userId,  errors = errors });
+                return await EditUser(userId, errors);
             }
 
             await Mediator.Send(userQuery);
 
-            return RedirectToAction("EditUser", new { userId  = userId });
+            return await EditUser(userId);
         }
 
         [HttpGet]

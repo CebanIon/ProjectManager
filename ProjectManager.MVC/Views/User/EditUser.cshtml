@@ -52,7 +52,7 @@
                 }
             </div>
         </div>
-        <form class="bg-white" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
+        <form class="bg-white" id="edituserForm" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
             <div class="mb-3">
                 <label class=" form-label">UserName</label>
                 <input class="writeIfEditClass form-control" type="text" asp-for="UserName" value="@ViewBag.UserDetails.UserName">
@@ -96,7 +96,7 @@
             </div>
             <div class="mb-3">
                 <label class=" form-label">Role</label>
-                <select class="writeIfEditClass form-select" naasp-forme="RoleId">
+                <select class="writeIfEditClass form-select" asp-for="RoleId">
                     @foreach (var role in ViewBag.Roles)
                     {
                         @if (int.Parse(ViewBag.UserDetails.RoleId.ToString()) == role.Id)
@@ -112,7 +112,8 @@
                 <span class="text-danger" asp-validation-for="RoleId"></span>
                 <br>
             </div>
-            <button type="submit" class="visibleIfEditClass btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
         </form>
+        <button id="modifyUserSubmitForm" onclick="modifyUser(@ViewBag.UserId)" class="visibleIfEditClass btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+
     }
 </div>

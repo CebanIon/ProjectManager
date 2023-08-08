@@ -99,6 +99,27 @@
                 }
             })
         });
+        function modifyUser(userId) {
+            var form = $("#edituserForm");
+            var url = form.attr('action');
+
+            $.ajax({
+                url: url,
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: form.serialize(),
+                method: "POST",
+                success: function (response) {
+                    $('#contentDiv').html(response);
+                    userEditLoad();
+                },
+                error: function (response){
+                    $('#contentDiv').html(response);
+                    userEditLoad();
+                }
+            })
+        };
         function userEditLoad() {
             editTogle();
         };
