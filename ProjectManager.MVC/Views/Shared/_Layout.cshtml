@@ -74,30 +74,82 @@
                 }
             })
         };
-
-        function modifyUser(userId) {
-            var form = $("#edituserForm");
-            var url = form.attr('action');
-
+        function gotToUserCreate(){
             $.ajax({
-                url: url,
+                url: "@Url.Action("Create","User")",
                 xhrFields: {
                     withCredentials: true
                 },
-                data: form.serialize(),
-                method: "POST",
+                method: "GET",
                 success: function (response) {
-                    goToUserIndex();
-                },
-                error: function (response){
+                    $('#contentDiv').html(null);
                     $('#contentDiv').html(response);
-                    userEditLoad();
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
                 }
-            })
+            });
+        
         };
+        function createUser() {
+            var form = $("#createUserForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#contentDiv').html(null);
+                        $('#contentDiv').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    },
+                    error: function (response) {
+                        $('#contentDiv').html(null);
+                        $('#contentDiv').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                })
+            }
+        };
+
+        function modifyUser(userId) {
+            var form = $("#edituserForm");
+            if(form.valid()){
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#contentDiv').html(response);
+                        userEditLoad();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    },
+                    error: function (response){
+                        $('#contentDiv').html(response);
+                        userEditLoad();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                })
+            };
+        }
         function userEditLoad() {
             editTogle();
         };

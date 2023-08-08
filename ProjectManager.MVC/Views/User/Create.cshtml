@@ -1,9 +1,7 @@
-﻿@model ProjectManager.Application.Users.Queries.CreateUser.CreateUserQuery;
-@section scripts
-    {
-    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+﻿@{
+    Layout = null;
 }
+@model ProjectManager.Application.Users.Queries.CreateUser.CreateUserQuery;
 <div class="container">
     @if (ViewBag.Error != null)
     {
@@ -12,7 +10,7 @@
             <p class="text-danger">@error</p>
         }
     }
-    <form class="bg-white" asp-controller="User" asp-action="CreatePost" asp-antiforgery="true" method="post">
+    <form class="bg-white" id="createUserForm" asp-controller="User" asp-action="CreatePost" asp-antiforgery="true" method="post">
         <div class="mb-3">
             <label class=" form-label">UserName</label>
             <input class=" form-control" type="text" asp-for="UserName" />
@@ -60,7 +58,7 @@
             </select>
             <span class="text-danger" asp-validation-for="RoleId"></span>
             <br>
-        </div>
-        <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Create<i class="fas fa-sign-in-alt"></i></button>
+        </div>   
     </form>
+    <button onclick="createUser()" class="btn btn-lg btn-success btn-block mt-3">Create<i class="fas fa-sign-in-alt"></i></button>
 </div>

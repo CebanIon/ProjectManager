@@ -82,7 +82,7 @@ namespace ProjectManager.MVC.Controllers
             List<RoleVM> roles = await Mediator.Send(new GetAllRoleQuery());
             ViewBag.Roles = roles;
 
-            return View();
+            return View("Create");
         }
 
         [HttpPost]
@@ -102,12 +102,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("Create", new { errors  = errors });
+                return await Create(errors);
             }
 
             int result = await Mediator.Send(createUserQuery);
 
-            return RedirectToAction("Index");
+            return await Create();
         }
     }
 }
