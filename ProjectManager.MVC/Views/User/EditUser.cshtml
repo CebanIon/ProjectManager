@@ -2,56 +2,9 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = null;
 }
 @model ProjectManager.Application.Users.Queries.UpdateUser.UpdateUserQuery;
-@section scripts
-{
-    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script>
-    $(document).ready(function () {
-        editTogle();
-    });
-
-    function editTogle() {
-        let editMode = document.querySelector('#editCheckBox').checked;
-        console.log(editMode);
-
-        let elements = document.getElementsByClassName('visibleIfEditClass');
-        [].forEach.call(elements, function (el) {
-            if (editMode) {
-                el.style.visibility = "visible";
-            }
-            else {
-                el.style.visibility = "hidden";
-            }
-        });
-        elements = document.getElementsByClassName('writeIfEditClass');
-        [].forEach.call(elements, function (el) {
-            el.disabled = !editMode;
-        });
-    }
-
-    function RemoveUserFromTask(userId, taskId) {
-        $.ajax({
-            url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
-            type: "POST",
-            success: function (result) {
-                location.reload();
-            }
-        });
-    }
-    function RemoveUserFromProject(projectId, userId) {
-        $.ajax({
-            url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
-            type: "POST",
-            success: function (result) {
-                location.reload();
-            }
-        });
-    }
-</script>
-}
 <div class="container">
     @if (ViewBag.Error != null)
     {

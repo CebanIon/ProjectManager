@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
 </head>
 <body>
     <header>
@@ -25,6 +26,121 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/DataTables/datatables.min.css" />
+    <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="~/ContextMenu/jquery.contextMenu.min.js"></script>
+    <script type="text/javascript" src="~/ContextMenu/jquery.ui.position.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        function userpageLoad() {
+            var table = $('#userTable').DataTable({
+                processing: true,
+                serverSide: true,
+                "ajax": {
+                    url: "User/GetAllUsers",
+                    type: "POST",
+                    dataSrc: ''
+                },
+                "columns": [
+                    { "data": "id", title: "Id", name: "id" },
+                    { "data": "userName", title: "UserName", name: "userName" },
+                    { "data": "firstName", title: "FirstName", name: "firstName" },
+                    { "data": "lastName", title: "LastName", name: "lastName" },
+                    { "data": "email", title: "Email", name: "email" },
+                    { "data": "isEnabled", title: "IsEnabled", name: "isEnabled" },
+                    { "data": "role", title: "Role", name: "role" }
+                ]
+            });
+            $.contextMenu({
+                selector: 'tr',
+                trigger: 'right',
+                callback: function (key, options) {
+                    var row = table.row(options.$trigger)
+                    switch (key) {
+                        case 'edit':
+                            $.ajax({
+                                url: "@Url.Action("EditUser","User")",
+                                xhrFields: {
+                                    withCredentials: true
+                                },
+                                data:{
+                                    userId: row.data()["id"]
+                                },
+                                method: "GET",
+                                success: function (response) {
+                                    $('#contentDiv').html(response);
+                                    userEditLoad();
+                                    $("form").removeData("validator");
+                                    $("form").removeData("unobtrusiveValidation");
+                                    $.validator.unobtrusive.parse("form");
+                                }
+                            })
+                            break;
+                        default:
+                            break
+                    }
+                },
+                items: {
+                    "edit": { name: "Edit" }
+                }
+            })
+        };
+        $('#userPageNav').click(function () {
+            $.ajax({
+                url: "@Url.Action("Index","User")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(response);
+                    userpageLoad();
+                }
+            })
+        });
+        function userEditLoad() {
+            editTogle();
+        };
+
+        function editTogle() {
+            let editMode = document.querySelector('#editCheckBox').checked;
+            console.log(editMode);
+
+            let elements = document.getElementsByClassName('visibleIfEditClass');
+            [].forEach.call(elements, function (el) {
+                if (editMode) {
+                    el.style.visibility = "visible";
+                }
+                else {
+                    el.style.visibility = "hidden";
+                }
+            });
+            elements = document.getElementsByClassName('writeIfEditClass');
+            [].forEach.call(elements, function (el) {
+                el.disabled = !editMode;
+            });
+        }
+
+        function RemoveUserFromTask(userId, taskId) {
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
+        function RemoveUserFromProject(projectId, userId) {
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
+</script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
