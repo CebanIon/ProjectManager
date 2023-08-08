@@ -34,7 +34,8 @@
     <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
         function userpageLoad() {
-            var table = $('#userTable').DataTable({
+            console.log("Loaded");
+            let table = $('#userTable').DataTable({
                 processing: true,
                 serverSide: true,
                 "ajax": {
@@ -52,30 +53,17 @@
                     { "data": "role", title: "Role", name: "role" }
                 ]
             });
-            $.contextMenu({
+            let contextmenu = $('#userTable').contextMenu({
                 selector: 'tr',
                 trigger: 'right',
                 callback: function (key, options) {
-                    var row = table.row(options.$trigger)
+                    console.log(table);
+                    console.log(table.rows());
+                    let row = table.row(options.$trigger);
+                    console.log(row.data());
                     switch (key) {
                         case 'edit':
-                            $.ajax({
-                                url: "@Url.Action("EditUser","User")",
-                                xhrFields: {
-                                    withCredentials: true
-                                },
-                                data:{
-                                    userId: row.data()["id"]
-                                },
-                                method: "GET",
-                                success: function (response) {
-                                    $('#contentDiv').html(response);
-                                    userEditLoad();
-                                    $("form").removeData("validator");
-                                    $("form").removeData("unobtrusiveValidation");
-                                    $.validator.unobtrusive.parse("form");
-                                }
-                            })
+                            gotToUserEditPage(row.data()["id"]);
                             break;
                         default:
                             break
@@ -86,19 +74,7 @@
                 }
             })
         };
-        $('#userPageNav').click(function () {
-            $.ajax({
-                url: "@Url.Action("Index","User")",
-                xhrFields: {
-                    withCredentials: true
-                },
-                method: "GET",
-                success: function (response) {
-                    $('#contentDiv').html(response);
-                    userpageLoad();
-                }
-            })
-        });
+
         function modifyUser(userId) {
             var form = $("#edituserForm");
             var url = form.attr('action');
@@ -111,18 +87,55 @@
                 data: form.serialize(),
                 method: "POST",
                 success: function (response) {
-                    $('#contentDiv').html(response);
-                    userEditLoad();
+                    goToUserIndex();
                 },
                 error: function (response){
                     $('#contentDiv').html(response);
                     userEditLoad();
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
                 }
             })
         };
         function userEditLoad() {
             editTogle();
         };
+
+        function gotToUserEditPage(userId){
+            $.ajax({
+                url: "@Url.Action("EditUser","User")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    userId: userId
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(response);
+                    userEditLoad();
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+        }
+
+        function goToUserIndex(){
+            $.ajax({
+                url: "@Url.Action("Index","User")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(null);
+                    $('#contentDiv').html(response);
+                    userpageLoad();
+                }
+            });
+        }
 
         function editTogle() {
             let editMode = document.querySelector('#editCheckBox').checked;
@@ -148,7 +161,7 @@
                 url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
-                    location.reload();
+                    gotToUserEditPage(userId);
                 }
             });
         }
@@ -157,7 +170,7 @@
                 url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
-                    location.reload();
+                    gotToUserEditPage(userId);
                 }
             });
         }
