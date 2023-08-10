@@ -1,0 +1,146 @@
+﻿@{
+    Layout = null;
+}
+@model ProjectManager.Application.Projects.Queries.ModifyProject.ModifyProjectQuery;
+@if (ViewBag.SelectedProject != null)
+{
+    <div class="container">
+        <a onClick="goToCreateTask(@ViewBag.ProjectId)" class="btn btn-primary float-end" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
+        <br>
+        <br>
+        <table id="example" class="mt-2 display" style="width:100%">
+        </table>
+        <div class="form-check form-switch float-end">
+            <input class="form-check-input" type="checkbox" onclick="editTogle()" role="switch" id="editCheckBox">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="bg-white" id="adduserToProjectForm" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="true">
+                                Checkbox dropdown
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach (var user in ViewBag.UserNotIn)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="@user.Id" value="true" />
+                                                <label class="form-check-label">@user.UserName</label>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onclick="adduserToProject(@ViewBag.ProjectId)" data-bs-dismiss="modal" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="mb-3">
+            <p class="form-label">Users:</p>
+            <button type="button" class="visibleIfEditClass btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add user to project
+            </button>
+            <br>
+            <div class="row">
+                @foreach (var user in ViewBag.SelectedProject.Users)
+                {
+                    <div class="col-4 p-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="h4 card-title">Project name : @user.Item2</p>
+                                <button type="button" onclick="RemoveUserFromProjectProjectPage(@ViewBag.ProjectId,@user.Item1)" class="btn btn-primary visibleIfEditClass">Remove user</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <form class="bg-white" id="modifyProjectForm" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+            @if (ViewBag.Error != null)
+            {
+                @foreach (var error in ViewBag.Error)
+                {
+                    <p class="text-danger">@error</p>
+                }
+
+            }
+            <div class="mb-1">
+                <label class=" form-label">Name</label>
+                <input class=" form-control writeIfEditClass" type="text" asp-for="Name" value="@ViewBag.SelectedProject.Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+                <br>
+            </div>
+            <div class="mb-1">
+                <label class=" form-label">Description</label>
+                <input class=" form-control writeIfEditClass" type="text" asp-for="Description" value="@ViewBag.SelectedProject.Description">
+                <span class="text-danger" asp-validation-for="Description"></span>
+                <br>
+            </div>
+            <div class="mb-1">
+                <label class=" form-label">ProjectState</label>
+                <select class="form-select writeIfEditClass" asp-for="ProjectStateId">
+                    @foreach (var state in ViewBag.ProjectStates)
+                    {
+                        @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
+                        {
+                            <option value="@state.Id" selected>@state.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@state.Id">@state.Name</option>
+                        }
+                    }
+                </select>
+                <span class="text-danger" asp-validation-for="ProjectStateId"></span>
+                <br>
+            </div>
+            <div class="mb-1">
+                <label class=" form-label">IsDeleted</label>
+                <select class="form-select writeIfEditClass" asp-for="IsDeleted">
+                    @if (ViewBag.SelectedProject.IsDeleted.ToString() == "True")
+                    {
+                        <option value="true" selected>True</option>
+                        <option value="false">False</option>
+                    }
+                    else
+                    {
+                        <option value="true">True</option>
+                        <option value="false" selected>False</option>
+                    }
+                </select>
+                <span class="text-danger" asp-validation-for="IsDeleted"></span>
+                <br>
+            </div>
+            <div class="mb-1">
+                <label class=" form-label">ProjectStartDate</label>
+                <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate">
+                <span class="text-danger" asp-validation-for="ProjectStartDate"></span>
+                <br>
+            </div>
+            <div class="mb-1">
+                <label class=" form-label">ProjectEndDate</label>
+                <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate">
+                <span class="text-danger" asp-validation-for="ProjectEndDate"></span>
+                <br>
+            </div>
+        </form>
+        <button onClick="modifyProject(@ViewBag.ProjectId)" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+
+    </div>
+}

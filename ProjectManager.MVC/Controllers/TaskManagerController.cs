@@ -41,26 +41,33 @@ namespace ProjectManager.MVC.Controllers
     {
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index(int projectId = 0,List<string> errors = null)
+        public async Task<IActionResult> Index(int projectId = 0)
         {
-            ViewBag.Error = errors;
 
             List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
 
             ViewBag.Projects = projects;
+
+            return View("Index");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> IndexContent(int projectId = 0, List<string> errors = null)
+        {
+            ViewBag.Error = errors;
             ViewBag.ProjectId = projectId;
 
-            if (projectId != 0)
-            {
-                ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId});
-                ViewBag.SelectedProject = selectedProject;
-                List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectId= projectId });
-                ViewBag.UserNotIn = usersNoIt;
-                List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
-                ViewBag.ProjectStates = projectStates;
-            }
+            ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
+            ViewBag.SelectedProject = selectedProject;
 
-            return View();
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectId = projectId });
+            ViewBag.UserNotIn = usersNoIt;
+
+            List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
+            ViewBag.ProjectStates = projectStates;
+
+            return View("IndexContent");
         }
 
         [HttpPost]
@@ -80,12 +87,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("Index", new { projectId = projectId, errors = errors });
+                return await IndexContent(projectId, errors);
             }
 
             int result = await Mediator.Send(modifyProject);
 
-            return RedirectToAction("Index", new { projectId = projectId });
+            return await IndexContent(projectId);
         }
 
         [Authorize]
@@ -98,7 +105,7 @@ namespace ProjectManager.MVC.Controllers
 
             ViewBag.Projects = projects;
 
-            return View();
+            return View("CreateProject");
         }
 
         [Authorize]
@@ -106,9 +113,6 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> CreateTask(int projectId = 0, List<string> errors = null)
         {
             ViewBag.Error = errors;
-            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
-
-            ViewBag.Projects = projects;
             ViewBag.ProjectId = projectId;
 
             List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
@@ -116,7 +120,7 @@ namespace ProjectManager.MVC.Controllers
             List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
             ViewBag.Priorities = priorities;
 
-            return View();
+            return View("CreateTask");
         }
 
         [HttpPost]
@@ -136,12 +140,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("CreateTask", new {errors = errors });
+                return await CreateTask(query.ProjectId, errors);
             }
 
             await Mediator.Send(query);
 
-            return RedirectToAction("Index");
+            return await IndexContent(query.ProjectId);
         }
 
         [HttpPost]
@@ -161,12 +165,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("CreateProject", new { errors = errors });
+                return await CreateProject(errors);
             }
 
             await Mediator.Send(query);
 
-            return RedirectToAction("Index");
+            return await Index();
         }
 
         [HttpGet]
@@ -197,7 +201,7 @@ namespace ProjectManager.MVC.Controllers
             List<TaskStateVM> taskStates = await Mediator.Send(new GetAllTaskStateQuery());
             ViewBag.TaskStates = taskStates;
 
-            return View();
+            return View("EditTask");
         }
 
         [HttpPost]
@@ -218,12 +222,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return RedirectToAction("EditTask", new { taskId = taskId,  errors = errors });
+                return await EditTask(taskId, errors );
             }
 
             await Mediator.Send(modifyTaskQuery);
 
-            return RedirectToAction("EditTask", new { taskId  = taskId });
+            return await EditTask(taskId);
         }
 
         [HttpPost]
@@ -234,7 +238,7 @@ namespace ProjectManager.MVC.Controllers
             return Ok(projectTasks.ToArray());
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> DeleteTask(int taskId)
         {
             await Mediator.Send(new DeleteTaskByIdQuery { TaskId = taskId });

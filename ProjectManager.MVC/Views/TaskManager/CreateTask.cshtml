@@ -2,16 +2,11 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "~/Views/Shared/_TaskLayout.cshtml";
+    Layout = null;
 }
 @model ProjectManager.Application.ProjectTasks.Queries.CreateTasks.CreateTaskQuery;
-@section scripts
-{
-    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
 <div class="container">
-    <form class="bg-white" asp-controller="TaskManager" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
+    <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {
             @foreach (var error in ViewBag.Error)
@@ -76,6 +71,7 @@
             <span class="text-danger" asp-validation-for="PriorityId"></span>
             <br>
         </div>
-        <button type="submit" value="submit" class="btn btn-lg btn-success btn-block mt-3">Create <i class="fas fa-sign-in-alt"></i></button>
+        
     </form>
+    <button onclick="createProject(@ViewBag.ProjectId)" class="btn btn-lg btn-success btn-block mt-3">Create <i class="fas fa-sign-in-alt"></i></button>
 </div>

@@ -11,15 +11,12 @@
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
 </head>
-<body>
+<body class="h-100">
     <header>
         <partial name="~/Views/Shared/_NavBar.cshtml" />
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+
+    @RenderBody()
 
     <footer class="footer text-muted">
     </footer>
@@ -166,10 +163,10 @@
                 method: "GET",
                 success: function (response) {
                     $('#contentDiv').html(response);
-                    userEditLoad();
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    editTogle();
                 }
             });
         }
@@ -217,6 +214,15 @@
                 }
             });
         }
+        function RemoveUserFromTaskProject(userId, taskId) {
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    goToTaskEdit(taskId);
+                }
+            });
+        }
         function RemoveUserFromProject(projectId, userId) {
             $.ajax({
                 url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
@@ -225,6 +231,319 @@
                     gotToUserEditPage(userId);
                 }
             });
+        }
+        function RemoveUserFromProjectProjectPage(projectId, userId) {
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    goToProject(projectId);
+                }
+            });
+        }
+        function goToTaskManagerIndex() {
+            $.ajax({
+                url: "@Url.Action("Index","TaskManager")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(null);
+                    $('#contentDiv').html(response);
+                }
+            });
+        }
+        function goToTaskManagerCreateProject() {
+            $.ajax({
+                url: "@Url.Action("CreateProject","TaskManager")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(null);
+                    $('#contentDiv').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+        }
+        function createProject(){
+            var form = $("#createProjectForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#contentDiv').html(response);
+                        userEditLoad();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    },
+                    error: function (response) {
+                        $('#contentDiv').html(response);
+                        userEditLoad();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                })
+            };
+        }
+        function taskManagerLoadProject(projectId) {
+                    editTogle();
+                    let table = $('#example').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        "ajax": {
+                            url: "TaskManager/ReturnData",
+                            data:{
+                                projectId: projectId
+                            },
+                            type: "POST",
+                            dataSrc: ''
+                        },
+                        "columns": [
+                            { "data": "id", title: "Id", name: "id" },
+                            { "data": "name", title: "Name", name: "name" },
+                            { "data": "description", title: "Description", name: "description" },
+                            { "data": "taskType", title: "TaskType", name: "taskType" },
+                            { "data": "priority", title: "Priority", name: "priority" },
+                            { "data": "taskState", title: "State", name: "taskState" }
+                        ]
+                    });
+                    let contextmenu = $('#example').contextMenu({
+                        selector: 'tr',
+                        trigger: 'right',
+                        callback: function (key, options) {
+                            var row = table.row(options.$trigger)
+                            switch (key) {
+                                case 'edit':
+                                    goToTaskEdit(row.data()["id"]);
+                                    break;
+                                case 'delete':
+                                    deleteTask(row.data()["id"]);
+                                    table.ajax.reload();
+                                    break;
+                                default:
+                                    break
+                            }
+                        },
+                        items: {
+                            "edit": { name: "Edit" },
+                            "delete": { name: "Delete" },
+                        }
+                    })
+        }
+
+        function deleteTask(taskId) {
+            $.ajax({
+                url: "/TaskManager/DeleteTask?taskId=" + taskId,
+                type: "POST",
+                async:false,
+                done: function (result) {
+                    console.log(result);                    
+                }
+            });
+        }
+
+        function goToTaskEdit(taskId) {
+            $.ajax({
+                url: "@Url.Action("EditTask","TaskManager")",
+                data: {
+                    taskId: taskId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                    editTogle();
+                }
+            });
+        }
+
+        function goToProject(projectId){
+            $.ajax({
+                url: "@Url.Action("IndexContent","TaskManager")",
+                data : {
+                    projectId: projectId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                    taskManagerLoadProject(projectId);
+                }
+            });
+        }
+        function goToCreateTask(projectId){
+            $.ajax({
+                url: "@Url.Action("CreateTask","TaskManager")",
+                data: {
+                    projectId: projectId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+        }
+        function createProject(projectId) {
+            var form = $("#createTaskForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#taskManagerContent').html(response);
+                        editTogle();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        taskManagerLoadProject(projectId);
+                    },
+                    error: function (response) {
+                        $('#taskManagerContent').html(response);
+                        editTogle();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                })
+            };
+        }
+
+        function modifyProject(projectId) {
+            var form = $("#modifyProjectForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#taskManagerContent').html(response);
+                        editTogle();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        taskManagerLoadProject(projectId);
+                    },
+                    error: function (response) {
+                        $('#taskManagerContent').html(response);
+                        editTogle();
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                })
+            };
+        }
+
+        function modifyTask(taskId) {
+            var form = $("#modifyTaskForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        $('#taskManagerContent').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        editTogle();
+                    },
+                    error: function (response) {
+                        $('#taskManagerContent').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        editTogle();
+                    }
+                })
+            };
+        }
+
+        function adduserToProject(projectId) {
+            var form = $("#adduserToProjectForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        goToProject(projectId);
+                    }
+                })
+            };
+        }
+
+        function addUserToTask(taskId) {
+            var form = $("#addUserToTaskForm");
+            if (form.valid()) {
+                var url = form.attr('action');
+
+                $.ajax({
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: form.serialize(),
+                    method: "POST",
+                    success: function (response) {
+                        goToTaskEdit(taskId);
+                    }
+                })
+            };
         }
 </script>
     @await RenderSectionAsync("Scripts", required: false)

@@ -7,8 +7,8 @@
     <ul class="list-group h-100">
         @foreach (var project in ViewBag.Projects)
         {
-            <li class="list-group-item border-top-0"><a class="nav-link text-dark" asp-controller="TaskManager" asp-action="Index" asp-route-projectId="@project.Id">@project.Name</a></li>
+            <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onClick="goToProject(@project.Id)">@project.Name</a></li>
         }
-        <li class="list-group-item border-top-0"><a class="nav-link text-dark align-text-bottom" asp-controller="TaskManager" asp-action="CreateProject">Add project</a></li>
+        <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onclick="goToTaskManagerCreateProject()">Add project</a></li>
     </ul>
 </div>
