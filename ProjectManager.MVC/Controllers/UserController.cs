@@ -27,9 +27,17 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAllUsers(DataTablesParameters parameters = null)
         {
-            List<UserTableRowVM> result = await Mediator.Send(new GetAllUsersQuery { Parameters = parameters });
+            Tuple<int,List<UserTableRowVM>> result = await Mediator.Send(new GetAllUsersQuery { Parameters = parameters });
 
-            return Ok(result);
+            var v = new
+            {
+                Draw = parameters.Draw,
+                RecordsFiltered = result.Item1,
+                RecordsTotal = result.Item1,
+                Data = result.Item2
+            };
+
+            return Ok(v);
         }
 
         [HttpGet]

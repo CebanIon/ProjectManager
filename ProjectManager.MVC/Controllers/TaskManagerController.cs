@@ -233,9 +233,16 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnData(int projectId = 0, DataTablesParameters parameters = null)
         {
-            List<ProjectTaskRowVM> projectTasks = await Mediator.Send(new GetAllTasksByProjectIdQuery { ProjectId = projectId, Parameters = parameters });
+            Tuple<int,List<ProjectTaskRowVM>> result = await Mediator.Send(new GetAllTasksByProjectIdQuery { ProjectId = projectId, Parameters = parameters });
 
-            return Ok(projectTasks.ToArray());
+            var v = new {
+                Draw = parameters.Draw,
+                RecordsFiltered = result.Item1,
+                RecordsTotal = result.Item1,
+                Data = result.Item2
+            };
+
+            return Ok(v);
         }
 
         [HttpPost]

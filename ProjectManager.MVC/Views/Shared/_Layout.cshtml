@@ -60,8 +60,7 @@
                 serverSide: true,
                 "ajax": {
                     url: "User/GetAllUsers",
-                    type: "POST",
-                    dataSrc: ''
+                    type: "POST"
                 },
                 "columns": [
                     { "data": "id", title: "Id", name: "id" },
@@ -359,16 +358,15 @@
                             data:{
                                 projectId: projectId
                             },
-                            type: "POST",
-                            dataSrc: ''
+                            type: "POST"
                         },
                         "columns": [
-                            { "data": "id", title: "Id", name: "id" },
-                            { "data": "name", title: "Name", name: "name" },
-                            { "data": "description", title: "Description", name: "description" },
-                            { "data": "taskType", title: "TaskType", name: "taskType" },
-                            { "data": "priority", title: "Priority", name: "priority" },
-                            { "data": "taskState", title: "State", name: "taskState" }
+                            { data: "id", title: "Id", name: "id" },
+                            { data: "name", title: "Name", name: "name" },
+                            { data: "description", title: "Description", name: "description" },
+                            { data: "taskType", title: "TaskType", name: "taskType" },
+                            { data: "priority", title: "Priority", name: "priority" },
+                            { data: "taskState", title: "State", name: "taskState" }
                         ]
                     });
                     let contextmenu = $('#example').contextMenu({
@@ -474,7 +472,7 @@
                 }
             });
         }
-        function createProject(projectId) {
+        function createTask(projectId) {
             var form = $("#createTaskForm");
             if (form.valid()) {
                 startLoading();

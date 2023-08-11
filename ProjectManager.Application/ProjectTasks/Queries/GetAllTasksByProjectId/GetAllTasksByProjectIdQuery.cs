@@ -6,27 +6,28 @@ using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
 using ProjectManager.Application.TableParameters;
 using ProjectManager.Domain.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
 {
-    public class GetAllTasksByProjectIdQuery : IRequest<List<ProjectTaskRowVM>>
+    public class GetAllTasksByProjectIdQuery : IRequest<Tuple<int,List<ProjectTaskRowVM>>>
     {
         public int ProjectId { get; set; }
 
         public DataTablesParameters Parameters { get; set; }
     }
 
-    public class GetAllTasksByProjectIdHandler : IRequestHandler<GetAllTasksByProjectIdQuery, List<ProjectTaskRowVM>>
+    public class GetAllTasksByProjectIdHandler : IRequestHandler<GetAllTasksByProjectIdQuery, Tuple<int, List<ProjectTaskRowVM>>>
     {
         private readonly IProjectManagerDbContext _context;
         public GetAllTasksByProjectIdHandler(IProjectManagerDbContext context)
         {
             _context = context;
         }
-        public async Task<List<ProjectTaskRowVM>> Handle(GetAllTasksByProjectIdQuery request, CancellationToken cancellationToken)
+        public async Task<Tuple<int, List<ProjectTaskRowVM>>> Handle(GetAllTasksByProjectIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -58,8 +59,20 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId
                 })
                 .ToListAsync();
 
+                int total = await _context.ProjectTasks.Where(x => x.ProjectId == request.ProjectId)
+                .Include(x => x.TaskType)
+                .Include(x => x.Priority)
+                .Include(x => x.TaskState)
+                .Where(x => x.Name.Contains(toFind)
+                    || x.Description.Contains(toFind)
+                    || x.Priority.Name.Contains(toFind)
+                    || x.TaskType.Name.Contains(toFind)
+                    || x.TaskState.Name.Contains(toFind))
+                    .CountAsync(cancellationToken);
 
-                return result;
+
+
+                return new Tuple<int, List<ProjectTaskRowVM>>(item1 : total, item2 : result);
             }
             catch (Exception e)
             {

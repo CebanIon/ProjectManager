@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace ProjectManager.Application.Users.Queries.GetAllUsers
 {
-    public class GetAllUsersQuery : IRequest<List<UserTableRowVM>>
+    public class GetAllUsersQuery : IRequest<Tuple<int, List<UserTableRowVM>>>
     {
         public DataTablesParameters Parameters { get; set; }
     }
 
-    public class GetAllUserHandler : IRequestHandler<GetAllUsersQuery, List<UserTableRowVM>>
+    public class GetAllUserHandler : IRequestHandler<GetAllUsersQuery, Tuple<int,List<UserTableRowVM>>>
     {
         private readonly IProjectManagerDbContext _context;
 
@@ -27,7 +27,7 @@ namespace ProjectManager.Application.Users.Queries.GetAllUsers
             this._context = context;
         }
 
-        public async Task<List<UserTableRowVM>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Tuple<int, List<UserTableRowVM>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             string oderColumn = request.Parameters.Columns[request.Parameters.Order[0].Column].Name;
             string toFind = request.Parameters.Search.Value ?? "";
@@ -54,7 +54,16 @@ namespace ProjectManager.Application.Users.Queries.GetAllUsers
                         RoleId = x.RoleId
                     }).ToListAsync(cancellationToken);
 
-            return result;
+            int total = await _context.Users
+                .Include(x => x.Role)
+                .Where(x => x.UserName.Contains(toFind)
+                    || x.Email.Contains(toFind)
+                    || x.FirstName.Contains(toFind)
+                    || x.LastName.Contains(toFind)
+                    || x.Role.Name.Contains(toFind))
+                .CountAsync(cancellationToken);
+
+            return new Tuple<int, List<UserTableRowVM>>(item1: total, item2 : result);
         }
     }
     public static class LinqHelper
