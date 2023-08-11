@@ -10,12 +10,27 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
+    <style>
+        @@keyframes rotation {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(359deg);
+          }
+        }
+        #loadingImg {
+            animation: rotation 2s infinite linear;
+        }
+    </style>
 </head>
 <body class="h-100">
     <header>
         <partial name="~/Views/Shared/_NavBar.cshtml" />
     </header>
-
+    <div id="loader" class="position-absolute top-50 start-50 translate-middle" style="width:150px; height : 150px; display: none; z-index: 10;">
+        <img id="loadingImg" src="~/images/load-icon.png" style="width:150px; height : 150px;" />
+    </div>
     @RenderBody()
 
     <footer class="footer text-muted">
@@ -30,6 +45,14 @@
     <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
+        function startLoading(){
+            $("#loader").show();
+        }
+
+        function endLoading() {
+            $("#loader").hide();
+        }
+
         function userpageLoad() {
             console.log("Loaded");
             let table = $('#userTable').DataTable({
@@ -72,6 +95,7 @@
             })
         };
         function gotToUserCreate(){
+            startLoading();
             $.ajax({
                 url: "@Url.Action("Create","User")",
                 xhrFields: {
@@ -84,6 +108,7 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    endLoading();
                 }
             });
         
@@ -91,6 +116,7 @@
         function createUser() {
             var form = $("#createUserForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -106,6 +132,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     },
                     error: function (response) {
                         $('#contentDiv').html(null);
@@ -113,6 +140,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     }
                 })
             }
@@ -121,6 +149,7 @@
         function modifyUser(userId) {
             var form = $("#edituserForm");
             if(form.valid()){
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -136,6 +165,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     },
                     error: function (response){
                         $('#contentDiv').html(response);
@@ -143,6 +173,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     }
                 })
             };
@@ -152,6 +183,7 @@
         };
 
         function gotToUserEditPage(userId){
+            startLoading();
             $.ajax({
                 url: "@Url.Action("EditUser","User")",
                 xhrFields: {
@@ -167,11 +199,13 @@
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
                     editTogle();
+                    endLoading();
                 }
             });
         }
 
         function goToUserIndex(){
+            startLoading();
             $.ajax({
                 url: "@Url.Action("Index","User")",
                 xhrFields: {
@@ -181,6 +215,7 @@
                 success: function (response) {
                     $('#contentDiv').html(null);
                     $('#contentDiv').html(response);
+                    endLoading();
                     userpageLoad();
                 }
             });
@@ -193,10 +228,10 @@
             let elements = document.getElementsByClassName('visibleIfEditClass');
             [].forEach.call(elements, function (el) {
                 if (editMode) {
-                    el.style.visibility = "visible";
+                    el.style.display = "block";
                 }
                 else {
-                    el.style.visibility = "hidden";
+                    el.style.display = "none";
                 }
             });
             elements = document.getElementsByClassName('writeIfEditClass');
@@ -206,42 +241,51 @@
         }
 
         function RemoveUserFromTask(userId, taskId) {
+            startLoading();
             $.ajax({
                 url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
+                    endLoading();
                     gotToUserEditPage(userId);
                 }
             });
         }
         function RemoveUserFromTaskProject(userId, taskId) {
+            startLoading();
             $.ajax({
                 url: "/TaskManager/RemoveUserFromTask?taskId=" + taskId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
+                    endLoading();
                     goToTaskEdit(taskId);
                 }
             });
         }
         function RemoveUserFromProject(projectId, userId) {
+            startLoading();
             $.ajax({
                 url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
+                    endLoading();
                     gotToUserEditPage(userId);
                 }
             });
         }
         function RemoveUserFromProjectProjectPage(projectId, userId) {
+            startLoading();
             $.ajax({
                 url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
                 type: "POST",
                 success: function (result) {
+                    endLoading();
                     goToProject(projectId);
                 }
             });
         }
         function goToTaskManagerIndex() {
+            startLoading();
             $.ajax({
                 url: "@Url.Action("Index","TaskManager")",
                 xhrFields: {
@@ -251,10 +295,12 @@
                 success: function (response) {
                     $('#contentDiv').html(null);
                     $('#contentDiv').html(response);
+                    endLoading();
                 }
             });
         }
         function goToTaskManagerCreateProject() {
+            startLoading();
             $.ajax({
                 url: "@Url.Action("CreateProject","TaskManager")",
                 xhrFields: {
@@ -267,12 +313,14 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    endLoading();
                 }
             });
         }
         function createProject(){
             var form = $("#createProjectForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -288,6 +336,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     },
                     error: function (response) {
                         $('#contentDiv').html(response);
@@ -295,6 +344,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     }
                 })
             };
@@ -346,17 +396,20 @@
         }
 
         function deleteTask(taskId) {
+            startLoading();
             $.ajax({
                 url: "/TaskManager/DeleteTask?taskId=" + taskId,
                 type: "POST",
                 async:false,
                 done: function (result) {
+                    endLoading();
                     console.log(result);                    
                 }
             });
         }
 
         function goToTaskEdit(taskId) {
+            startLoading();
             $.ajax({
                 url: "@Url.Action("EditTask","TaskManager")",
                 data: {
@@ -373,11 +426,13 @@
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
                     editTogle();
+                    endLoading();
                 }
             });
         }
 
         function goToProject(projectId){
+            startLoading();
             $.ajax({
                 url: "@Url.Action("IndexContent","TaskManager")",
                 data : {
@@ -393,11 +448,13 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    endLoading();
                     taskManagerLoadProject(projectId);
                 }
             });
         }
         function goToCreateTask(projectId){
+            startLoading();
             $.ajax({
                 url: "@Url.Action("CreateTask","TaskManager")",
                 data: {
@@ -413,12 +470,14 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    endLoading();
                 }
             });
         }
         function createProject(projectId) {
             var form = $("#createTaskForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -435,6 +494,7 @@
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         taskManagerLoadProject(projectId);
+                        endLoading();
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
@@ -442,6 +502,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     }
                 })
             };
@@ -450,6 +511,7 @@
         function modifyProject(projectId) {
             var form = $("#modifyProjectForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -465,6 +527,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                         taskManagerLoadProject(projectId);
                     },
                     error: function (response) {
@@ -473,6 +536,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        endLoading();
                     }
                 })
             };
@@ -481,6 +545,7 @@
         function modifyTask(taskId) {
             var form = $("#modifyTaskForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -496,6 +561,7 @@
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         editTogle();
+                        endLoading();
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
@@ -503,6 +569,7 @@
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         editTogle();
+                        endLoading();
                     }
                 })
             };
@@ -511,6 +578,7 @@
         function adduserToProject(projectId) {
             var form = $("#adduserToProjectForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -521,6 +589,7 @@
                     data: form.serialize(),
                     method: "POST",
                     success: function (response) {
+                        endLoading();
                         goToProject(projectId);
                     }
                 })
@@ -530,6 +599,7 @@
         function addUserToTask(taskId) {
             var form = $("#addUserToTaskForm");
             if (form.valid()) {
+                startLoading();
                 var url = form.attr('action');
 
                 $.ajax({
@@ -540,6 +610,7 @@
                     data: form.serialize(),
                     method: "POST",
                     success: function (response) {
+                        endLoading();
                         goToTaskEdit(taskId);
                     }
                 })
