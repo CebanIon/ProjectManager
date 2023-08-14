@@ -278,6 +278,22 @@
             });
         }
 
+        function loadTaskManagerMenu() {
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("TaskManagerMenu","TaskManager")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerMenu').html(null);
+                    $('#taskManagerMenu').html(response);
+                    endLoading();
+                }
+            });
+        }
+
         function editTogle() {
             let editMode = document.querySelector('#editCheckBox').checked;
             console.log(editMode);
@@ -353,6 +369,7 @@
                     $('#contentDiv').html(null);
                     $('#contentDiv').html(response);
                     endLoading();
+                    loadTaskManagerMenu();
                 }
             });
         }
@@ -600,6 +617,7 @@
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         endLoading();
+                        loadTaskManagerMenu();
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
@@ -607,6 +625,7 @@
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         endLoading();
+                        loadTaskManagerMenu();
                     }
                 })
             };

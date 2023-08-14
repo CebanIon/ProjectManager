@@ -41,13 +41,8 @@ namespace ProjectManager.MVC.Controllers
     {
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index(int projectId = 0)
+        public async Task<IActionResult> Index()
         {
-
-            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
-
-            ViewBag.Projects = projects;
-
             return View("Index");
         }
 
@@ -87,6 +82,18 @@ namespace ProjectManager.MVC.Controllers
             ViewBag.ProjectStates = projectStates;
 
             return View("EditProject");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> TaskManagerMenu()
+        {
+
+            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
+
+            ViewBag.Projects = projects;
+
+            return View("../Shared/_TaskManagerMenu");
         }
 
         [HttpGet]

@@ -2,8 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = null;
 }
-<div class="h-100 col-2 ms-1 border-end border-1 pe-0">
     <ul class="list-group h-100">
         @foreach (var project in ViewBag.Projects)
         {
@@ -23,4 +23,3 @@
         }
         <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onclick="goToTaskManagerCreateProject()">Add project</a></li>
     </ul>
-</div>
