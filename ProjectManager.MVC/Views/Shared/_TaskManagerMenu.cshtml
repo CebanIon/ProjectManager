@@ -7,7 +7,19 @@
     <ul class="list-group h-100">
         @foreach (var project in ViewBag.Projects)
         {
-            <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onClick="goToProject(@project.Id)">@project.Name</a></li>
+            <li class="list-group-item border-top-0">
+                <div class="row">
+                    <a class="nav-link text-dark col" onClick="goToProject(@project.Id)">@project.Name</a>
+                    <div class="col pt-2 d-flex justify-content-end">
+                        <div style="height:30px; width:30px;" class="border ms-1 border-3 border-primary rounded-circle d-flex justify-content-center align-items-center">
+                            <span class="text-primary fw-bold fs-4">i</span>
+                        </div>
+                        <div style="height:30px; width:30px;" class="border ms-1 border-3 border-success rounded-circle d-flex justify-content-center align-items-center">
+                            <span class="text-success fw-bold fs-4">E</span>
+                        </div>
+                    </div>
+                </div>
+             </li>
         }
         <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onclick="goToTaskManagerCreateProject()">Add project</a></li>
     </ul>
