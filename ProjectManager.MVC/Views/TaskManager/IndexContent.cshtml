@@ -19,13 +19,13 @@
                 <div class="modal-content">
                     <form class="bg-white" id="adduserToProjectForm" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Users</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-bs-toggle="dropdown" aria-expanded="true">
-                                Checkbox dropdown
+                                Select users
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach (var user in ViewBag.UserNotIn)

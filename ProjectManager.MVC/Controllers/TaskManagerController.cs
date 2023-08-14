@@ -61,7 +61,7 @@ namespace ProjectManager.MVC.Controllers
             ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
             ViewBag.SelectedProject = selectedProject;
 
-            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectId = projectId });
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectId = projectId });
             ViewBag.UserNotIn = usersNoIt;
 
             List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
@@ -199,9 +199,6 @@ namespace ProjectManager.MVC.Controllers
             ViewBag.Error = errors;
 
             ViewBag.TaskId = taskId;
-            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
-
-            ViewBag.Projects = projects;
 
             ProjectTaskVM projectTask = await Mediator.Send(new GetTaskByIdQuery { ProjectTaskId = taskId });
 
@@ -210,7 +207,7 @@ namespace ProjectManager.MVC.Controllers
 
             ViewBag.ProjectTaskId = taskId;
 
-            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectTaskId = taskId });
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetusersNotInTaskQuery { ProjectTaskId = taskId });
             ViewBag.UserNotIn = usersNoIt;
 
             List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
