@@ -81,6 +81,9 @@
                     let row = table.row(options.$trigger);
                     console.log(row.data());
                     switch (key) {
+                        case 'details':
+                            gotToUserDetailsPage(row.data()["id"]);
+                            break;
                         case 'edit':
                             gotToUserEditPage(row.data()["id"]);
                             break;
@@ -89,7 +92,8 @@
                     }
                 },
                 items: {
-                    "edit": { name: "Edit" }
+                    "edit": { name: "Edit" },
+                    "details": { name: "Details" }
                 }
             })
         };
@@ -160,7 +164,6 @@
                     method: "POST",
                     success: function (response) {
                         $('#contentDiv').html(response);
-                        userEditLoad();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -168,7 +171,6 @@
                     },
                     error: function (response){
                         $('#contentDiv').html(response);
-                        userEditLoad();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -178,7 +180,6 @@
             };
         }
         function userEditLoad() {
-            editTogle();
         };
 
         function gotToUserEditPage(userId){
@@ -197,7 +198,24 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
-                    editTogle();
+                    endLoading();
+                }
+            });
+        }
+
+        function gotToUserDetailsPage(userId) {
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("UserDetails","User")",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    userId: userId
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#contentDiv').html(response);
                     endLoading();
                 }
             });
@@ -331,7 +349,6 @@
                     method: "POST",
                     success: function (response) {
                         $('#contentDiv').html(response);
-                        userEditLoad();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -339,7 +356,6 @@
                     },
                     error: function (response) {
                         $('#contentDiv').html(response);
-                        userEditLoad();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -378,6 +394,9 @@
                                 case 'edit':
                                     goToTaskEdit(row.data()["id"]);
                                     break;
+                                 case 'details':
+                                    goToTaskDetails(row.data()["id"]);
+                                    break;
                                 case 'delete':
                                     deleteTask(row.data()["id"]);
                                     table.ajax.reload();
@@ -388,6 +407,7 @@
                         },
                         items: {
                             "edit": { name: "Edit" },
+                            "details": { name: "Details" },
                             "delete": { name: "Delete" },
                         }
                     })
@@ -402,6 +422,25 @@
                 done: function (result) {
                     endLoading();
                     console.log(result);                    
+                }
+            });
+        }
+
+        function goToTaskDetails(taskId) {
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("TaskDetails","TaskManager")",
+                data: {
+                    taskId: taskId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    endLoading();
                 }
             });
         }
@@ -423,7 +462,6 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
-                    editTogle();
                     endLoading();
                 }
             });
@@ -558,7 +596,6 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
-                        editTogle();
                         endLoading();
                     },
                     error: function (response) {
@@ -566,7 +603,6 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
-                        editTogle();
                         endLoading();
                     }
                 })

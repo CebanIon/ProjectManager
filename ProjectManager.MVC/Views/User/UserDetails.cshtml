@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<div class="container">
+    @if (ViewBag.UserDetails != null)
+    {
+        <div class="mb-3">
+            <label class="form-label">Projects</label>
+            <div class="row">
+                @foreach (var project in ViewBag.UserDetails.Projects)
+                {
+                    <div class="col-4 p-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="h4 card-title">Project name : @project.Item2</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tasks</label>
+            <div class="row">
+                @foreach (var projectTask in ViewBag.UserDetails.ProjectTasks)
+                {
+                    <div class="col-4 p-1">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="h4 card-title">Task name : @projectTask.Item2.Item1</p>
+                                <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    <div class="mb-3">
+        <label class=" form-label">UserName</label>
+        <input class="writeIfEditClass form-control" type="text" readonly value="@ViewBag.UserDetails.UserName">
+        <br>
+    </div>
+    <div class="mb-3">
+        <label class=" form-label">FirstName</label>
+     <input class="writeIfEditClass form-control" type="text" readonly value="@ViewBag.UserDetails.FirstName">
+        <br>
+    </div>
+    <div class="mb-3">
+        <label class=" form-label">LastName</label>
+        <input class="writeIfEditClass form-control" type="text" readonly value="@ViewBag.UserDetails.LastName">
+    <br>
+    </div>
+    <div class="mb-3">
+        <label class=" form-label">Email</label>
+        <input class="writeIfEditClass form-control" type="text" readonly value="@ViewBag.UserDetails.Email">
+        <br>
+    </div>
+    <div class="mb-3">
+        <label class=" form-label">IsEnabled</label>
+        <select class="writeIfEditClass form-select" disabled>
+            @if (ViewBag.UserDetails.IsEnabled.ToString() == "True")
+            {
+                <option value="true" selected>True</option>
+                <option value="false">False</option>
+            }
+            else
+            {
+                <option value="true">True</option>
+                <option value="false" selected>False</option>
+            }
+        </select>
+        <br>
+    </div>
+    <div class="mb-3">
+        <label class=" form-label">Role</label>
+        <select class="writeIfEditClass form-select" disabled>
+            @foreach (var role in ViewBag.Roles)
+            {
+                @if (int.Parse(ViewBag.UserDetails.RoleId.ToString()) == role.Id)
+                {
+                    <option value="@role.Id" selected>@role.Name</option>
+                }
+                else
+                {
+                    <option value="@role.Id">@role.Name</option>
+                }
+            }
+        </select>
+        <br>
+    </div>
+    }
+</div>

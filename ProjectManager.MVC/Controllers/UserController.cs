@@ -41,6 +41,21 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> UserDetails(int userId)
+        {
+            UserUpdateVM userDetails = await Mediator.Send(new GetUserByIdQuery { UserId = userId });
+
+            ViewBag.UserDetails = userDetails;
+            ViewBag.UserId = userId;
+
+            List<RoleVM> roles = await Mediator.Send(new GetAllRoleQuery());
+            ViewBag.Roles = roles;
+
+            return View("UserDetails");
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> EditUser(int userId, List<string> errors = null)
         {

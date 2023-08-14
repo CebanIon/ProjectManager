@@ -175,6 +175,25 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> TaskDetails(int taskId)
+        {
+            ViewBag.TaskId = taskId;
+
+            ProjectTaskVM projectTask = await Mediator.Send(new GetTaskByIdQuery { ProjectTaskId = taskId });
+
+            ViewBag.ProjectTask = projectTask;
+            List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
+            ViewBag.TaskTypes = taskTypes;
+            List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
+            ViewBag.Priorities = priorities;
+            List<TaskStateVM> taskStates = await Mediator.Send(new GetAllTaskStateQuery());
+            ViewBag.TaskStates = taskStates;
+
+            return View("TaskDetails");
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> EditTask(int taskId, List<string> errors = null)
         {
             ViewBag.Error = errors;

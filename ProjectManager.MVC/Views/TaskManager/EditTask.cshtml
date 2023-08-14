@@ -6,7 +6,7 @@
 }
 @model ProjectManager.Application.ProjectTasks.Queries.ModifyTask.ModifyTaskQuery;
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="bg-white" id="addUserToTaskForm" asp-controller="TaskManager" asp-action="AddUserToTask" asp-route-taskId="@ViewBag.ProjectTaskId" asp-antiforgery="true" method="post">
@@ -17,7 +17,7 @@
                 <div class="modal-body">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="true">
-                        Checkbox dropdown
+                        Select users
                     </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         @foreach (var user in ViewBag.UserNotIn)
@@ -42,11 +42,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="form-check form-switch float-end">
-        <input class="form-check-input" type="checkbox" onclick="editTogle()" role="switch" id="editCheckBox">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
-    </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddUserModal">
         Add user to task
     </button>
     <div class="mb-3">
@@ -58,7 +54,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="h4 card-title">Project name : @user.Item2</p>
-                            <button type="button" onclick="RemoveUserFromTaskProject(@user.Item1, @ViewBag.TaskId)" class="btn visibleIfEditClass btn-primary">Remove user</button>
+                            <button type="button" onclick="RemoveUserFromTaskProject(@user.Item1, @ViewBag.TaskId)" class="btn btn-primary">Remove user</button>
                         </div>
                     </div>
                 </div>
@@ -76,25 +72,25 @@
         }
         <div class="mb-3">
             <label class=" form-label">ProjectId</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectId" value="@ViewBag.ProjectTask.ProjectId">
+            <input class=" form-control" type="text" asp-for="ProjectId" value="@ViewBag.ProjectTask.ProjectId">
             <span class="text-danger" asp-validation-for="ProjectId"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Name</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="Name" value="@ViewBag.ProjectTask.Name"/>
+            <input class=" form-control" type="text" asp-for="Name" value="@ViewBag.ProjectTask.Name"/>
             <span class="text-danger" asp-validation-for="Name"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Description</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="Description" value="@ViewBag.ProjectTask.Description">
+            <input class=" form-control" type="text" asp-for="Description" value="@ViewBag.ProjectTask.Description">
             <span class="text-danger" asp-validation-for="Description"></span>
             <br>
         </div>
         <div class="mb-3">
             <label class=" form-label">TaskType</label>
-            <select class="form-select writeIfEditClass" asp-for="TaskTypeId">
+            <select class="form-select" asp-for="TaskTypeId">
                 @foreach (var taskType in ViewBag.TaskTypes)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskTypeId.ToString()) == taskType.Id)
@@ -112,7 +108,7 @@
         </div>
         <div class="mb-3">
             <label class=" form-label">Priority</label>
-            <select class="form-select writeIfEditClass" asp-for="PriorityId">
+            <select class="form-select" asp-for="PriorityId">
                 @foreach (var priority in ViewBag.Priorities)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.PriorityId.ToString()) == priority.Id)
@@ -130,7 +126,7 @@
         </div>
         <div class="mb-3">
             <label class=" form-label">State</label>
-            <select class="form-select writeIfEditClass" asp-for="TaskStateId">
+            <select class="form-select" asp-for="TaskStateId">
                 @foreach (var taskState in ViewBag.TaskStates)
                 {
                     @if (int.Parse(@ViewBag.ProjectTask.TaskStateId.ToString()) == taskState.Id)
@@ -148,17 +144,17 @@
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskStartDate</label>
-            <input class=" form-control writeIfEditClass" type="datetime" asp-for="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate">
+            <input class=" form-control" type="datetime" asp-for="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate">
             <span class="text-danger" asp-validation-for="TaskStartDate"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskEndDate</label>
-            <input class=" form-control writeIfEditClass" type="datetime" asp-for="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate">
+            <input class=" form-control" type="datetime" asp-for="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate">
             <span class="text-danger" asp-validation-for="TaskEndDate"></span>
             <br>
         </div>
      
     </form>
-    <button onClick="modifyTask(@ViewBag.TaskId)" class="btn visibleIfEditClass btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt" /></button>
+    <button onClick="modifyTask(@ViewBag.TaskId)" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt" /></button>
 </div>

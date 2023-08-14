@@ -15,10 +15,6 @@
     }
     @if (ViewBag.UserDetails != null)
     {
-        <div class="form-check form-switch float-end">
-            <input class="form-check-input" type="checkbox" onclick="editTogle()" role="switch" id="editCheckBox">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Edit</label>
-        </div>
         <div class="mb-3">
             <label class="form-label">Projects</label>
             <div class="row">
@@ -28,7 +24,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <p class="h4 card-title">Project name : @project.Item2</p>
-                                <button type="button" onclick="RemoveUserFromProject(@project.Item1, @ViewBag.userId)" class="visibleIfEditClass btn btn-primary">Remove project</button>
+                                <button type="button" onclick="RemoveUserFromProject(@project.Item1, @ViewBag.userId)" class="btn btn-primary">Remove project</button>
                             </div>
                         </div>
                     </div>
@@ -45,7 +41,7 @@
                             <div class="card-body">
                                 <p class="h4 card-title">Task name : @projectTask.Item2.Item1</p>
                                 <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
-                                <button type="button" onclick="RemoveUserFromTask(@ViewBag.userId,@projectTask.Item1)" class="visibleIfEditClass btn btn-primary">Remove task</button>
+                                <button type="button" onclick="RemoveUserFromTask(@ViewBag.userId,@projectTask.Item1)" class="btn btn-primary">Remove task</button>
                             </div>
                         </div>
                     </div>
@@ -55,31 +51,31 @@
         <form class="bg-white" id="edituserForm" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
             <div class="mb-3">
                 <label class=" form-label">UserName</label>
-                <input class="writeIfEditClass form-control" type="text" asp-for="UserName" value="@ViewBag.UserDetails.UserName">
+                <input class="form-control" type="text" asp-for="UserName" value="@ViewBag.UserDetails.UserName">
                 <span class="text-danger" asp-validation-for="UserName"></span>
                 <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">FirstName</label>
-                <input class="writeIfEditClass form-control" type="text" asp-for="FirstName" value="@ViewBag.UserDetails.FirstName">
+                <input class="form-control" type="text" asp-for="FirstName" value="@ViewBag.UserDetails.FirstName">
                 <span class="text-danger" asp-validation-for="FirstName"></span>
                 <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">LastName</label>
-                <input class="writeIfEditClass form-control" type="text" asp-for="LastName" value="@ViewBag.UserDetails.LastName">
+                <input class="form-control" type="text" asp-for="LastName" value="@ViewBag.UserDetails.LastName">
                 <span class="text-danger" asp-validation-for="LastName"></span>
                 <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">Email</label>
-                <input class="writeIfEditClass form-control" type="text" asp-for="Email" value="@ViewBag.UserDetails.Email">
+                <input class="form-control" type="text" asp-for="Email" value="@ViewBag.UserDetails.Email">
                 <span class="text-danger" asp-validation-for="Email"></span>
                 <br>
             </div>
             <div class="mb-3">
                 <label class=" form-label">IsEnabled</label>
-                <select class="writeIfEditClass form-select" asp-for="IsEnabled">
+                <select class="form-select" asp-for="IsEnabled">
                     @if (ViewBag.UserDetails.IsEnabled.ToString() == "True")
                     {
                         <option value="true" selected>True</option>
@@ -96,7 +92,7 @@
             </div>
             <div class="mb-3">
                 <label class=" form-label">Role</label>
-                <select class="writeIfEditClass form-select" asp-for="RoleId">
+                <select class=" form-select" asp-for="RoleId">
                     @foreach (var role in ViewBag.Roles)
                     {
                         @if (int.Parse(ViewBag.UserDetails.RoleId.ToString()) == role.Id)
@@ -113,7 +109,7 @@
                 <br>
             </div>
         </form>
-        <button id="modifyUserSubmitForm" onclick="modifyUser(@ViewBag.UserId)" class="visibleIfEditClass btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
+        <button id="modifyUserSubmitForm" onclick="modifyUser(@ViewBag.UserId)" class="btn btn-lg btn-success btn-block mt-3">Modify<i class="fas fa-sign-in-alt"></i></button>
 
     }
 </div>
