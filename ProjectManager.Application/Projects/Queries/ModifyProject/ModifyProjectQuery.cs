@@ -34,6 +34,7 @@ namespace ProjectManager.Application.Projects.Queries.ModifyProject
             Project project = await _context.Projects.Where(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
 
             project.Name = request.Name;
+            project.Description = request.Description;
             project.IsDeleted = request.IsDeleted;
             project.ProjectStartDate = request.ProjectStartDate;
             project.ProjectEndDate = request.ProjectEndDate;

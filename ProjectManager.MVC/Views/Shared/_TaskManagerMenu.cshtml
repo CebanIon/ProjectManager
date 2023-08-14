@@ -11,10 +11,10 @@
                 <div class="row">
                     <a class="nav-link text-dark col" onClick="goToProject(@project.Id)">@project.Name</a>
                     <div class="col pt-2 d-flex justify-content-end">
-                        <div style="height:30px; width:30px;" class="border ms-1 border-3 border-primary rounded-circle d-flex justify-content-center align-items-center">
+                        <div style="height:30px; width:30px;" onClick="goToEditProject(@project.Id)" class="border ms-1 border-3 border-primary rounded-circle d-flex justify-content-center align-items-center">
                             <span class="text-primary fw-bold fs-4">i</span>
                         </div>
-                        <div style="height:30px; width:30px;" class="border ms-1 border-3 border-success rounded-circle d-flex justify-content-center align-items-center">
+                        <div style="height:30px; width:30px;" onclick="goToprojectDetails(@project.Id)" class="border ms-1 border-3 border-success rounded-circle d-flex justify-content-center align-items-center">
                             <span class="text-success fw-bold fs-4">E</span>
                         </div>
                     </div>

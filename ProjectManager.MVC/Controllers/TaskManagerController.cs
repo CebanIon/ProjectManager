@@ -70,6 +70,43 @@ namespace ProjectManager.MVC.Controllers
             return View("IndexContent");
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditProject(int projectId, List<string> errors = null)
+        {
+            ViewBag.Error = errors;
+            ViewBag.ProjectId = projectId;
+
+            ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
+            ViewBag.SelectedProject = selectedProject;
+
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectId = projectId });
+            ViewBag.UserNotIn = usersNoIt;
+
+            List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
+            ViewBag.ProjectStates = projectStates;
+
+            return View("EditProject");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ProjectDetails(int projectId)
+        {
+            ViewBag.ProjectId = projectId;
+
+            ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
+            ViewBag.SelectedProject = selectedProject;
+
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectId = projectId });
+            ViewBag.UserNotIn = usersNoIt;
+
+            List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
+            ViewBag.ProjectStates = projectStates;
+
+            return View("ProjectDetails");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ModifyProjectPost(int projectId, [FromForm] ModifyProjectQuery modifyProject)
@@ -87,12 +124,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return await IndexContent(projectId, errors);
+                return await EditProject(projectId, errors);
             }
 
             int result = await Mediator.Send(modifyProject);
 
-            return await IndexContent(projectId);
+            return await EditProject(projectId);
         }
 
         [Authorize]

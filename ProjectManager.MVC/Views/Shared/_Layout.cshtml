@@ -182,6 +182,46 @@
         function userEditLoad() {
         };
 
+        function goToEditProject(projectId){
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("EditProject","TaskManager")",
+                data: {
+                    projectId: projectId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                    endLoading();
+                }
+            });
+        }
+        function goToprojectDetails(projectId) {
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("ProjectDetails","TaskManager")",
+                data: {
+                    projectId: projectId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    endLoading();
+                }
+            });
+        }
+
         function gotToUserEditPage(userId){
             startLoading();
             $.ajax({
@@ -297,7 +337,7 @@
                 type: "POST",
                 success: function (result) {
                     endLoading();
-                    goToProject(projectId);
+                    goToEditProject(projectId);
                 }
             });
         }
@@ -365,7 +405,6 @@
             };
         }
         function taskManagerLoadProject(projectId) {
-                    editTogle();
                     let table = $('#example').DataTable({
                         processing: true,
                         serverSide: true,
@@ -525,7 +564,6 @@
                     method: "POST",
                     success: function (response) {
                         $('#taskManagerContent').html(response);
-                        editTogle();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -534,7 +572,6 @@
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
-                        editTogle();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -559,16 +596,13 @@
                     method: "POST",
                     success: function (response) {
                         $('#taskManagerContent').html(response);
-                        editTogle();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
                         endLoading();
-                        taskManagerLoadProject(projectId);
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
-                        editTogle();
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
@@ -624,7 +658,7 @@
                     method: "POST",
                     success: function (response) {
                         endLoading();
-                        goToProject(projectId);
+                        goToEditProject(projectId);
                     }
                 })
             };

@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<div class="container">
+    <div class="mb-3">
+        <p class="form-label">Users:</p>
+        <div class="row">
+            @foreach (var user in ViewBag.SelectedProject.Users)
+            {
+                <div class="col-4 p-1">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="h4 card-title">Project name : @user.Item2</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+        <div class="mb-1">
+            <label class=" form-label">Name</label>
+            <input class=" form-control writeIfEditClass" type="text" readonly value="@ViewBag.SelectedProject.Name">
+            <br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">Description</label>
+            <input class=" form-control writeIfEditClass" type="text" readonly value="@ViewBag.SelectedProject.Description">
+            <br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">ProjectState</label>
+            <select class="form-select writeIfEditClass" disabled>
+                @foreach (var state in ViewBag.ProjectStates)
+                {
+                    @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
+                    {
+                        <option value="@state.Id" selected>@state.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@state.Id">@state.Name</option>
+                    }
+                }
+            </select>
+            <br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">IsDeleted</label>
+            <select class="form-select writeIfEditClass" disabled>
+                @if (ViewBag.SelectedProject.IsDeleted.ToString() == "True")
+                {
+                    <option value="true" selected>True</option>
+                    <option value="false">False</option>
+                }
+                else
+                {
+                    <option value="true">True</option>
+                    <option value="false" selected>False</option>
+                }
+            </select>
+            <br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">ProjectStartDate</label>
+            <input class=" form-control writeIfEditClass" type="text" readonly value="@ViewBag.SelectedProject.ProjectStartDate">
+            <br>
+        </div>
+        <div class="mb-1">
+            <label class=" form-label">ProjectEndDate</label>
+            <input class=" form-control writeIfEditClass" type="text" readonly value="@ViewBag.SelectedProject.ProjectEndDate">
+            <br>
+        </div>
+</div>
