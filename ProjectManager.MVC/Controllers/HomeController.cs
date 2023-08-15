@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace ProjectManager.MVC.Controllers
 {
+    //[Authorize]
     [Authorize]
     public class HomeController : Controller
     {
@@ -14,7 +15,7 @@ namespace ProjectManager.MVC.Controllers
         {
             _logger = logger;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();

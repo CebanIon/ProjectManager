@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : BaseController
     {
         [AllowAnonymous]
@@ -21,39 +21,48 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync(string userName, string password)
         {
             try
             {
-                UserVm userVm = await Mediator.Send(new GetUserByUserNameQuery { UserName = userName, Password = password });
+                //UserVm userVm = await Mediator.Send(new GetUserByUserNameQuery { UserName = userName, Password = password });
 
-                if (userVm == null || !userVm.IsEnabled)
-                {
-                    ModelState.TryAddModelError("IncorrectLogin", "Non-existent or disabled user");
-                    return View("_Login");
-                }
-                else
-                {
-                    List<Claim> userClaims = new List<Claim>
+                //if (userVm == null || !userVm.IsEnabled)
+                //{
+                //    ModelState.TryAddModelError("IncorrectLogin", "Non-existent or disabled user");
+                //    return View("_Login");
+                //}
+                //else
+                //{
+                List<Claim> userClaims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.NameIdentifier, userVm.Id.ToString()),
-                        new Claim(ClaimTypes.Name, userVm.UserName),
-                        new Claim("FirstName", userVm.FirstName),
-                        new Claim("LastName", userVm.LastName),
-                        new Claim(ClaimTypes.Email, userVm.Email),
-                        new Claim(ClaimTypes.Role, userVm.Role),
+
+                        //new Claim(ClaimTypes.NameIdentifier, "1"),
+                        //new Claim(ClaimTypes.Name, "user"),
+                        //new Claim("FirstName", "FirstName"),
+                        //new Claim("LastName", "LastName"),
+                        new Claim(ClaimTypes.Email, "Email@email.com"),
+
+                        //new Claim(ClaimTypes.NameIdentifier, userVm.Id.ToString()),
+                        //new Claim(ClaimTypes.Name, userVm.UserName),
+                        //new Claim("FirstName", userVm.FirstName),
+                        //new Claim("LastName", userVm.LastName),
+                        //new Claim(ClaimTypes.Email, userVm.Email),
+                        //new Claim(ClaimTypes.Role, userVm.Role),
 
                     };
-                    RoleVM userRolesList = await Mediator.Send(new GetRoleByUserIdQuery { UserId = userVm.Id });
-                    userClaims.Add(new Claim(ClaimTypes.Role, userRolesList.Name));
+                    //RoleVM userRolesList = await Mediator.Send(new GetRoleByUserIdQuery { UserId = userVm.Id });
+                    //userClaims.Add(new Claim(ClaimTypes.Role, userRolesList.Name));
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(userClaims, "Cookies");
 
-                    var claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //var claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                    return RedirectToAction("Index", "User");
-                }
+                return LocalRedirect("/Home/Index");
+                //return RedirectToAction("Index", "Home");
+                //}
             }
             catch (Exception)
             {

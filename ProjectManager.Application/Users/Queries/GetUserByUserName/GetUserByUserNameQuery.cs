@@ -46,7 +46,7 @@ namespace ProjectManager.Application.Users.Queries.GetUserByUserName
             //    throw new Exception();
             //}
 
-            return await _context.Users.Where(x => x.UserName.ToLower() == request.UserName.ToLower() && x.IsEnabled && x.Password == encrypted)
+            return await _context.Users.Where(x => x.UserName == request.UserName && x.IsEnabled && x.Password == encrypted)
                 .Select(x => new UserVm
                 {
                     Id = x.Id,
