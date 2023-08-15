@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -28,6 +29,7 @@ using ProjectManager.Application.TaskState.Queries;
 using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
+using ProjectManager.Application.Users.Queries.GetUsersOfProject;
 using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
 using ProjectManager.MVC.Models;
 using System.Security.Claims;
@@ -82,6 +84,32 @@ namespace ProjectManager.MVC.Controllers
             ViewBag.ProjectStates = projectStates;
 
             return View("EditProject");
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> UsersOfProject(int projectId)
+        {
+            ViewBag.ProjectId = projectId;
+            return View("UsersOfProject");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> GetUsersOfProject(int projectId = 0, DataTablesParameters parameters = null)
+        {
+            Tuple<int, IList<UserOfProjectVM>> result = await Mediator.Send(new GetUsersOfProjectQuery { ProjectId = projectId, Parameters = parameters});
+
+            var v = new
+            {
+                Draw = parameters.Draw,
+                RecordsFiltered = result.Item1,
+                RecordsTotal = result.Item1,
+                Data = result.Item2
+            };
+
+            return Ok(v);
         }
 
         [HttpGet]
@@ -325,6 +353,14 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> RemoveUserFromProject(int userId, int projectId)
         {
             int result = await Mediator.Send(new RemoveUserFromProjectQuery { UserId = userId, ProjectId = projectId });
+
+            return result > 0 ? Ok() : BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddOneUserToProject(int userId, int projectId)
+        {
+            int result = await Mediator.Send(new AddUserToProjectQuery { UserId = userId, ProjectId = projectId});
 
             return result > 0 ? Ok() : BadRequest();
         }

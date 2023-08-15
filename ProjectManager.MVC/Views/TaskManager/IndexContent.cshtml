@@ -10,7 +10,10 @@
                 Tasks
             </div>
             <div class="card-body">
-                <a onClick="goToCreateTask(@ViewBag.ProjectId)" class="btn btn-primary float-end" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
+                <div class="d-flex justify-content float-end">
+                    <a onClick="goToUsersofProject(@ViewBag.ProjectId)" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">See users</a>
+                    <a onClick="goToCreateTask(@ViewBag.ProjectId)" class="btn btn-primary ms-1" tabindex="-1" role="button" aria-disabled="true">Create Task</a>
+                </div>
                 <br>
                 <br>
                 <table id="example" class="mt-2 display" style="width:100%">

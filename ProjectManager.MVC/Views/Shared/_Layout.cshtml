@@ -53,7 +53,7 @@
             $("#loader").hide();
         }
 
-        function userpageLoad() {
+        function userpageLoad(projectId) {
             console.log("Loaded");
             let table = $('#userTable').DataTable({
                 processing: true,
@@ -97,6 +97,77 @@
                 }
             })
         };
+
+        function usersOfProjectLoad(projectId) {
+            let table = $('#projectUserTable').DataTable({
+                processing: true,
+                serverSide: true,
+                "ajax": {
+                    url: "TaskManager/GetUsersOfProject",
+                    type: "POST",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: {
+                        projectId: projectId
+                    },
+                },
+                "columns": [
+                    { "data": "id", title: "Id", name: "id", visible: false },
+                    { "data": "userName", title: "UserName", name: "userName" },
+                    { "data": "firstName", title: "FirstName", name: "firstName" },
+                    { "data": "lastName", title: "LastName", name: "lastName" },
+                    { "data": "email", title: "Email", name: "email" },
+                    { "data": "isEnabled", title: "IsEnabled", name: "isEnabled" },
+                    { "data": "role", title: "Role", name: "role" },
+                    { "data": "isAssignedToProject", title: "IsAssigned", name: "isAssignedToProject" }
+                ]
+            });
+            let contextmenu = $('#projectUserTable').contextMenu({
+                selector: 'tr',
+                trigger: 'right',
+                callback: function (key, options) {
+                    let row = table.row(options.$trigger);
+                    switch (key) {
+                        case 'edit':
+                            if (row.data()["isAssignedToProject"] == true){
+                                RemoveUserFromProjectUserProjectPAge(projectId, row.data()["id"]);
+                            }
+                            else{
+                                AddUserToProjectUserProjectPAge(projectId, row.data()["id"]);
+                            }
+                            break;
+                        default:
+                            break
+                    }
+                },
+                items: {
+                    "edit": { name: "Add/Remove" }
+                }
+            })
+        };
+
+        function goToUsersofProject(projectId){
+            startLoading();
+            $.ajax({
+                url: "@Url.Action("UsersOfProject","TaskManager")",
+                data: {
+                    projectId: projectId
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                async: false,
+                method: "GET",
+                success: function (response) {
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
+                    endLoading();
+                    usersOfProjectLoad(projectId);
+                }
+            });
+        }
+
         function gotToUserCreate(){
             startLoading();
             $.ajax({
@@ -346,6 +417,31 @@
                 }
             });
         }
+
+        function AddUserToProjectUserProjectPAge(projectId, userId) {
+            startLoading();
+            $.ajax({
+                url: "/TaskManager/AddOneUserToProject?projectId=" + projectId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    endLoading();
+                    goToUsersofProject(projectId);
+                }
+            });
+        }
+
+        function RemoveUserFromProjectUserProjectPAge(projectId, userId) {
+            startLoading();
+            $.ajax({
+                url: "/TaskManager/RemoveUserFromProject?projectId=" + projectId + "&userId=" + userId,
+                type: "POST",
+                success: function (result) {
+                    endLoading();
+                    goToUsersofProject(projectId);
+                }
+            });
+        }
+
         function RemoveUserFromProjectProjectPage(projectId, userId) {
             startLoading();
             $.ajax({
