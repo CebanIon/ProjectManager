@@ -17,15 +17,13 @@
     {
         <div class="mb-3">
             <label class="form-label">Projects</label>
-            <div class="row">
+            <div class="">
                 @foreach (var project in ViewBag.UserDetails.Projects)
                 {
-                    <div class="col-4 p-1">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="h4 card-title">Project name : @project.Item2</p>
-                                <button type="button" onclick="RemoveUserFromProject(@project.Item1, @ViewBag.userId)" class="btn btn-primary">Remove project</button>
-                            </div>
+                    <div class="card m-1" style="display:inline-block;">
+                        <div class="card-body">
+                            <p class="h5 card-title">Project name : @project.Item2</p>
+                            <button type="button" onclick="RemoveUserFromProject(@project.Item1, @ViewBag.userId)" class="btn btn-primary">Remove project</button>
                         </div>
                     </div>
                 }
@@ -33,16 +31,14 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Tasks</label>
-            <div class="row">
+            <div class="">
                 @foreach (var projectTask in ViewBag.UserDetails.ProjectTasks)
                 {
-                    <div class="col-4 p-1">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="h4 card-title">Task name : @projectTask.Item2.Item1</p>
-                                <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
-                                <button type="button" onclick="RemoveUserFromTask(@ViewBag.userId,@projectTask.Item1)" class="btn btn-primary">Remove task</button>
-                            </div>
+                    <div class="card m-1" style="display:inline-block;">
+                        <div class="card-body">
+                            <p class="h5 card-title">Task name : @projectTask.Item2.Item1</p>
+                            <p class="h5 card-subtitle text-muted">Project : @projectTask.Item2.Item2</p>
+                            <button type="button" onclick="RemoveUserFromTask(@ViewBag.userId,@projectTask.Item1)" class="btn btn-primary">Remove task</button>
                         </div>
                     </div>
                 }

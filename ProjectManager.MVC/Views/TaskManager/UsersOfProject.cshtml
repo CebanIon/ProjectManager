@@ -23,16 +23,14 @@
     <br />
     <div class="mb-3">
         <label class="form-label">Users</label>
-        <div class="row">
+        <div class="">
             @foreach (var user in ViewBag.SelectedProject.Users)
             {
-                    <div class="col p-1">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="h5 card-title">User name : @user.Item2</p>
-                            </div>
-                        </div>
+                <div class="card m-1" style="display:inline-block;">
+                    <div class="card-body">
+                        <p class="h5 card-title">User name : @user.Item2</p>
                     </div>
+                </div>
             }
         </div>
     </div>
