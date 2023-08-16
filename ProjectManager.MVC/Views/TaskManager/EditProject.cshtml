@@ -5,7 +5,7 @@
     Layout = null;
 }
 @model ProjectManager.Application.Projects.Queries.ModifyProject.ModifyProjectQuery;
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="bg-white" id="adduserToProjectForm" asp-controller="TaskManager" asp-action="AddUserToProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
@@ -39,10 +39,10 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="container">
-    <div class="mb-3">
+@*    <div class="mb-3">
         <p class="form-label">Users:</p>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add user to project
@@ -61,7 +61,7 @@
                 </div>
             }
         </div>
-    </div>
+    </div>*@
     <form class="bg-white" id="modifyProjectForm" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {

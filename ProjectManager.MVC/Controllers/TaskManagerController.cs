@@ -92,6 +92,8 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> UsersOfProject(int projectId)
         {
             ViewBag.ProjectId = projectId;
+            ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
+            ViewBag.SelectedProject = selectedProject;
             return View("UsersOfProject");
         }
 
