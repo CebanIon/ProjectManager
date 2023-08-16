@@ -18,7 +18,6 @@ namespace ProjectManager.Application.ProjectTasks.Queries.ModifyTask
         public string Description { get; set; }
         public int TaskTypeId { get; set; }
         public int TaskStateId { get; set; }
-        public int ProjectId { get; set; }
         public int PriorityId { get; set; }
         public DateTime? TaskStartDate { get; set; }
         public DateTime? TaskEndDate { get; set; }
@@ -47,7 +46,6 @@ namespace ProjectManager.Application.ProjectTasks.Queries.ModifyTask
             projectTask.Description = request.Description;
             projectTask.TaskTypeId = request.TaskTypeId;
             projectTask.TaskType = await _context.ProjectTaskTypes.FirstOrDefaultAsync( x => x.Id ==  projectTask.TaskTypeId, cancellationToken);
-            projectTask.ProjectId = request.ProjectId;
             projectTask.Project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectTask.ProjectId, cancellationToken);
             projectTask.TaskStartDate = request.TaskStartDate;
             projectTask.TaskEndDate = request.TaskEndDate;
