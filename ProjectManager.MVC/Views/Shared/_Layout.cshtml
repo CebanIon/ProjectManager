@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ContextMenu/jquery.contextMenu.min.css">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <style>
         @@keyframes rotation {
           from {
@@ -44,6 +47,8 @@
     <script type="text/javascript" src="~/ContextMenu/jquery.ui.position.js"></script>
     <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         function startLoading(){
             $("#loader").show();
@@ -270,6 +275,41 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    $('#taskManagerContent').html(response);
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                    $("#datepickerStart").datepicker({
+                        dateFormat: "yy-mm-dd",
+                        onSelect: function (datetext) {
+                            datetext = datetext + "T00:01"
+                            $('#datepickerStart').val(datetext);
+                            $('#datepickerStart').attr('value', datetext);
+                        }
+                    });
+
+                    $("#datepickerEnd").datepicker({
+                        dateFormat: "yy-mm-dd",
+                        onSelect: function (datetext) {
+                            datetext = datetext + "T00:01"
+                            $('#datepickerEnd').val(datetext);
+                            $('#datepickerEnd').attr('value', datetext);
+                        }
+                    });
+
+                        $(".datepicker").each(function () {
+                            if ($(this).attr('value') !== undefined && $(this).attr('value') != '') {
+                                let month = $(this).attr('value').split('/')[0];
+                                month = parseInt(month) > 9 ? month : '0' + month;
+                                let day = $(this).attr('value').split('/')[1];
+                                day = parseInt(day) > 9 ? day : '0' + day;
+                                let year = $(this).attr('value').split('/')[2].split(' ')[0];
+                                let datetext = year + '-' + month + '-' + day + 'T00:01';
+                                console.log(datetext);
+                                $(this).val(datetext);
+                                $(this).attr('value', datetext);
+                            }
+                    });
                     endLoading();
                 }
             });
@@ -615,6 +655,7 @@
                 data: {
                     taskId: taskId
                 },
+                async:false,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -625,6 +666,38 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
+                    $("#datepickerStart").datepicker({
+                        dateFormat: "yy-mm-dd",
+                        onSelect: function (datetext) {
+                            datetext = datetext + "T00:01"
+                            $('#datepickerStart').val(datetext);
+                            $('#datepickerStart').attr('value', datetext);
+                        }
+                    });
+                    $("#datepickerEnd").datepicker({
+                        dateFormat: "yy-mm-dd",
+                        onSelect: function (datetext) {
+                            datetext = datetext + "T00:01"
+                            $('#datepickerEnd').val(datetext);
+                            $('#datepickerEnd').attr('value', datetext);
+                        }
+                    });
+
+                    $(".datepicker").each(function () {
+                        if ($(this).attr('value') !== undefined && $(this).attr('value') != '') {
+                            let month = $(this).attr('value').split('/')[0];
+                            month = parseInt(month) > 9 ? month : '0' + month;
+                            let day = $(this).attr('value').split('/')[1];
+                            day = parseInt(day) > 9 ? day : '0' + day;
+                            let year = $(this).attr('value').split('/')[2].split(' ')[0];
+                            let datetext = year + '-' + month + '-' + day + 'T00:01';
+                            console.log(datetext);
+                            $(this).val(datetext);
+                            $(this).attr('value', datetext);
+                            }
+                });
+
+
                     endLoading();
                 }
             });
@@ -644,9 +717,6 @@
                 success: function (response) {
                     $('#taskManagerContent').html(null);
                     $('#taskManagerContent').html(response);
-                    $("form").removeData("validator");
-                    $("form").removeData("unobtrusiveValidation");
-                    $.validator.unobtrusive.parse("form");
                     endLoading();
                     taskManagerLoadProject(projectId);
                 }
@@ -725,6 +795,41 @@
                         $.validator.unobtrusive.parse("form");
                         endLoading();
                         loadTaskManagerMenu();
+                        $('#taskManagerContent').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        $("#datepickerStart").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerStart').val(datetext);
+                                $('#datepickerStart').attr('value', datetext);
+                            }
+                        });
+
+                        $("#datepickerEnd").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerEnd').val(datetext);
+                                $('#datepickerEnd').attr('value', datetext);
+                            }
+                        });
+
+$(".datepicker").each(function () {
+                            if ($(this).attr('value') !== undefined && $(this).attr('value') != ''){
+                            let month = $(this).attr('value').split('/')[0];
+                            month = parseInt(month) > 9 ? month : '0' + month;
+                            let day = $(this).attr('value').split('/')[1];
+                            day = parseInt(day) > 9 ? day : '0' + day;
+                            let year = $(this).attr('value').split('/')[2].split(' ')[0];
+                            let datetext = year + '-' + month + '-' + day + 'T00:01';
+                            console.log(datetext);
+                            $(this).val(datetext);
+                            $(this).attr('value', datetext);
+                            }
+                        });
                     },
                     error: function (response) {
                         $('#taskManagerContent').html(response);
@@ -733,6 +838,41 @@
                         $.validator.unobtrusive.parse("form");
                         endLoading();
                         loadTaskManagerMenu();
+                        $('#taskManagerContent').html(response);
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                        $("#datepickerStart").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerStart').val(datetext);
+                                $('#datepickerStart').attr('value', datetext);
+                            }
+                        });
+
+                        $("#datepickerEnd").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerEnd').val(datetext);
+                                $('#datepickerEnd').attr('value', datetext);
+                            }
+                        });
+
+                        $(".datepicker").each(function () {
+                            if ($(this).attr('value') !== undefined && $(this).attr('value') != ''){
+                            let month = $(this).attr('value').split('/')[0];
+                            month = parseInt(month) > 9 ? month : '0' + month;
+                            let day = $(this).attr('value').split('/')[1];
+                            day = parseInt(day) > 9 ? day : '0' + day;
+                            let year = $(this).attr('value').split('/')[2].split(' ')[0];
+                            let datetext = year + '-' + month + '-' + day + 'T00:01';
+                            console.log(datetext);
+                            $(this).val(datetext);
+                            $(this).attr('value', datetext);
+                            }
+                        });
                     }
                 })
             };
@@ -756,13 +896,38 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
-                        endLoading();
-                    },
-                    error: function (response) {
-                        $('#taskManagerContent').html(response);
-                        $("form").removeData("validator");
-                        $("form").removeData("unobtrusiveValidation");
-                        $.validator.unobtrusive.parse("form");
+                        $("#datepickerStart").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerStart').val(datetext);
+                                $('#datepickerStart').attr('value', datetext);
+                            }
+                        });
+
+                        $("#datepickerEnd").datepicker({
+                            dateFormat: "yy-mm-dd",
+                            onSelect: function (datetext) {
+                                datetext = datetext + "T00:01"
+                                $('#datepickerEnd').val(datetext);
+                                $('#datepickerEnd').attr('value', datetext);
+                            }
+                        });
+
+
+                            $(".datepicker").each(function () {
+                                if ($(this).attr('value') !== undefined && $(this).attr('value') != '') {
+                                    let month = $(this).attr('value').split('/')[0];
+                                    month = parseInt(month) > 9 ? month : '0' + month;
+                                    let day = $(this).attr('value').split('/')[1];
+                                    day = parseInt(day) > 9 ? day : '0' + day;
+                                    let year = $(this).attr('value').split('/')[2].split(' ')[0];
+                                    let datetext = year + '-' + month + '-' + day + 'T00:01';
+                                    console.log(datetext);
+                                    $(this).val(datetext);
+                                    $(this).attr('value', datetext);
+                                }
+                        });
                         endLoading();
                     }
                 })

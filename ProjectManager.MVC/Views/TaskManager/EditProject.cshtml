@@ -120,13 +120,13 @@
         </div>
         <div class="mb-1">
             <label class=" form-label">ProjectStartDate</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate">
+            <input class=" form-control datepicker" type="text" id="datepickerStart" asp-for="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate">
             <span class="text-danger" asp-validation-for="ProjectStartDate"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">ProjectEndDate</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate">
+            <input class=" form-control datepicker" type="text" id="datepickerEnd" asp-for="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate">
             <span class="text-danger" asp-validation-for="ProjectEndDate"></span>
             <br>
         </div>

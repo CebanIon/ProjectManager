@@ -137,13 +137,13 @@
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskStartDate</label>
-            <input class=" form-control" type="datetime" asp-for="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate">
+            <input class=" form-control datepicker" id="datepickerStart" asp-for="TaskStartDate" value="@ViewBag.ProjectTask.TaskStartDate">
             <span class="text-danger" asp-validation-for="TaskStartDate"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">TaskEndDate</label>
-            <input class=" form-control" type="datetime" asp-for="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate">
+            <input class=" form-control datepicker" id="datepickerEnd" asp-for="TaskEndDate" value="@ViewBag.ProjectTask.TaskEndDate">
             <span class="text-danger" asp-validation-for="TaskEndDate"></span>
             <br>
         </div>
