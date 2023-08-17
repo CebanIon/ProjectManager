@@ -529,13 +529,24 @@
                             type: "POST"
                         },
                         "columns": [
-                    { data: "id", title: "Id", name: "id", visible: false },
+                        { data: "id", title: "Id", name: "id", visible: false },
                             { data: "name", title: "Name", name: "name" },
                             { data: "description", title: "Description", name: "description" },
                             { data: "taskType", title: "TaskType", name: "taskType" },
                             { data: "priority", title: "Priority", name: "priority" },
                             { data: "taskState", title: "State", name: "taskState" }
-                        ]
+                        ],
+                        'rowCallback': function (row, data, index) {
+                            if (data['priority'] == 'Urgent') {
+                                $(row).find('td:eq(3)').css('color', '#BA0021');
+                            }
+                            if (data['priority'] == 'High') {
+                                $(row).find('td:eq(3)').css('color', '#ffa500');
+                            }
+                            if (data['priority'] == 'Medium') {
+                                $(row).find('td:eq(3)').css('color', '#008000');
+                            }
+                        }
                     });
                     let contextmenu = $('#example').contextMenu({
                         selector: 'tr',
