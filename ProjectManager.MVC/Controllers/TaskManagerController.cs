@@ -119,7 +119,7 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> TaskManagerMenu()
         {
 
-            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = 1 });
+            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
 
             ViewBag.Projects = projects;
 
