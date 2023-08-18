@@ -6,7 +6,7 @@
 }
 @model ProjectManager.Application.ProjectTasks.Queries.CreateTasks.CreateTaskQuery;
 <div class="container">
-    <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
+    <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-route-projectId="@ViewBag.ProjectId" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {
             @foreach (var error in ViewBag.Error)
@@ -14,12 +14,6 @@
                 <p class="text-danger">@error</p>
             }
         }
-        <div class="mb-3">
-            <label class=" form-label">ProjectId</label>
-            <input class=" form-control" type="text" asp-for="ProjectId" value="@ViewBag.ProjectId">
-            <span class="text-danger" asp-validation-for="ProjectId"></span>
-            <br>
-        </div>
 
         <div class="mb-3">
             <label class=" form-label">Name</label>
@@ -30,7 +24,7 @@
 
         <div class="mb-3">
             <label class=" form-label">Description</label>
-            <input class=" form-control" type="text" asp-for="Description">
+            @Html.TextArea("Description", "", new { @class = "form-control", rows = "5" })
             <span class="text-danger" asp-validation-for="Description"></span>
             <br>
         </div>

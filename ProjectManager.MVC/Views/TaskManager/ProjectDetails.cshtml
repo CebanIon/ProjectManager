@@ -27,7 +27,7 @@
         </div>
         <div class="mb-1">
             <label class=" form-label">Description</label>
-            <input class=" form-control writeIfEditClass" type="text" readonly value="@ViewBag.SelectedProject.Description">
+        @Html.TextArea("Description", (string)(@ViewBag.SelectedProject.Description), new { @class = "form-control", rows = "5", @readonly="readonly"})
             <br>
         </div>
         <div class="mb-1">

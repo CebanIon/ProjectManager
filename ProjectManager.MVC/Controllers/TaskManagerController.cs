@@ -199,9 +199,10 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTaskPost(CreateTaskQuery query)
+        public async Task<IActionResult> CreateTaskPost(int projectId, CreateTaskQuery query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            query.ProjectId = projectId;
 
             CreateTaskQueryValidator validator = new CreateTaskQueryValidator();
             ValidationResult validationResult = validator.Validate(query);

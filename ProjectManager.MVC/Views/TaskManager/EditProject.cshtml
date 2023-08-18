@@ -73,19 +73,19 @@
         }
         <div class="mb-1">
             <label class=" form-label">Name</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="Name" value="@ViewBag.SelectedProject.Name">
+            <input class=" form-control " type="text" asp-for="Name" value="@ViewBag.SelectedProject.Name">
             <span class="text-danger" asp-validation-for="Name"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">Description</label>
-            <input class=" form-control writeIfEditClass" type="text" asp-for="Description" value="@ViewBag.SelectedProject.Description">
+            @Html.TextArea("Description", (string)(@ViewBag.SelectedProject.Description), new { @class = "form-control", rows = "5"})
             <span class="text-danger" asp-validation-for="Description"></span>
             <br>
         </div>
         <div class="mb-1">
             <label class=" form-label">ProjectState</label>
-            <select class="form-select writeIfEditClass" asp-for="ProjectStateId">
+            <select class="form-select" asp-for="ProjectStateId">
                 @foreach (var state in ViewBag.ProjectStates)
                 {
                     @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
@@ -103,7 +103,7 @@
         </div>
         <div class="mb-1">
             <label class=" form-label">IsDeleted</label>
-            <select class="form-select writeIfEditClass" asp-for="IsDeleted">
+            <select class="form-select" asp-for="IsDeleted">
                 @if (ViewBag.SelectedProject.IsDeleted.ToString() == "True")
                 {
                     <option value="true" selected>True</option>
