@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
+using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId;
 using ProjectManager.Application.ProjectTasks.Queries.GetPendingTasksByUserId;
 using ProjectManager.MVC.Models;
@@ -20,11 +22,16 @@ namespace ProjectManager.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IList<InProgressTaskVM> tasksInProgress = await Mediator.Send(new GetInProgressTasksByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
+            int userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            IList<InProgressTaskVM> tasksInProgress = await Mediator.Send(new GetInProgressTasksByUserIdQuery { UserId = userId });
             ViewBag.TasksInProgress = tasksInProgress;
 
-            IList<PendingTasksVM> tasksPending = await Mediator.Send(new GetPendingTasksByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
+            IList<PendingTasksVM> tasksPending = await Mediator.Send(new GetPendingTasksByUserIdQuery { UserId = userId });
             ViewBag.TasksPending = tasksPending;
+
+            List<ProjectVM> allProjects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = userId });
+            ViewBag.AllProjects = allProjects;
 
             return View("Index");
         }

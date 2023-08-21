@@ -6,17 +6,17 @@
 }
 <div class="card p-3 m-2 d-inline-block align-top border border-3 rounded shadow-sm">
     <div class="card-body">
-        <h5 class="card-title text-decoration-underline">Tasks in progress:</h5>
-        @if (ViewBag.TasksInProgress != null)
+        <h5 class="card-title text-decoration-underline">Projects:</h5>
+        @if (ViewBag.AllProjects != null)
         {
-            @foreach (var task in ViewBag.TasksInProgress)
+            @foreach (var project in ViewBag.AllProjects)
             {
-                <p class="">@task.Name</p>
+                <p class="w-100">@project.Name       @project.State</p>
             }
         }
         else
         {
-            <p class="h6">No tasks in progress</p>
+            <p class="h6">No projects to show</p>
         }
     </div>
 </div>

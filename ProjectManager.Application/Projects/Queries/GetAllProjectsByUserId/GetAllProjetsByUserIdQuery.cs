@@ -25,8 +25,12 @@ namespace ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser
         }
         public async Task<List<ProjectVM>> Handle(GetAllProjetsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            List<ProjectVM> result = await _context.Projects.Include(x => x.UserProjects.Where(x => x.UserId == request.UserId))
-                .Select(x => new ProjectVM { Id = x.Id, Name = x.Name }).ToListAsync(cancellationToken);
+            List<ProjectVM> result = await _context.Projects
+                .Include(x => x.ProjectState)
+                .Include(x => x.UserProjects.
+                Where(x => x.UserId == request.UserId))
+                .Select(x => new ProjectVM { Id = x.Id, Name = x.Name, State = x.ProjectState.Name }).
+                ToListAsync(cancellationToken);
 
             return result;
         }
