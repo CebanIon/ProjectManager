@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId;
 using ProjectManager.MVC.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -15,9 +17,13 @@ namespace ProjectManager.MVC.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IList<InProgressTaskVM> tasksInProgress = await Mediator.Send(new GetInProgressTasksByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
+
+            ViewBag.TasksInProgress = tasksInProgress;
+
+            return View("Index");
         }
 
         public IActionResult Privacy()

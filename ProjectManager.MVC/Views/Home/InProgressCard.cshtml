@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<div class="card m-2" style="display: inline-block">
+    <div class="card-body">
+        <h5 class="card-title text-decoration-underline">Tasks in progress:</h5>
+        @if (ViewBag.TasksInProgress != null)
+        {
+            @foreach (var task in ViewBag.TasksInProgress)
+            {
+                <p class="">@task.Name</p>
+            }
+        }
+        else
+        {
+            <p class="h6">No tasks in progress</p>
+        }
+    </div>
+</div>
