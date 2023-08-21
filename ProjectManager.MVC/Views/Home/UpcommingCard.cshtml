@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<div class="card p-3 m-2 d-inline-block align-top border border-3 rounded shadow">
+    <div class="card-body">
+        <h5 class="card-title text-decoration-underline">Upcomming tasks:</h5>
+        @if (ViewBag.TasksUpcomming != null)
+        {
+            @foreach (var task in ViewBag.TasksUpcomming)
+            {
+                <p class="w-100">@task.Name : @task.DaysLeft days remain</p>
+            }
+        }
+        else
+        {
+            <p class="h6">No projects to show</p>
+        }
+    </div>
+</div>

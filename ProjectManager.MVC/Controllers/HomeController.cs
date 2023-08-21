@@ -4,7 +4,9 @@ using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId;
 using ProjectManager.Application.ProjectTasks.Queries.GetPendingTasksByUserId;
+using ProjectManager.Application.ProjectTasks.Queries.GetUpcomingTasksDueByUserId;
 using ProjectManager.MVC.Models;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -32,6 +34,9 @@ namespace ProjectManager.MVC.Controllers
 
             List<ProjectVM> allProjects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = userId });
             ViewBag.AllProjects = allProjects;
+
+            IList<UpcommingTasksVM> tasksUpcomming = await Mediator.Send(new GetUpcomingTasksDueByUserIdQuery { UserId = userId});
+            ViewBag.TasksUpcomming = tasksUpcomming;
 
             return View("Index");
         }
