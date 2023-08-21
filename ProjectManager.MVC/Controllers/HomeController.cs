@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId;
+using ProjectManager.Application.ProjectTasks.Queries.GetPendingTasksByUserId;
 using ProjectManager.MVC.Models;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -20,8 +21,10 @@ namespace ProjectManager.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             IList<InProgressTaskVM> tasksInProgress = await Mediator.Send(new GetInProgressTasksByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
-
             ViewBag.TasksInProgress = tasksInProgress;
+
+            IList<PendingTasksVM> tasksPending = await Mediator.Send(new GetPendingTasksByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
+            ViewBag.TasksPending = tasksPending;
 
             return View("Index");
         }

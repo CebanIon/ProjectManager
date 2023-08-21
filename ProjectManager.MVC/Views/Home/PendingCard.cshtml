@@ -4,19 +4,20 @@
 @{
     Layout = null;
 }
+
 <div class="card m-2 d-inline-block align-top" style="">
     <div class="card-body">
-        <h5 class="card-title text-decoration-underline">Tasks in progress:</h5>
-        @if (ViewBag.TasksInProgress != null)
+        <h5 class="card-title text-decoration-underline">Pending tasks:</h5>
+        @if (ViewBag.TasksPending != null)
         {
-            @foreach (var task in ViewBag.TasksInProgress)
+            @foreach (var task in ViewBag.TasksPending)
             {
                 <p class="">@task.Name</p>
             }
         }
         else
         {
-            <p class="h6">No tasks in progress</p>
+            <p class="h6">No pending tasks</p>
         }
     </div>
 </div>

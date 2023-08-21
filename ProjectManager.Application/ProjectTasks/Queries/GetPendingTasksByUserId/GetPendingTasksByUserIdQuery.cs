@@ -1,36 +1,37 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
+using ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManager.Application.ProjectTasks.Queries.GetInProgressTasksByUserId
+namespace ProjectManager.Application.ProjectTasks.Queries.GetPendingTasksByUserId
 {
-    public class GetInProgressTasksByUserIdQuery : IRequest<IList<InProgressTaskVM>>
+    public class GetPendingTasksByUserIdQuery : IRequest<IList<PendingTasksVM>>
     {
         public int UserId { get; set; }
     }
 
-    public class GetInProgressTasksByUserIdHandler : IRequestHandler<GetInProgressTasksByUserIdQuery, IList<InProgressTaskVM>>
+    public class GetPendingTasksByUserIdHandler : IRequestHandler<GetPendingTasksByUserIdQuery, IList<PendingTasksVM>>
     {
         private readonly IProjectManagerDbContext _context;
 
-        public GetInProgressTasksByUserIdHandler(IProjectManagerDbContext context)
+        public GetPendingTasksByUserIdHandler(IProjectManagerDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IList<InProgressTaskVM>> Handle(GetInProgressTasksByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<IList<PendingTasksVM>> Handle(GetPendingTasksByUserIdQuery request, CancellationToken cancellationToken)
         {
-            IList<InProgressTaskVM> result = await _context.ProjectTasks
+            IList<PendingTasksVM> result = await _context.ProjectTasks
                 .Include(x => x.UserProjectTasks)
                 .Include(x => x.TaskState)
-                .Where(x => x.TaskState.Name == "In Progress")
+                .Where(x => x.TaskState.Name == "Pending")
                 .Where(x => x.UserProjectTasks.Any(y => y.UserId == request.UserId))
-                .Select(x => new InProgressTaskVM
+                .Select(x => new PendingTasksVM
                 {
                     Id = x.Id,
                     Name = x.Name
