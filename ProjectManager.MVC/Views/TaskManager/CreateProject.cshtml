@@ -5,7 +5,7 @@
 @model CreateProjectCommand;
 
 <div class="container">
-    <form class="bg-white" id="createProjectForm" asp-controller="TaskManager" asp-action="CreateProjectPost" asp-antiforgery="true" method="post">
+    <form class="bg-white" id="createProjectForm" asp-controller="TaskManager" asp-action="CreateProject" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {
             @foreach (var error in ViewBag.Error)

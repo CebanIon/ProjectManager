@@ -63,7 +63,7 @@
             }
         </div>
     </div>*@
-    <form class="bg-white" id="modifyProjectForm" asp-controller="TaskManager" asp-action="ModifyProjectPost" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+    <form class="bg-white" id="modifyProjectForm" asp-controller="TaskManager" asp-action="EditProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {
             @foreach (var error in ViewBag.Error)

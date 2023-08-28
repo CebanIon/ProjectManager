@@ -48,7 +48,7 @@
                 }
             </div>
         </div>
-        <form class="bg-white" id="edituserForm" asp-controller="User" asp-action="EditUserPost" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
+        <form class="bg-white" id="edituserForm" asp-controller="User" asp-action="EditUser" asp-route-userId="@ViewBag.UserId" asp-antiforgery="true" method="post">
             <div class="mb-3">
                 <label class=" form-label">UserName</label>
                 <input class="form-control" type="text" asp-for="UserName" value="@ViewBag.UserDetails.UserName">

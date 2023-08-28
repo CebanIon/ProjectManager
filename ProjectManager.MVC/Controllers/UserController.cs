@@ -73,7 +73,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserPost(int userId, [FromForm]UpdateUserCommand userQuery)
+        public async Task<IActionResult> EditUser(int userId, [FromForm]UpdateUserCommand userQuery)
         {
             userQuery.Id = userId;
             userQuery.LastModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -110,7 +110,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateUserCommand createUserQuery)
+        public async Task<IActionResult> Create(CreateUserCommand createUserQuery)
         {
             createUserQuery.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 

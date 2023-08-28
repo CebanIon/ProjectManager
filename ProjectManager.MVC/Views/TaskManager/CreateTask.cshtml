@@ -8,7 +8,7 @@
 @model CreateTaskCommand;
 
 <div class="container">
-    <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-route-projectId="@ViewBag.ProjectId" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
+    <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-route-projectId="@ViewBag.ProjectId" asp-action="CreateTask" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)
         {
             @foreach (var error in ViewBag.Error)

@@ -141,7 +141,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ModifyProjectPost(int projectId, [FromForm] ModifyProjectCommand modifyProject)
+        public async Task<IActionResult> EditProject(int projectId, [FromForm] ModifyProjectCommand modifyProject)
         {
             modifyProject.Id = projectId;
 
@@ -194,7 +194,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTaskPost(int projectId, CreateTaskCommand query)
+        public async Task<IActionResult> CreateTask(int projectId, CreateTaskCommand query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             query.ProjectId = projectId;
@@ -220,7 +220,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProjectPost(CreateProjectCommand query)
+        public async Task<IActionResult> CreateProject(CreateProjectCommand query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -292,7 +292,7 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTaskPost(int taskId ,[FromForm] ModifyTaskCommand modifyTaskQuery)
+        public async Task<IActionResult> EditTask(int taskId ,[FromForm] ModifyTaskCommand modifyTaskQuery)
         {
             modifyTaskQuery.ModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             modifyTaskQuery.Id = taskId;
