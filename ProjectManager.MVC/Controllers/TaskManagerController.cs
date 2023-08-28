@@ -245,7 +245,7 @@ namespace ProjectManager.MVC.Controllers
 
             await Mediator.Send(query);
 
-            return await Index();
+            return Ok("");
         }
 
         [HttpGet]

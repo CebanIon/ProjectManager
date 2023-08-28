@@ -130,7 +130,7 @@ namespace ProjectManager.MVC.Controllers
 
             int result = await Mediator.Send(createUserQuery);
 
-            return await Create();
+            return Index();
         }
     }
 }

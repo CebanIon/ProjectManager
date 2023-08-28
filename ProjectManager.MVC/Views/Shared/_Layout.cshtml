@@ -58,7 +58,7 @@
             $("#loader").hide();
         }
 
-        function userpageLoad(projectId) {
+        function userpageLoad() {
             console.log("Loaded");
             let table = $('#userTable').DataTable({
                 processing: true,
@@ -211,6 +211,7 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        userpageLoad();
                         endLoading();
                     },
                     error: function (response) {
@@ -518,8 +519,8 @@
                 },
                 method: "GET",
                 success: function (response) {
-                    $('#contentDiv').html(null);
-                    $('#contentDiv').html(response);
+                    $('#taskManagerContent').html(null);
+                    $('#taskManagerContent').html(response);
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
@@ -541,17 +542,19 @@
                     data: form.serialize(),
                     method: "POST",
                     success: function (response) {
-                        $('#contentDiv').html(response);
+                        $('#taskManagerContent').html(response);
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        loadTaskManagerMenu();
                         endLoading();
                     },
                     error: function (response) {
-                        $('#contentDiv').html(response);
+                        $('#taskManagerContent').html(response);
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        loadTaskManagerMenu();
                         endLoading();
                     }
                 })

@@ -20,6 +20,8 @@ namespace ProjectManager.Application.Users.Queries.CreateUser.Validator
                 .MaximumLength(30).WithMessage("Password to long");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email address is required").EmailAddress().WithMessage("Not an email address");
             RuleFor(x => x.RoleId).NotEmpty().GreaterThan(0);
+            RuleFor(x => x.FirstName).NotEmpty().WithMessage("FirstName is required").MaximumLength(50).WithMessage("FirstName max lenght is 50 characters");
+            RuleFor(x => x.LastName).MaximumLength(50).WithMessage("LastName max lenght is 50 characters");
         }
     }
 }
