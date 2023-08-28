@@ -1,7 +1,8 @@
 ﻿@{
     Layout = null;
 }
-@model ProjectManager.Application.Projects.Queries.ModifyProject.ModifyProjectQuery;
+@using ProjectManager.Application.Projects.Commands.ModifyProject;
+@model ModifyProjectCommand;
 @if (ViewBag.SelectedProject != null)
 {
     <div class="container">

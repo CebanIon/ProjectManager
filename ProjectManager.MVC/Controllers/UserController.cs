@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManager.Application.Roles.Queries.GetAllRoles;
 using ProjectManager.Application.Roles.Queries.GetRoleByUserId;
 using ProjectManager.Application.TableParameters;
-using ProjectManager.Application.Users.Queries.CreateUser;
-using ProjectManager.Application.Users.Queries.CreateUser.Validator;
+using ProjectManager.Application.Users.Commands.CreateUser;
+using ProjectManager.Application.Users.Commands.CreateUser.Validator;
+using ProjectManager.Application.Users.Commands.UpdateUser;
+using ProjectManager.Application.Users.Commands.UpdateUser.Validator;
 using ProjectManager.Application.Users.Queries.GetAllUsers;
 using ProjectManager.Application.Users.Queries.GetUserById;
 using ProjectManager.Application.Users.Queries.GetUserByUserName;
-using ProjectManager.Application.Users.Queries.UpdateUser;
-using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
 using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
@@ -73,12 +73,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserPost(int userId, [FromForm]UpdateUserQuery userQuery)
+        public async Task<IActionResult> EditUserPost(int userId, [FromForm]UpdateUserCommand userQuery)
         {
             userQuery.Id = userId;
             userQuery.LastModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            UpdateUserQueryValidator validator = new UpdateUserQueryValidator();
+            UpdateUserCommandValidator validator = new UpdateUserCommandValidator();
             ValidationResult validationResult = validator.Validate(userQuery);
 
             if (!validationResult.IsValid)
@@ -110,11 +110,11 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateUserQuery createUserQuery)
+        public async Task<IActionResult> CreatePost(CreateUserCommand createUserQuery)
         {
             createUserQuery.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            CreateUserQueryValidator validator = new CreateUserQueryValidator();
+            CreateUserCommandValidator validator = new CreateUserCommandValidator();
             ValidationResult validationResult = validator.Validate(createUserQuery);
 
             if (!validationResult.IsValid)

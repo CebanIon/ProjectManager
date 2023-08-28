@@ -1,7 +1,8 @@
-﻿@{
+﻿@using ProjectManager.Application.Projects.Commands.CreateProject;
+@{
     Layout = null;
 }
-@model ProjectManager.Application.Projects.Queries.CreateProject.CreateProjectQuery;
+@model CreateProjectCommand;
 
 <div class="container">
     <form class="bg-white" id="createProjectForm" asp-controller="TaskManager" asp-action="CreateProjectPost" asp-antiforgery="true" method="post">

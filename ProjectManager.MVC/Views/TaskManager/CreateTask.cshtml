@@ -1,10 +1,12 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
 @{
     Layout = null;
 }
-@model ProjectManager.Application.ProjectTasks.Queries.CreateTasks.CreateTaskQuery;
+@model CreateTaskCommand;
+
 <div class="container">
     <form id="createTaskForm" class="bg-white" asp-controller="TaskManager" asp-route-projectId="@ViewBag.ProjectId" asp-action="CreateTaskPost" asp-antiforgery="true" method="post">
         @if (ViewBag.Error != null)

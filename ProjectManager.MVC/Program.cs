@@ -9,18 +9,18 @@ using ProjectManager.Infrastructure.Persistence;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
-using ProjectManager.Application.ProjectTasks.Queries.ModifyTask.Validator;
-using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
-using ProjectManager.Application.ProjectTasks.Queries.CreateTasks.Validator;
-using ProjectManager.Application.Users.Queries.CreateUser;
-using ProjectManager.Application.Users.Queries.CreateUser.Validator;
-using ProjectManager.Application.Users.Queries.UpdateUser;
-using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
-using ProjectManager.Application.Projects.Queries.CreateProject;
-using ProjectManager.Application.Projects.Queries.CreateProject.Validator;
-using ProjectManager.Application.Projects.Queries.ModifyProject;
-using ProjectManager.Application.Projects.Queries.ModifyProject.Validator;
+using ProjectManager.Application.Projects.Commands.CreateProject;
+using ProjectManager.Application.Projects.Commands.CreateProject.Validator;
+using ProjectManager.Application.Projects.Commands.ModifyProject;
+using ProjectManager.Application.Projects.Commands.ModifyProject.Validator;
+using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
+using ProjectManager.Application.ProjectTasks.Commands.ModifyTask;
+using ProjectManager.Application.ProjectTasks.Commands.CreateTasks.Validator;
+using ProjectManager.Application.ProjectTasks.Commands.ModifyTask.Validator;
+using ProjectManager.Application.Users.Commands.CreateUser;
+using ProjectManager.Application.Users.Commands.UpdateUser;
+using ProjectManager.Application.Users.Commands.CreateUser.Validator;
+using ProjectManager.Application.Users.Commands.UpdateUser.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -45,6 +45,14 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "User", "Administrator"));
 });
 
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddScoped<IValidator<CreateProjectCommand>, CreateProjectCommandValidator>();
+builder.Services.AddScoped<IValidator<ModifyProjectCommand>, ModifyProjectCommandValidator>();
+builder.Services.AddScoped<IValidator<CreateTaskCommand>, CreateTaskCommandValidator>();
+builder.Services.AddScoped<IValidator<ModifyTaskCommand>, ModifyTaskCommandValidator>();
+builder.Services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+builder.Services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+
 builder.Services.AddMvc()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IProjectManagerDbContext>());
 
@@ -62,13 +70,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddScoped<IValidator<CreateProjectQuery>, CreateProjectQueryValidator>();
-builder.Services.AddScoped<IValidator<ModifyProjectQuery>, ModifyProjectQueryValidator>();
-builder.Services.AddScoped<IValidator<CreateTaskQuery>, CreateTaskQueryValidator>();
-builder.Services.AddScoped<IValidator<ModifyTaskQuery>, ModifyTaskQueryValidator>();
-builder.Services.AddScoped<IValidator<CreateUserQuery>, CreateUserQueryValidator>();
-builder.Services.AddScoped<IValidator<UpdateUserQuery>, UpdateUserQueryValidator>();
+
 
 var app = builder.Build();
 

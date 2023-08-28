@@ -4,25 +4,25 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using ProjectManager.Application.Projects.Queries.AddUserToProject;
-using ProjectManager.Application.Projects.Queries.CreateProject;
-using ProjectManager.Application.Projects.Queries.CreateProject.Validator;
+using ProjectManager.Application.Projects.Commands.AddUserToProject;
+using ProjectManager.Application.Projects.Commands.CreateProject;
+using ProjectManager.Application.Projects.Commands.CreateProject.Validator;
+using ProjectManager.Application.Projects.Commands.ModifyProject;
+using ProjectManager.Application.Projects.Commands.ModifyProject.Validator;
+using ProjectManager.Application.Projects.Commands.RemoveUserFromProject;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.Projects.Queries.GetProjectById;
-using ProjectManager.Application.Projects.Queries.ModifyProject;
-using ProjectManager.Application.Projects.Queries.ModifyProject.Validator;
-using ProjectManager.Application.Projects.Queries.RemoveUserFromProject;
 using ProjectManager.Application.ProjectState.Queries;
-using ProjectManager.Application.ProjectTasks.Queries.AddUserToTask;
-using ProjectManager.Application.ProjectTasks.Queries.CreateTasks;
-using ProjectManager.Application.ProjectTasks.Queries.CreateTasks.Validator;
-using ProjectManager.Application.ProjectTasks.Queries.DeleteTaskById;
+using ProjectManager.Application.ProjectTasks.Commands.AddUserToTask;
+using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
+using ProjectManager.Application.ProjectTasks.Commands.CreateTasks.Validator;
+using ProjectManager.Application.ProjectTasks.Commands.DeleteTaskById;
+using ProjectManager.Application.ProjectTasks.Commands.ModifyTask;
+using ProjectManager.Application.ProjectTasks.Commands.ModifyTask.Validator;
+using ProjectManager.Application.ProjectTasks.Commands.RemoveUserFromTask;
 using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
-using ProjectManager.Application.ProjectTasks.Queries.ModifyTask;
-using ProjectManager.Application.ProjectTasks.Queries.ModifyTask.Validator;
-using ProjectManager.Application.ProjectTasks.Queries.RemoveUserFromTask;
 using ProjectManager.Application.TableParameters;
 using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
 using ProjectManager.Application.TaskState.Queries;
@@ -30,12 +30,7 @@ using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
 using ProjectManager.Application.Users.Queries.GetUsersOfProject;
-using ProjectManager.Application.Users.Queries.UpdateUser.Validator;
-using ProjectManager.MVC.Models;
 using System.Security.Claims;
-using System.Text.Json;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ProjectManager.MVC.Controllers
 {
@@ -146,11 +141,11 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ModifyProjectPost(int projectId, [FromForm] ModifyProjectQuery modifyProject)
+        public async Task<IActionResult> ModifyProjectPost(int projectId, [FromForm] ModifyProjectCommand modifyProject)
         {
             modifyProject.Id = projectId;
 
-            ModifyProjectQueryValidator validator = new ModifyProjectQueryValidator();
+            ModifyProjectCommandValidator validator = new ModifyProjectCommandValidator();
             ValidationResult validationResult = validator.Validate(modifyProject);
 
             if (!validationResult.IsValid)
@@ -199,12 +194,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTaskPost(int projectId, CreateTaskQuery query)
+        public async Task<IActionResult> CreateTaskPost(int projectId, CreateTaskCommand query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             query.ProjectId = projectId;
 
-            CreateTaskQueryValidator validator = new CreateTaskQueryValidator();
+            CreateTaskCommandValidator validator = new CreateTaskCommandValidator();
             ValidationResult validationResult = validator.Validate(query);
 
             if (!validationResult.IsValid)
@@ -225,11 +220,11 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProjectPost(CreateProjectQuery query)
+        public async Task<IActionResult> CreateProjectPost(CreateProjectCommand query)
         {
             query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            CreateProjectQueryValidator validator = new CreateProjectQueryValidator();
+            CreateProjectCommandValidator validator = new CreateProjectCommandValidator();
             ValidationResult validationResult = validator.Validate(query);
 
             if (!validationResult.IsValid)
@@ -297,12 +292,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTaskPost(int taskId ,[FromForm]ModifyTaskQuery modifyTaskQuery)
+        public async Task<IActionResult> EditTaskPost(int taskId ,[FromForm] ModifyTaskCommand modifyTaskQuery)
         {
             modifyTaskQuery.ModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             modifyTaskQuery.Id = taskId;
 
-            ModifyTaskQueryValidator validator = new ModifyTaskQueryValidator();
+            ModifyTaskCommandValidator validator = new ModifyTaskCommandValidator();
             ValidationResult validationResult = validator.Validate(modifyTaskQuery);
 
             if (!validationResult.IsValid)
@@ -339,7 +334,7 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteTask(int taskId)
         {
-            await Mediator.Send(new DeleteTaskByIdQuery { TaskId = taskId });
+            await Mediator.Send(new DeleteTaskByIdCommand { TaskId = taskId });
 
             return Ok();
         }
@@ -347,7 +342,7 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveUserFromTask(int userId, int taskId)
         {
-            int result = await Mediator.Send(new RemoveUserFromTaskQuery { UserId = userId, TaskId = taskId});
+            int result = await Mediator.Send(new RemoveUserFromTaskCommand { UserId = userId, TaskId = taskId});
 
             return result > 0 ? Ok() : BadRequest();
         }
@@ -355,7 +350,7 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveUserFromProject(int userId, int projectId)
         {
-            int result = await Mediator.Send(new RemoveUserFromProjectQuery { UserId = userId, ProjectId = projectId });
+            int result = await Mediator.Send(new RemoveUserFromProjectCommand { UserId = userId, ProjectId = projectId });
 
             return result > 0 ? Ok() : BadRequest();
         }
@@ -363,7 +358,7 @@ namespace ProjectManager.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOneUserToProject(int userId, int projectId)
         {
-            int result = await Mediator.Send(new AddUserToProjectQuery { UserId = userId, ProjectId = projectId});
+            int result = await Mediator.Send(new AddUserToProjectCommand { UserId = userId, ProjectId = projectId});
 
             return result > 0 ? Ok() : BadRequest();
         }
@@ -378,7 +373,7 @@ namespace ProjectManager.MVC.Controllers
                     int userId = 0;
                     if (int.TryParse(key, out userId))
                     {
-                        AddUserToProjectQuery addUserToProjectQuery = new AddUserToProjectQuery
+                        AddUserToProjectCommand addUserToProjectQuery = new AddUserToProjectCommand
                         {
                             ProjectId = projectId,
                             UserId = userId
@@ -406,7 +401,7 @@ namespace ProjectManager.MVC.Controllers
                     int userId = 0;
                     if (int.TryParse(key, out userId))
                     {
-                        AddUserToTaskQuery addProjectToTaskQuery = new AddUserToTaskQuery
+                        AddUserToTaskCommand addProjectToTaskQuery = new AddUserToTaskCommand
                         {
                             TaskId = taskId,
                             UserId = userId

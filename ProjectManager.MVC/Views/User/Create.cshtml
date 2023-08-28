@@ -1,7 +1,8 @@
-﻿@{
+﻿@using ProjectManager.Application.Users.Commands.CreateUser;
+@{
     Layout = null;
 }
-@model ProjectManager.Application.Users.Queries.CreateUser.CreateUserQuery;
+@model CreateUserCommand;
 <div class="container">
     @if (ViewBag.Error != null)
     {
