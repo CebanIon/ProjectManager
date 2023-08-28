@@ -15,12 +15,12 @@ using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
 using ProjectManager.Application.ProjectTasks.Commands.ModifyTask;
 using ProjectManager.Application.Users.Commands.CreateUser;
 using ProjectManager.Application.Users.Commands.UpdateUser;
-using ProjectManager.Application.Users.Commands.CreateUser.Validator;
-using ProjectManager.Application.Users.Commands.UpdateUser.Validator;
 using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Application.Validators.Projects;
 using ProjectManager.Application.Validators.ProjectTasks;
 using ProjectManager.Application.DTO_s.ProjectTasks;
+using ProjectManager.Application.Validators.Users;
+using ProjectManager.Application.DTO_s.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -50,8 +50,8 @@ builder.Services.AddScoped<IValidator<CreateProjectDTO>, CreateProjectDTOValidat
 builder.Services.AddScoped<IValidator<UpdateProjectDTO>, UpdateProjectDTOValidator>();
 builder.Services.AddScoped<IValidator<CreateTaskDTO>, CreateTaskDTOValidator>();
 builder.Services.AddScoped<IValidator<UpdateTaskDTO>, UpdateTaskDTOValidator>();
-builder.Services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
-builder.Services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+builder.Services.AddScoped<IValidator<CreateUserDTO>, CreateUserDTOValidator>();
+builder.Services.AddScoped<IValidator<UpdateUserDTO>, UpdateUserDTOValidator>();
 
 builder.Services.AddMvc()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IProjectManagerDbContext>());

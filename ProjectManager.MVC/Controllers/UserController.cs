@@ -1,16 +1,16 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManager.Application.DTO_s.Users;
 using ProjectManager.Application.Roles.Queries.GetAllRoles;
 using ProjectManager.Application.Roles.Queries.GetRoleByUserId;
 using ProjectManager.Application.TableParameters;
 using ProjectManager.Application.Users.Commands.CreateUser;
-using ProjectManager.Application.Users.Commands.CreateUser.Validator;
 using ProjectManager.Application.Users.Commands.UpdateUser;
-using ProjectManager.Application.Users.Commands.UpdateUser.Validator;
 using ProjectManager.Application.Users.Queries.GetAllUsers;
 using ProjectManager.Application.Users.Queries.GetUserById;
 using ProjectManager.Application.Users.Queries.GetUserByUserName;
+using ProjectManager.Application.Validators.Users;
 using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
@@ -73,13 +73,13 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int userId, [FromForm]UpdateUserCommand userQuery)
+        public async Task<IActionResult> EditUser(int userId, [FromForm] UpdateUserDTO dto)
         {
-            userQuery.Id = userId;
-            userQuery.LastModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            dto.Id = userId;
+            dto.LastModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            UpdateUserCommandValidator validator = new UpdateUserCommandValidator();
-            ValidationResult validationResult = validator.Validate(userQuery);
+            UpdateUserDTOValidator validator = new UpdateUserDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -92,7 +92,7 @@ namespace ProjectManager.MVC.Controllers
                 return await EditUser(userId, errors);
             }
 
-            await Mediator.Send(userQuery);
+            await Mediator.Send(new UpdateUserCommand { DTO = dto});
 
             return await EditUser(userId);
         }
@@ -110,12 +110,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateUserCommand createUserQuery)
+        public async Task<IActionResult> Create(CreateUserDTO dto)
         {
-            createUserQuery.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            dto.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            CreateUserCommandValidator validator = new CreateUserCommandValidator();
-            ValidationResult validationResult = validator.Validate(createUserQuery);
+            CreateUserDTOValidator validator = new CreateUserDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -128,7 +128,7 @@ namespace ProjectManager.MVC.Controllers
                 return await Create(errors);
             }
 
-            int result = await Mediator.Send(createUserQuery);
+            int result = await Mediator.Send(new CreateUserCommand { DTO = dto});
 
             return Index();
         }

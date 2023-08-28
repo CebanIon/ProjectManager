@@ -4,18 +4,13 @@ using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Domain.Entities;
 using System.Text;
 using System.Security.Cryptography;
+using ProjectManager.Application.DTO_s.Users;
 
 namespace ProjectManager.Application.Users.Commands.CreateUser
 {
     public class CreateUserCommand : IRequest<int>
     {
-        public int CreatorId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int RoleId { get; set; }
+        public CreateUserDTO DTO { get; set; }
     }
 
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
@@ -33,21 +28,21 @@ namespace ProjectManager.Application.Users.Commands.CreateUser
             using (SHA256 hash = SHA256.Create())
             {
                 encrypted = string.Concat(hash
-                  .ComputeHash(Encoding.UTF8.GetBytes(request.Password))
+                  .ComputeHash(Encoding.UTF8.GetBytes(request.DTO.Password))
                   .Select(item => item.ToString("x2")));
             };
 
             User user = new User
             {
-                CreatedBy = request.CreatorId,
+                CreatedBy = request.DTO.CreatorId,
                 Created = DateTime.UtcNow,
-                UserName = request.UserName,
+                UserName = request.DTO.UserName,
                 Password = encrypted,
-                Email = request.Email,
-                FirstName = request.FirstName,
-                RoleId = request.RoleId,
-                LastName = request.LastName,
-                Role = await _context.Roles.Where(x => x.Id == request.RoleId).FirstOrDefaultAsync(cancellationToken),
+                Email = request.DTO.Email,
+                FirstName = request.DTO.FirstName,
+                RoleId = request.DTO.RoleId,
+                LastName = request.DTO.LastName,
+                Role = await _context.Roles.Where(x => x.Id == request.DTO.RoleId).FirstOrDefaultAsync(cancellationToken),
                 IsEnabled = true
             };
 

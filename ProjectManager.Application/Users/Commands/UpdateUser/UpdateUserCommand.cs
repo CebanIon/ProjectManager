@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
+using ProjectManager.Application.DTO_s.Users;
 using ProjectManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,7 @@ namespace ProjectManager.Application.Users.Commands.UpdateUser
 {
     public class UpdateUserCommand : IRequest<int>
     {
-        public int Id { get; set; }
-        public int LastModifiedBy { get; set; }
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public bool IsEnabled { get; set; }
-        public int RoleId { get; set; }
+        public UpdateUserDTO DTO { get; set; }
     }
 
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, int>
@@ -33,17 +27,17 @@ namespace ProjectManager.Application.Users.Commands.UpdateUser
 
         public async Task<int> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            User user = await _context.Users.Where(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
+            User user = await _context.Users.Where(x => x.Id == request.DTO.Id).FirstOrDefaultAsync(cancellationToken);
 
-            user.UserName = request.UserName;
-            user.FirstName = request.FirstName;
-            user.LastName = request.LastName;
-            user.Email = request.Email;
-            user.IsEnabled = request.IsEnabled;
-            user.RoleId = request.RoleId;
+            user.UserName = request.DTO.UserName;
+            user.FirstName = request.DTO.FirstName;
+            user.LastName = request.DTO.LastName;
+            user.Email = request.DTO.Email;
+            user.IsEnabled = request.DTO.IsEnabled;
+            user.RoleId = request.DTO.RoleId;
             user.Role = await _context.Roles.Where(x => x.Id == user.RoleId).FirstOrDefaultAsync(cancellationToken);
             user.LastModified = DateTime.UtcNow;
-            user.LastModifiedBy = request.LastModifiedBy;
+            user.LastModifiedBy = request.DTO.LastModifiedBy;
 
             return await _context.SaveChangesAsync(cancellationToken);
         }
