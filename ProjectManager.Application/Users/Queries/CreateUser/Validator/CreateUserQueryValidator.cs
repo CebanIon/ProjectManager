@@ -18,7 +18,7 @@ namespace ProjectManager.Application.Users.Queries.CreateUser.Validator
             RuleFor(x => x.Password).NotEmpty().WithMessage("Password cannot be empty")
                 .MinimumLength(5).WithMessage("Password to short")
                 .MaximumLength(30).WithMessage("Password to long");
-            RuleFor(x => x.Email).EmailAddress().WithMessage("Not an email address");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email address is required").EmailAddress().WithMessage("Not an email address");
             RuleFor(x => x.RoleId).NotEmpty().GreaterThan(0);
         }
     }
