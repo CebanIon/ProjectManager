@@ -4,11 +4,10 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Application.Projects.Commands.AddUserToProject;
 using ProjectManager.Application.Projects.Commands.CreateProject;
-using ProjectManager.Application.Projects.Commands.CreateProject.Validator;
 using ProjectManager.Application.Projects.Commands.ModifyProject;
-using ProjectManager.Application.Projects.Commands.ModifyProject.Validator;
 using ProjectManager.Application.Projects.Commands.RemoveUserFromProject;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
@@ -30,6 +29,7 @@ using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
 using ProjectManager.Application.Users.Queries.GetUsersOfProject;
+using ProjectManager.Application.Validators.Projects;
 using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
@@ -141,12 +141,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProject(int projectId, [FromForm] ModifyProjectCommand modifyProject)
+        public async Task<IActionResult> EditProject(int projectId, [FromForm] UpdateProjectDTO dto)
         {
-            modifyProject.Id = projectId;
+            dto.Id = projectId;
 
-            ModifyProjectCommandValidator validator = new ModifyProjectCommandValidator();
-            ValidationResult validationResult = validator.Validate(modifyProject);
+            UpdateProjectDTOValidator validator = new UpdateProjectDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -159,7 +159,7 @@ namespace ProjectManager.MVC.Controllers
                 return await EditProject(projectId, errors);
             }
 
-            int result = await Mediator.Send(modifyProject);
+            int result = await Mediator.Send(new ModifyProjectCommand { DTO = dto});
 
             return await EditProject(projectId);
         }
@@ -220,12 +220,12 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProject(CreateProjectCommand query)
+        public async Task<IActionResult> CreateProject(CreateProjectDTO dto)
         {
-            query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            dto.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            CreateProjectCommandValidator validator = new CreateProjectCommandValidator();
-            ValidationResult validationResult = validator.Validate(query);
+            CreateProjectDTOValidator validator = new CreateProjectDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -238,7 +238,7 @@ namespace ProjectManager.MVC.Controllers
                 return await CreateProject(errors);
             }
 
-            await Mediator.Send(query);
+            await Mediator.Send(new CreateProjectCommand {DTO = dto });
 
             return Ok("");
         }

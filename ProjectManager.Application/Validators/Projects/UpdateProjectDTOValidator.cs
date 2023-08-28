@@ -1,16 +1,16 @@
 ﻿using FluentValidation;
-using ProjectManager.Application.Projects.Commands.ModifyProject;
+using ProjectManager.Application.DTO_s.Projects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManager.Application.Projects.Commands.ModifyProject.Validator
+namespace ProjectManager.Application.Validators.Projects
 {
-    public class ModifyProjectCommandValidator : AbstractValidator<ModifyProjectCommand>
+    public class UpdateProjectDTOValidator : AbstractValidator<UpdateProjectDTO>
     {
-        public ModifyProjectCommandValidator()
+        public UpdateProjectDTOValidator() 
         {
             RuleFor(x => x.Id).NotEmpty().GreaterThan(0);
             RuleFor(x => x.Name).NotEmpty().WithMessage("Task name cannot be empty")

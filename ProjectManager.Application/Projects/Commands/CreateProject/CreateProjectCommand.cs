@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProjectManager.Application.Common.Interfaces;
+using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,7 @@ namespace ProjectManager.Application.Projects.Commands.CreateProject
 {
     public class CreateProjectCommand : IRequest<int>
     {
-        public int CreatorId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime? ProjectStartDate { get; set; }
-
-        public DateTime? ProjectEndDate { get; set; }
+       public CreateProjectDTO DTO { get; set; }
     }
 
     public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, int>
@@ -30,16 +26,16 @@ namespace ProjectManager.Application.Projects.Commands.CreateProject
         {
             Project project = new Project();
 
-            project.Name = request.Name;
-            project.Description = request.Description;
-            project.ProjectStartDate = request.ProjectStartDate;
-            project.ProjectEndDate = request.ProjectEndDate;
-            project.CreatedBy = request.CreatorId;
+            project.Name = request.DTO.Name;
+            project.Description = request.DTO.Description;
+            project.ProjectStartDate = request.DTO.ProjectStartDate;
+            project.ProjectEndDate = request.DTO.ProjectEndDate;
+            project.CreatedBy = request.DTO.CreatorId;
             project.ProjectState = _context.ProjectStates.FirstOrDefault(x => x.Name == "Frozen");
             project.ProjectStateId = project.ProjectState.Id;
             project.LastModified = DateTime.UtcNow;
             project.Created = DateTime.UtcNow;
-            project.LastModifiedBy = request.CreatorId;
+            project.LastModifiedBy = request.DTO.CreatorId;
 
 
             await _context.Projects.AddAsync(project, cancellationToken);
@@ -48,7 +44,7 @@ namespace ProjectManager.Application.Projects.Commands.CreateProject
 
             UserProject userProject = new UserProject
             {
-                User = _context.Users.FirstOrDefault(x => x.Id == request.CreatorId),
+                User = _context.Users.FirstOrDefault(x => x.Id == request.DTO.CreatorId),
                 Project = project,
             };
 

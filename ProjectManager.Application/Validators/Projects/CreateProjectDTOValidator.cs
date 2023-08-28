@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Application.Projects.Commands.CreateProject;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManager.Application.Projects.Commands.CreateProject.Validator
+namespace ProjectManager.Application.Validators.Projects
 {
-    public class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
+    public class CreateProjectDTOValidator : AbstractValidator<CreateProjectDTO>
     {
-        public CreateProjectCommandValidator()
+        public CreateProjectDTOValidator()
         {
             RuleFor(x => x.CreatorId).NotEmpty().GreaterThan(0);
             RuleFor(x => x.Name).NotEmpty().WithMessage("Task name cannot be empty")

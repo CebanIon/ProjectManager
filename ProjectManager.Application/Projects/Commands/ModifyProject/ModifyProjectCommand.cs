@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
+using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,7 @@ namespace ProjectManager.Application.Projects.Commands.ModifyProject
 {
     public class ModifyProjectCommand : IRequest<int>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int ProjectStateId { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime? ProjectStartDate { get; set; }
-        public DateTime? ProjectEndDate { get; set; }
+        public UpdateProjectDTO DTO { get; set; }
     }
     public class ModifyProjectHandler : IRequestHandler<ModifyProjectCommand, int>
     {
@@ -31,14 +26,14 @@ namespace ProjectManager.Application.Projects.Commands.ModifyProject
 
         public async Task<int> Handle(ModifyProjectCommand request, CancellationToken cancellationToken)
         {
-            Project project = await _context.Projects.Where(x => x.Id == request.Id).FirstOrDefaultAsync(cancellationToken);
+            Project project = await _context.Projects.Where(x => x.Id == request.DTO.Id).FirstOrDefaultAsync(cancellationToken);
 
-            project.Name = request.Name;
-            project.Description = request.Description;
-            project.IsDeleted = request.IsDeleted;
-            project.ProjectStartDate = request.ProjectStartDate;
-            project.ProjectEndDate = request.ProjectEndDate;
-            project.ProjectStateId = request.ProjectStateId;
+            project.Name = request.DTO.Name;
+            project.Description = request.DTO.Description;
+            project.IsDeleted = request.DTO.IsDeleted;
+            project.ProjectStartDate = request.DTO.ProjectStartDate;
+            project.ProjectEndDate = request.DTO.ProjectEndDate;
+            project.ProjectStateId = request.DTO.ProjectStateId;
             project.ProjectState = await _context.ProjectStates.Where(x => x.Id == project.ProjectStateId).FirstOrDefaultAsync(cancellationToken);
 
             return await _context.SaveChangesAsync(cancellationToken);
