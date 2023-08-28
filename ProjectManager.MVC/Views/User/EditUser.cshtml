@@ -6,6 +6,9 @@
 }
 @model ProjectManager.Application.Users.Queries.UpdateUser.UpdateUserQuery;
 <div class="container">
+    <button type="button" class="btn btn-primary" onclick="goToUserIndex()">Go back</button>
+    <br />
+    <br />
     @if (ViewBag.Error != null)
     {
         @foreach (var error in ViewBag.Error)
