@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using ProjectManager.Application.DTO_s.Projects;
+using ProjectManager.Application.DTO_s.ProjectTasks;
 using ProjectManager.Application.Projects.Commands.AddUserToProject;
 using ProjectManager.Application.Projects.Commands.CreateProject;
 using ProjectManager.Application.Projects.Commands.ModifyProject;
@@ -15,10 +16,8 @@ using ProjectManager.Application.Projects.Queries.GetProjectById;
 using ProjectManager.Application.ProjectState.Queries;
 using ProjectManager.Application.ProjectTasks.Commands.AddUserToTask;
 using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
-using ProjectManager.Application.ProjectTasks.Commands.CreateTasks.Validator;
 using ProjectManager.Application.ProjectTasks.Commands.DeleteTaskById;
 using ProjectManager.Application.ProjectTasks.Commands.ModifyTask;
-using ProjectManager.Application.ProjectTasks.Commands.ModifyTask.Validator;
 using ProjectManager.Application.ProjectTasks.Commands.RemoveUserFromTask;
 using ProjectManager.Application.ProjectTasks.Queries.GetAllTasksByProjectId;
 using ProjectManager.Application.ProjectTasks.Queries.GetTaskById;
@@ -30,6 +29,7 @@ using ProjectManager.Application.Users.Queries.GetUsersNotInProject;
 using ProjectManager.Application.Users.Queries.GetUsersNotInTask;
 using ProjectManager.Application.Users.Queries.GetUsersOfProject;
 using ProjectManager.Application.Validators.Projects;
+using ProjectManager.Application.Validators.ProjectTasks;
 using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
@@ -194,13 +194,13 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTask(int projectId, CreateTaskCommand query)
+        public async Task<IActionResult> CreateTask(int projectId, CreateTaskDTO dto)
         {
-            query.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            query.ProjectId = projectId;
+            dto.CreatorId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            dto.ProjectId = projectId;
 
-            CreateTaskCommandValidator validator = new CreateTaskCommandValidator();
-            ValidationResult validationResult = validator.Validate(query);
+            CreateTaskDTOValidator validator = new CreateTaskDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -210,12 +210,12 @@ namespace ProjectManager.MVC.Controllers
                     errors.Add(error.ErrorMessage);
                 }
 
-                return await CreateTask(query.ProjectId, errors);
+                return await CreateTask(dto.ProjectId, errors);
             }
 
-            await Mediator.Send(query);
+            await Mediator.Send(new CreateTaskCommand { DTO = dto });
 
-            return await IndexContent(query.ProjectId);
+            return await IndexContent(dto.ProjectId);
         }
 
         [HttpPost]
@@ -292,13 +292,13 @@ namespace ProjectManager.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTask(int taskId ,[FromForm] ModifyTaskCommand modifyTaskQuery)
+        public async Task<IActionResult> EditTask(int taskId ,[FromForm] UpdateTaskDTO dto)
         {
-            modifyTaskQuery.ModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            modifyTaskQuery.Id = taskId;
+            dto.ModifiedBy = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            dto.Id = taskId;
 
-            ModifyTaskCommandValidator validator = new ModifyTaskCommandValidator();
-            ValidationResult validationResult = validator.Validate(modifyTaskQuery);
+            UpdateTaskDTOValidator validator = new UpdateTaskDTOValidator();
+            ValidationResult validationResult = validator.Validate(dto);
 
             if (!validationResult.IsValid)
             {
@@ -311,7 +311,7 @@ namespace ProjectManager.MVC.Controllers
                 return await EditTask(taskId, errors );
             }
 
-            await Mediator.Send(modifyTaskQuery);
+            await Mediator.Send(new ModifyTaskCommand { DTO = dto});
 
             return await EditTask(taskId);
         }

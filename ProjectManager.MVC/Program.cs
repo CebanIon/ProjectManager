@@ -13,14 +13,14 @@ using ProjectManager.Application.Projects.Commands.CreateProject;
 using ProjectManager.Application.Projects.Commands.ModifyProject;
 using ProjectManager.Application.ProjectTasks.Commands.CreateTasks;
 using ProjectManager.Application.ProjectTasks.Commands.ModifyTask;
-using ProjectManager.Application.ProjectTasks.Commands.CreateTasks.Validator;
-using ProjectManager.Application.ProjectTasks.Commands.ModifyTask.Validator;
 using ProjectManager.Application.Users.Commands.CreateUser;
 using ProjectManager.Application.Users.Commands.UpdateUser;
 using ProjectManager.Application.Users.Commands.CreateUser.Validator;
 using ProjectManager.Application.Users.Commands.UpdateUser.Validator;
 using ProjectManager.Application.DTO_s.Projects;
 using ProjectManager.Application.Validators.Projects;
+using ProjectManager.Application.Validators.ProjectTasks;
+using ProjectManager.Application.DTO_s.ProjectTasks;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -48,8 +48,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddScoped<IValidator<CreateProjectDTO>, CreateProjectDTOValidator>();
 builder.Services.AddScoped<IValidator<UpdateProjectDTO>, UpdateProjectDTOValidator>();
-builder.Services.AddScoped<IValidator<CreateTaskCommand>, CreateTaskCommandValidator>();
-builder.Services.AddScoped<IValidator<ModifyTaskCommand>, ModifyTaskCommandValidator>();
+builder.Services.AddScoped<IValidator<CreateTaskDTO>, CreateTaskDTOValidator>();
+builder.Services.AddScoped<IValidator<UpdateTaskDTO>, UpdateTaskDTOValidator>();
 builder.Services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
 builder.Services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
 
