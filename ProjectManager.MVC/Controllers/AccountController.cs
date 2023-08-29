@@ -42,7 +42,7 @@ namespace ProjectManager.MVC.Controllers
                         new Claim(ClaimTypes.NameIdentifier, userVm.Id.ToString()),
                         new Claim(ClaimTypes.Name, userVm.UserName),
                         new Claim("FirstName", userVm.FirstName),
-                        new Claim("LastName", userVm.LastName),
+                        new Claim("LastName", userVm.LastName ?? ""),
                         new Claim(ClaimTypes.Email, userVm.Email),
                         new Claim(ClaimTypes.Role, userVm.Role),
 

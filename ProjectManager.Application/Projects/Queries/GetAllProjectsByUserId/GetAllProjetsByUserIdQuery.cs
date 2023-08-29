@@ -27,8 +27,8 @@ namespace ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser
         {
             List<ProjectVM> result = await _context.Projects
                 .Include(x => x.ProjectState)
-                .Include(x => x.UserProjects.
-                Where(x => x.UserId == request.UserId))
+                .Include(x => x.UserProjects)
+                .Where(x => x.UserProjects.Any(y => y.UserId == request.UserId))
                 .Select(x => new ProjectVM { Id = x.Id, Name = x.Name, State = x.ProjectState.Name }).
                 ToListAsync(cancellationToken);
 
