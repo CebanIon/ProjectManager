@@ -12,7 +12,7 @@
         {
             @foreach (var task in ViewBag.TasksPending)
             {
-                <p class="">@task.Name</p>
+                <p onclick="goToTaskFromDashboard(@task.Id)" class="">@task.Name</p>
             }
         }
         else

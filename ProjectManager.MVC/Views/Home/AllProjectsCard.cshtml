@@ -11,7 +11,7 @@
         {
             @foreach (var project in ViewBag.AllProjects)
             {
-                <p class="w-100">@project.Name<span style="float:right;">@project.State</span></p>
+                <p onClick="goToProjectFromDashboard(@project.Id)" class="w-100">@project.Name<span style="float:right;">@project.State</span></p>
             }
         }
         else

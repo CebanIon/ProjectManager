@@ -50,6 +50,16 @@
 
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        function goToProjectFromDashboard(projectId){
+            goToTaskManagerIndex();
+            goToProject(projectId);
+        }
+
+        function goToTaskFromDashboard(taskId) {
+            goToTaskManagerIndex();
+            goToTaskDetails(taskId);
+        }
+
         function startLoading(){
             $("#loader").show();
         }

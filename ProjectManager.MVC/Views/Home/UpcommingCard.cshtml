@@ -11,7 +11,7 @@
         {
             @foreach (var task in ViewBag.TasksUpcomming)
             {
-                <p class="w-100">@task.Name : @task.DaysLeft days remain</p>
+                <p onclick="goToTaskFromDashboard(@task.Id)" class="w-100">@task.Name : @task.DaysLeft days remain</p>
             }
         }
         else

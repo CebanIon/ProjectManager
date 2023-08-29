@@ -11,7 +11,7 @@
         {
             @foreach (var task in ViewBag.TasksInProgress)
             {
-                <p class="">@task.Name</p>
+                <p onclick="goToTaskFromDashboard(@task.Id)" class="">@task.Name</p>
             }
         }
         else
