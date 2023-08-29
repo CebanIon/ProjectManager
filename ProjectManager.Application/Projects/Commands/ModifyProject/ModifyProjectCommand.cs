@@ -26,6 +26,11 @@ namespace ProjectManager.Application.Projects.Commands.ModifyProject
 
         public async Task<int> Handle(ModifyProjectCommand request, CancellationToken cancellationToken)
         {
+            if (request == null || request.DTO == null)
+            {
+                return 0;
+            }
+
             Project project = await _context.Projects.Where(x => x.Id == request.DTO.Id).FirstOrDefaultAsync(cancellationToken);
 
             project.Name = request.DTO.Name;

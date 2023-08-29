@@ -24,6 +24,11 @@ namespace ProjectManager.Application.Projects.Commands.CreateProject
         }
         public async Task<int> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
+            if (request == null || request.DTO == null)
+            {
+                return 0;    
+            }
+
             Project project = new Project();
 
             project.Name = request.DTO.Name;

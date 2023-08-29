@@ -27,6 +27,11 @@ namespace ProjectManager.Application.Projects.Commands.RemoveUserFromProject
 
         public async Task<int> Handle(RemoveUserFromProjectCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                return 0;
+            }
+
             UserProject userProject = await _context.UserProject
                 .Where(x => x.ProjectId == request.ProjectId && x.UserId == request.UserId)
                 .FirstOrDefaultAsync(cancellationToken);

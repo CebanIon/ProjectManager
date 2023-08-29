@@ -27,6 +27,11 @@ namespace ProjectManager.Application.Projects.Commands.AddUserToProject
         }
         public async Task<int> Handle(AddUserToProjectCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                return 0;
+            }
+
             if (await _context.Users.Where(x => x.Id == request.UserId).Include(x => x.UserProjects)
             .Where(x => x.UserProjects
             .Any(x => x.ProjectId == request.ProjectId))

@@ -27,6 +27,11 @@ namespace ProjectManager.Application.Users.Commands.UpdateUser
 
         public async Task<int> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
+            if (request == null || request.DTO == null)
+            {
+                return 0;
+            }
+
             User user = await _context.Users.Where(x => x.Id == request.DTO.Id).FirstOrDefaultAsync(cancellationToken);
 
             user.UserName = request.DTO.UserName;

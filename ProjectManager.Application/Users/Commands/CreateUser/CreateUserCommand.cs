@@ -24,6 +24,11 @@ namespace ProjectManager.Application.Users.Commands.CreateUser
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            if (request == null || request.DTO == null)
+            {
+                return 0;
+            }
+
             string encrypted = "";
             using (SHA256 hash = SHA256.Create())
             {

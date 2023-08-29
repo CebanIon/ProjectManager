@@ -25,6 +25,11 @@ namespace ProjectManager.Application.ProjectTasks.Commands.DeleteTaskById
 
         public async Task<int> Handle(DeleteTaskByIdCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                return 0;
+            }
+
             ProjectTask projectTask = await _context.ProjectTasks.SingleOrDefaultAsync(x => x.Id == request.TaskId, cancellationToken);
 
             if (projectTask != null)
