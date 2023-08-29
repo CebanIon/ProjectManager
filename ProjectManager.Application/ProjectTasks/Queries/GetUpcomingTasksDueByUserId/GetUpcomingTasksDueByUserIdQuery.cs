@@ -36,7 +36,7 @@ namespace ProjectManager.Application.ProjectTasks.Queries.GetUpcomingTasksDueByU
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    DaysLeft = (x.TaskEndDate - DateTime.UtcNow).Value.Days
+                    DaysLeft = (x.TaskEndDate - DateTime.UtcNow).Value.Days + 1
                 })
                 .OrderBy(x => x.DaysLeft)
                 .ToList();
