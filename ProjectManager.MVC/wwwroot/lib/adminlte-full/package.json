@@ -1,0 +1,59 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "adminlte-full",
+        "scope": null,
+        "escapedName": "adminlte-full",
+        "name": "adminlte-full",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\projetosJavaScript\\teste"
+    ]
+  ],
+  "_from": "adminlte-full@latest",
+  "_id": "adminlte-full@2.3.11",
+  "_inCache": true,
+  "_location": "/adminlte-full",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "adminlte-full",
+    "scope": null,
+    "escapedName": "adminlte-full",
+    "name": "adminlte-full",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "dependencies": {},
+  "description": "Introduction ============",
+  "devDependencies": {
+    "R2": "^1.4.3",
+    "grunt": "~0.4.5",
+    "grunt-bootlint": "^0.9.1",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-csslint": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-less": "^0.12.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-cssjanus": "^0.2.4",
+    "grunt-image": "^1.0.5",
+    "grunt-includes": "^0.4.5"
+  },
+  "directories": {},
+  "license": "MIT",
+  "main": "dist/js/app.min.js",
+  "name": "adminlte-full",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {},
+  "version": "2.3.12"
+}

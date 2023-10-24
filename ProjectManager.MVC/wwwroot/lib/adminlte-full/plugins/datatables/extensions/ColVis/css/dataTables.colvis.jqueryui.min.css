@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.3.
+ * Original file: /npm/adminlte-full@2.3.12/plugins/datatables/extensions/ColVis/css/dataTables.colvis.jqueryui.css
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+button.ColVis_Button,ul.ColVis_collection li{padding:.5em}ul.ColVis_collection{margin:0;padding:0;overflow:hidden;z-index:2002}ul.ColVis_collection li{clear:both;display:block;text-align:left;margin:-1px 0 0 0}ul.ColVis_collection li span{display:inline-block;padding-left:.5em;cursor:pointer}div.ColVis_collectionBackground{position:fixed;top:0;left:0;height:100%;width:100%;background-color:#000;z-index:1100}div.ColVis_catcher{position:absolute;z-index:1101}
+/*# sourceMappingURL=/sm/28e6924466a053eccdcf7cd8dcd5e5ee5e3261b64611f0e5f03bc22bfeea6ae5.map */
