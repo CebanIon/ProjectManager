@@ -1,29 +1,24 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<!-- Content Wrapper. Contains page content -->
-<partial name="~/Views/Shared/Components/_Sidebar.cshtml" />
-<div class="content-wrapper">
-    <section class="content-header ml-3">
-        <h1>
-            <small>Dashboard</small>
-        </h1>
-    </section>
-    <section class="content ml-3 mr-3">
-        <div class="row g-2">
-            <div class="col-4">
-                <partial name="InProgressCard"></partial>
-            </div>
-            <div class="col-4">
-                <partial name="PendingCard"></partial>
-            </div>
-            <div class="col-4">
-                <partial name="AllProjectsCard"></partial>
-            </div>
-            <div class="col-4">
-                <partial name="UpcommingCard"></partial>
-            </div>
+<section class="content-header ml-2">
+    <h1>
+        <small>Dashboard</small>
+    </h1>
+</section>
+<section class="content ml-3 mr-3">
+    <div class="row g-2">
+        <div class="col-4">
+            <partial name="InProgressCard"></partial>
         </div>
-    </section>
-</div>
+        <div class="col-4">
+            <partial name="PendingCard"></partial>
+        </div>
+        <div class="col-4">
+            <partial name="AllProjectsCard"></partial>
+        </div>
+        <div class="col-4">
+            <partial name="UpcommingCard"></partial>
+        </div>
+    </div>
+</section>

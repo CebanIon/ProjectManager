@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-@*<ul class="list-group h-100">
+<ul class="list-group h-100">
     @foreach (var project in ViewBag.Projects)
     {
         <li class="list-group-item border-top-0">
@@ -19,5 +19,4 @@
             </li>
     }
     <li class="nav-item list-group-item border-top-0"><a class="nav-link text-dark" onclick="goToTaskManagerCreateProject()">Add project</a></li>
-</ul>*@
-<partial name="~/Views/Shared/Components/_Sidebar.cshtml" />
+</ul>

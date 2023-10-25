@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-<div class="container">
+@*<div class="container">
     <div class="card shadow">
         <div class="card-header">
             Users
@@ -12,6 +12,26 @@
             <br>
             <table id="userTable" class="mt-2 display" style="width:100%">
             </table>
+        </div>
+    </div>
+</div>*@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Users</h3>
+                    <a onclick="gotToUserCreate()" class="btn btn-primary d-table ml-auto" tabindex="-1" role="button" aria-disabled="true">
+                        <i class="bi bi-person-fill-add mr-1"></i>
+                        Create user
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table id="userTable" class="table table-bordered table-hover w-100 mb-1">
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

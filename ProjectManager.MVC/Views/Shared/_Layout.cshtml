@@ -5,15 +5,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProjectManager</title>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/contextmenu/jquery.contextmenu.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
+    <link href="~/lib/datatables/datatables-1.13.5/css/datatables.bootstrap5.min.css" rel="stylesheet" />
     <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
-    <link href="~/lib/admin-lte/dist/css/adminlte.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
     <style>
@@ -30,27 +27,29 @@
         }
     </style>
 </head>
-<body class="h-100">
-    <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
-
-    <div id="loader" class="position-absolute top-50 start-50 translate-middle" style="width:150px; height : 150px; display: none; z-index: 10;">
-        <img id="loadingImg" src="~/images/load-icon.png" style="width:150px; height : 150px;" />
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
+        <partial name="~/Views/Shared/Components/_Sidebar.cshtml" />
+        <div class="content-wrapper" style="margin-bottom: -24px;">
+            <div class="content-header">
+                <div class="content" id="content">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <partial name="~/Views/Shared/Components/_Footer.cshtml" />
     </div>
-    @RenderBody()
-
-    <footer class="footer text-muted">
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/DataTables/datatables.min.js"></script>
     <script src="~/lib/contextmenu/jquery.contextmenu.min.js"></script>
-    <script src="~/lib/ContextMenu/jquery.ui.position.js"></script>
+    <script src="~/lib/datatables/datatables-1.13.5/js/datatables.bootstrap5.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="~/lib/admin-lte/dist/js/adminlte.min.js"></script>
-    <script src="~/lib/admin-lte/dist/js/adminlte.js"></script>
     <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

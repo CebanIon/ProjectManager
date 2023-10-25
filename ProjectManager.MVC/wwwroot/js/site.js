@@ -17,21 +17,21 @@ function endLoading() {
 }
 
 function userpageLoad() {
-    console.log("Loaded");
     let table = $('#userTable').DataTable({
         processing: true,
         serverSide: true,
+        "scrollX": true,
         "ajax": {
             url: "User/GetAllUsers",
             type: "POST"
         },
         "columns": [
             { "data": "id", title: "Id", name: "id", visible: false },
-            { "data": "userName", title: "UserName", name: "userName" },
-            { "data": "firstName", title: "FirstName", name: "firstName" },
-            { "data": "lastName", title: "LastName", name: "lastName" },
+            { "data": "userName", title: "Username", name: "userName" },
+            { "data": "firstName", title: "First Name", name: "firstName" },
+            { "data": "lastName", title: "Last Name", name: "lastName" },
             { "data": "email", title: "Email", name: "email" },
-            { "data": "isEnabled", title: "IsEnabled", name: "isEnabled" },
+            { "data": "isEnabled", title: "Enabled", name: "isEnabled" },
             { "data": "role", title: "Role", name: "role" }
         ]
     });
@@ -140,8 +140,8 @@ function gotToUserCreate() {
         },
         method: "GET",
         success: function (response) {
-            $('#contentDiv').html(null);
-            $('#contentDiv').html(response);
+            $('#content').html(null);
+            $('#content').html(response);
             $("form").removeData("validator");
             $("form").removeData("unobtrusiveValidation");
             $.validator.unobtrusive.parse("form");
@@ -340,8 +340,8 @@ function goToUserIndex() {
         },
         method: "GET",
         success: function (response) {
-            $('#contentDiv').html(null);
-            $('#contentDiv').html(response);
+            $('#content').html(null);
+            $('#content').html(response);
             endLoading();
             userpageLoad();
         }

@@ -1,25 +1,10 @@
 html {
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.login-form-vertical-middle {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }

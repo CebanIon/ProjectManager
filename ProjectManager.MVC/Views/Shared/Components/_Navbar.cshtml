@@ -49,7 +49,7 @@
                 @User.FindFirst(ClaimTypes.Name)?.Value
             </a>
             <div class="dropdown-menu" style="left: -5rem" aria-labelledby="userDrop">
-                <a class="dropdown-item" id="userPageNav" onclick="goToUserIndex()">
+                <a class="dropdown-item" id="userPageNav" role="button" onclick="goToUserIndex()">
                     <i class="bi bi-people-fill mr-1 text-primary"></i>
                     Administration
                 </a>
