@@ -1,8 +1,0 @@
-/**
- * Minified by jsDelivr using clean-css v4.2.3.
- * Original file: /npm/adminlte-full@2.3.12/plugins/iCheck/minimal/aero.css
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-.icheckbox_minimal-aero,.iradio_minimal-aero{display:inline-block;vertical-align:middle;margin:0;padding:0;width:18px;height:18px;background:url(aero.png) no-repeat;border:none;cursor:pointer}.icheckbox_minimal-aero{background-position:0 0}.icheckbox_minimal-aero.hover{background-position:-20px 0}.icheckbox_minimal-aero.checked{background-position:-40px 0}.icheckbox_minimal-aero.disabled{background-position:-60px 0;cursor:default}.icheckbox_minimal-aero.checked.disabled{background-position:-80px 0}.iradio_minimal-aero{background-position:-100px 0}.iradio_minimal-aero.hover{background-position:-120px 0}.iradio_minimal-aero.checked{background-position:-140px 0}.iradio_minimal-aero.disabled{background-position:-160px 0;cursor:default}.iradio_minimal-aero.checked.disabled{background-position:-180px 0}@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (-moz-min-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:3/2),only screen and (min-device-pixel-ratio:1.5){.icheckbox_minimal-aero,.iradio_minimal-aero{background-image:url(aero@2x.png);-webkit-background-size:200px 20px;background-size:200px 20px}}
-/*# sourceMappingURL=/sm/1a35f1f84f55ae44fd3b1943ea0011cd85829f86ea785c799bec3a7e882f4ea3.map */

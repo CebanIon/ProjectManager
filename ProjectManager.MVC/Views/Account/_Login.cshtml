@@ -4,32 +4,50 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
+<section class="text-center d-flex flex-column justify-center items-center">
+    <!-- Background image -->
+    <div class="p-5 bg-image" style="background: rgb(45,42,101);background: linear-gradient(166deg, rgba(45,42,101,1) 0%, rgba(59,40,106,1) 22%, rgba(134,99,193,1) 81%);
+        height: 300px;
+        "></div>
+    <!-- Background image -->
 
-<div class="text-center container-sm mt-4 pt-5" style="max-width:700px">
-    <form class="login-form bg-white" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
-        <h1 class="mb-4">ProjectManager</h1>
-        <h1 class="h3 mb-3 font-weight-normal">Authentication</h1>
-        <br>
-        <div class="row">
-            <div class="col-3">
-                <label asp-for="UserName" class="col-form-label text-right"></label>
-            </div>
-            <div class="col-8">
-                <input asp-for="UserName" class="form-control" placeholder="Login" required autofocus />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+    <div class="card shadow-5-strong col-sm-5 mx-auto" style="
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.7);
+        backdrop-filter: blur(30px);">
+        <div class="card-body py-5 px-md-2">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8">
+                    <img src="/images/planning.png" alt="task" class="brand-image"
+                         style="opacity: .8; height:100px; width: 100px;">
+                    <h2 class="fw-bold mb-5">Sign in</h2>
+                    <form class="login-form d-flex flex-column justify-content-center" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
+                        <div class="row d-flex flex-nowrap mb-2">
+                            <div class="col col-sm-3 d-flex align-items-center">
+                                <label class="form-label" asp-for="UserName">Username</label>
+                            </div>
+                            <div class="col form-outline col-sm-9">
+                                <input type="input" asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                       
+                        <div class="row d-flex flex-nowrap mb-4">
+                            <div class="col col-sm-3 d-flex align-items-center">
+                                <label class="form-label" asp-for="Password">Password</label>
+                            </div>
+                            <div class="col form-outline col-sm-9">
+                                <input asp-for="Password" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mb-4 col-sm-12 text-center mx-auto">
+                            Sign in
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-3">
-                <label asp-for="Password" class="col-form-label text-right"></label>
-            </div>
-            <div class="col-8">
-                <input asp-for="Password" type="password" class="form-control" placeholder="Password" required />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-lg btn-success btn-block mt-3">Login <i class="fas fa-sign-in-alt"></i></button>
-    </form>
-</div>
+    </div>
+</section>
+<!-- Section: Design Block -->

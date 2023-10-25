@@ -1,8 +1,0 @@
-/**
- * Minified by jsDelivr using clean-css v4.2.3.
- * Original file: /npm/adminlte-full@2.3.12/plugins/iCheck/square/square.css
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-.icheckbox_square,.iradio_square{display:inline-block;vertical-align:middle;margin:0;padding:0;width:22px;height:22px;background:url(square.png) no-repeat;border:none;cursor:pointer}.icheckbox_square{background-position:0 0}.icheckbox_square.hover{background-position:-24px 0}.icheckbox_square.checked{background-position:-48px 0}.icheckbox_square.disabled{background-position:-72px 0;cursor:default}.icheckbox_square.checked.disabled{background-position:-96px 0}.iradio_square{background-position:-120px 0}.iradio_square.hover{background-position:-144px 0}.iradio_square.checked{background-position:-168px 0}.iradio_square.disabled{background-position:-192px 0;cursor:default}.iradio_square.checked.disabled{background-position:-216px 0}@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (-moz-min-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:3/2),only screen and (min-device-pixel-ratio:1.5){.icheckbox_square,.iradio_square{background-image:url(square@2x.png);-webkit-background-size:240px 24px;background-size:240px 24px}}
-/*# sourceMappingURL=/sm/cb6c2155cf74ff607049c53502cd5ad75f317de76cd83d931220bceda0fe7d4a.map */

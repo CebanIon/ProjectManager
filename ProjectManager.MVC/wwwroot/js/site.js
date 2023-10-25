@@ -113,7 +113,7 @@ function usersOfProjectLoad(projectId) {
 function goToUsersofProject(projectId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("UsersOfProject","TaskManager")",
+        url: "TaskManager/UsersOfProject",
         data: {
             projectId: projectId
         },
@@ -134,7 +134,7 @@ function goToUsersofProject(projectId) {
 function gotToUserCreate() {
     startLoading();
     $.ajax({
-        url: "@Url.Action("Create","User")",
+        url: "User/Create",
         xhrFields: {
             withCredentials: true
         },
@@ -220,7 +220,7 @@ function userEditLoad() {
 function goToEditProject(projectId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("EditProject","TaskManager")",
+        url: "TaskManager/EditProject",
         data: {
             projectId: projectId
         },
@@ -276,7 +276,7 @@ function goToEditProject(projectId) {
 function goToprojectDetails(projectId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("ProjectDetails","TaskManager")",
+        url: "TaskManager/ProjectDetails",
         data: {
             projectId: projectId
         },
@@ -295,7 +295,7 @@ function goToprojectDetails(projectId) {
 function gotToUserEditPage(userId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("EditUser","User")",
+        url: "User/EditUser",
         xhrFields: {
             withCredentials: true
         },
@@ -316,7 +316,7 @@ function gotToUserEditPage(userId) {
 function gotToUserDetailsPage(userId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("UserDetails","User")",
+        url: "User/UserDetails",
         xhrFields: {
             withCredentials: true
         },
@@ -334,7 +334,7 @@ function gotToUserDetailsPage(userId) {
 function goToUserIndex() {
     startLoading();
     $.ajax({
-        url: "@Url.Action("Index","User")",
+        url: "User/Index",
         xhrFields: {
             withCredentials: true
         },
@@ -351,7 +351,7 @@ function goToUserIndex() {
 function loadTaskManagerMenu() {
     startLoading();
     $.ajax({
-        url: "@Url.Action("TaskManagerMenu","TaskManager")",
+        url: "TaskManager/TaskManagerMenu",
         xhrFields: {
             withCredentials: true
         },
@@ -455,7 +455,7 @@ function RemoveUserFromProjectProjectPage(projectId, userId) {
 function goToTaskManagerIndex() {
     startLoading();
     $.ajax({
-        url: "@Url.Action("Index","TaskManager")",
+        url: "TaskManager/Index",
         xhrFields: {
             withCredentials: true
         },
@@ -471,7 +471,7 @@ function goToTaskManagerIndex() {
 function goToTaskManagerCreateProject() {
     startLoading();
     $.ajax({
-        url: "@Url.Action("CreateProject","TaskManager")",
+        url: "TaskManager/CreateProject",
         xhrFields: {
             withCredentials: true
         },
@@ -594,7 +594,7 @@ function deleteTask(taskId) {
 function goToTaskDetails(taskId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("TaskDetails","TaskManager")",
+        url: "TaskManager/TaskDetails",
         data: {
             taskId: taskId
         },
@@ -613,7 +613,7 @@ function goToTaskDetails(taskId) {
 function goToTaskEdit(taskId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("EditTask","TaskManager")",
+        url: "TaskManager/EditTask",
         data: {
             taskId: taskId
         },
@@ -668,7 +668,7 @@ function goToTaskEdit(taskId) {
 function goToProject(projectId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("IndexContent","TaskManager")",
+        url: "TaskManager/IndexContent",
         data: {
             projectId: projectId
         },
@@ -687,7 +687,7 @@ function goToProject(projectId) {
 function goToCreateTask(projectId) {
     startLoading();
     $.ajax({
-        url: "@Url.Action("CreateTask","TaskManager")",
+        url: "TaskManager/CreateTask",
         data: {
             projectId: projectId
         },

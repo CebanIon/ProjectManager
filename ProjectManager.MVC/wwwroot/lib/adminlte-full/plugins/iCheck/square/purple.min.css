@@ -1,8 +1,0 @@
-/**
- * Minified by jsDelivr using clean-css v4.2.3.
- * Original file: /npm/adminlte-full@2.3.12/plugins/iCheck/square/purple.css
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-.icheckbox_square-purple,.iradio_square-purple{display:inline-block;vertical-align:middle;margin:0;padding:0;width:22px;height:22px;background:url(purple.png) no-repeat;border:none;cursor:pointer}.icheckbox_square-purple{background-position:0 0}.icheckbox_square-purple.hover{background-position:-24px 0}.icheckbox_square-purple.checked{background-position:-48px 0}.icheckbox_square-purple.disabled{background-position:-72px 0;cursor:default}.icheckbox_square-purple.checked.disabled{background-position:-96px 0}.iradio_square-purple{background-position:-120px 0}.iradio_square-purple.hover{background-position:-144px 0}.iradio_square-purple.checked{background-position:-168px 0}.iradio_square-purple.disabled{background-position:-192px 0;cursor:default}.iradio_square-purple.checked.disabled{background-position:-216px 0}@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (-moz-min-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:3/2),only screen and (min-device-pixel-ratio:1.5){.icheckbox_square-purple,.iradio_square-purple{background-image:url(purple@2x.png);-webkit-background-size:240px 24px;background-size:240px 24px}}
-/*# sourceMappingURL=/sm/082bbf09ea8e665c6c91b152a90c91c27d0df060307310cdf4a113ae777fbd1d.map */

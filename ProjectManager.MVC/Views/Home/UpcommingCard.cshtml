@@ -1,22 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     Layout = null;
 }
-<div class="card p-3 px-4 m-2 d-inline-block align-top border border-3 rounded shadow">
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Pending tasks</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+    @if (ViewBag.TasksUpcomming != null)
+    {
+        @foreach (var task in ViewBag.TasksUpcomming)
+        {
+            <div class="card-body">
+                <p onclick="goToTaskFromDashboard(@task.Id)" class="">@task.Name</p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card-body">
+            <p>Nothing to display</p>
+        </div>
+    }
     <div class="card-body">
-        <h5 class="card-title text-decoration-underline">Upcomming tasks:</h5>
-        @if (ViewBag.TasksUpcomming != null)
-        {
-            @foreach (var task in ViewBag.TasksUpcomming)
-            {
-                <p onclick="goToTaskFromDashboard(@task.Id)" class="w-100">@task.Name : @task.DaysLeft days remain</p>
-            }
-        }
-        else
-        {
-            <p class="h6">No projects to show</p>
-        }
+        <p>Nothing to display</p>
     </div>
 </div>

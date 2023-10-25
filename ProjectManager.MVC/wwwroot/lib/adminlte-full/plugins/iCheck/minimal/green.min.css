@@ -1,8 +1,0 @@
-/**
- * Minified by jsDelivr using clean-css v4.2.3.
- * Original file: /npm/adminlte-full@2.3.12/plugins/iCheck/minimal/green.css
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-.icheckbox_minimal-green,.iradio_minimal-green{display:inline-block;vertical-align:middle;margin:0;padding:0;width:18px;height:18px;background:url(green.png) no-repeat;border:none;cursor:pointer}.icheckbox_minimal-green{background-position:0 0}.icheckbox_minimal-green.hover{background-position:-20px 0}.icheckbox_minimal-green.checked{background-position:-40px 0}.icheckbox_minimal-green.disabled{background-position:-60px 0;cursor:default}.icheckbox_minimal-green.checked.disabled{background-position:-80px 0}.iradio_minimal-green{background-position:-100px 0}.iradio_minimal-green.hover{background-position:-120px 0}.iradio_minimal-green.checked{background-position:-140px 0}.iradio_minimal-green.disabled{background-position:-160px 0;cursor:default}.iradio_minimal-green.checked.disabled{background-position:-180px 0}@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (-moz-min-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:1.5),only screen and (min-device-pixel-ratio:1.5){.icheckbox_minimal-green,.iradio_minimal-green{background-image:url(green@2x.png);-webkit-background-size:200px 20px;background-size:200px 20px}}
-/*# sourceMappingURL=/sm/987ec5edc62db95ff48b89e675d0fc3aaa99e095997ef5fb7ee88b8c16f6a8bd.map */

@@ -1,8 +1,0 @@
-/**
- * Minified by jsDelivr using clean-css v4.2.3.
- * Original file: /npm/adminlte-full@2.3.12/plugins/iCheck/minimal/pink.css
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-.icheckbox_minimal-pink,.iradio_minimal-pink{display:inline-block;vertical-align:middle;margin:0;padding:0;width:18px;height:18px;background:url(pink.png) no-repeat;border:none;cursor:pointer}.icheckbox_minimal-pink{background-position:0 0}.icheckbox_minimal-pink.hover{background-position:-20px 0}.icheckbox_minimal-pink.checked{background-position:-40px 0}.icheckbox_minimal-pink.disabled{background-position:-60px 0;cursor:default}.icheckbox_minimal-pink.checked.disabled{background-position:-80px 0}.iradio_minimal-pink{background-position:-100px 0}.iradio_minimal-pink.hover{background-position:-120px 0}.iradio_minimal-pink.checked{background-position:-140px 0}.iradio_minimal-pink.disabled{background-position:-160px 0;cursor:default}.iradio_minimal-pink.checked.disabled{background-position:-180px 0}@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (-moz-min-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:1.5),only screen and (min-device-pixel-ratio:1.5){.icheckbox_minimal-pink,.iradio_minimal-pink{background-image:url(pink@2x.png);-webkit-background-size:200px 20px;background-size:200px 20px}}
-/*# sourceMappingURL=/sm/66e93c4e661ba8f34a3229062f62ad634f85715cff4a98e08d18ac006c00c2a9.map */

@@ -6,14 +6,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ProjectManager</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/contextmenu/jquery.contextmenu.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
+    <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/lib/admin-lte/dist/css/adminlte.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/ContextMenu/jquery.contextMenu.min.css">
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css"/>
-    <link rel="stylesheet" href="~/lib/admin-lte/dist/css/adminlte.min.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <style>
         @@keyframes rotation {
           from {
@@ -29,9 +31,8 @@
     </style>
 </head>
 <body class="h-100">
-    <header>
-        <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
-    </header>
+    <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
+
     <div id="loader" class="position-absolute top-50 start-50 translate-middle" style="width:150px; height : 150px; display: none; z-index: 10;">
         <img id="loadingImg" src="~/images/load-icon.png" style="width:150px; height : 150px;" />
     </div>
@@ -41,15 +42,15 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
-    <script type="text/javascript" src="~/lib/DataTables/datatables.min.js"></script>
-    <script type="text/javascript" src="~/lib/ContextMenu/jquery.contextMenu.min.js"></script>
-    <script type="text/javascript" src="~/lib/ContextMenu/jquery.ui.position.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/DataTables/datatables.min.js"></script>
+    <script src="~/lib/contextmenu/jquery.contextmenu.min.js"></script>
+    <script src="~/lib/ContextMenu/jquery.ui.position.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="~/lib/admin-lte/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/admin-lte/dist/js/adminlte.js"></script>
     <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

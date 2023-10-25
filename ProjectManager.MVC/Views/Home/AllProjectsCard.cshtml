@@ -1,19 +1,30 @@
 ﻿@{
     Layout = null;
 }
-<div class="card p-3 px-4 m-2 d-inline-block align-top border border-3 rounded shadow" style="width:350px">
-    <div class="card-body">
-        <h5 class="card-title text-decoration-underline">Projects:</h5>
-        @if (ViewBag.AllProjects != null)
-        {
-            @foreach (var project in ViewBag.AllProjects)
-            {
-                <p onClick="goToProjectFromDashboard(@project.Id)" class="w-100">@project.Name<span style="float:right;">@project.State</span></p>
-            }
-        }
-        else
-        {
-            <p class="h6">No projects to show</p>
-        }
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Projects</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+        </div>
     </div>
+    @if (ViewBag.AllProjects != null)
+    {
+        @foreach (var project in ViewBag.AllProjects)
+        {
+            <div class="card-body">
+                <p onClick="goToProjectFromDashboard(@project.Id)" class="w-100">@project.Name<span style="float:right;">@project.State</span></p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card-body">
+            <p>Nothing to display</p>
+        </div>
+    }
 </div>
