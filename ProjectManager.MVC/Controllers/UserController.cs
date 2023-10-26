@@ -21,7 +21,7 @@ namespace ProjectManager.MVC.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
-            return View("_Index");
+            return View("Index");
         }
 
         [HttpPost]

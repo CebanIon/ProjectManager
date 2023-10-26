@@ -12,6 +12,9 @@
     <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.d.ts" />
     <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.js" />
     <Content Remove="C:\Users\crme026\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.min.js" />
+    <Content Remove="C:\Users\crme031\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.d.ts" />
+    <Content Remove="C:\Users\crme031\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.js" />
+    <Content Remove="C:\Users\crme031\.nuget\packages\datatables.net-dt\1.12.1\contentFiles\any\any\wwwroot\js\dataTables.dataTables.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +45,7 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\js\ProjectsMenu\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />

@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
         </div>
     </div>
-    @if (ViewBag.AllProjects != null)
+    @if (ViewBag.AllProjects != null && ViewBag.AllProjects.Count > 0)
     {
         @foreach (var project in ViewBag.AllProjects)
         {

@@ -10,6 +10,7 @@ using ProjectManager.Application.Projects.Commands.AddUserToProject;
 using ProjectManager.Application.Projects.Commands.CreateProject;
 using ProjectManager.Application.Projects.Commands.ModifyProject;
 using ProjectManager.Application.Projects.Commands.RemoveUserFromProject;
+using ProjectManager.Application.Projects.Queries.GetAllProjects;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
 using ProjectManager.Application.Projects.Queries.GetAllProjectsOfUser;
 using ProjectManager.Application.Projects.Queries.GetProjectById;
@@ -417,6 +418,16 @@ namespace ProjectManager.MVC.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAllProjects(string? filter)
+        {
+            var result = await Mediator.Send(new GetAllProjectsQuery(filter));
+            if(result != null)
+               return Ok(result);
+
+            return BadRequest();
         }
     }
 }

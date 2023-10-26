@@ -27,6 +27,7 @@ namespace ProjectManager.Application.Users.Queries.GetAllUsers
             this._context = context;
         }
 
+
         public async Task<Tuple<int, List<UserTableRowVM>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             string oderColumn = request.Parameters.Columns[request.Parameters.Order[0].Column].Name;

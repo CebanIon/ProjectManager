@@ -31,7 +31,12 @@ function userpageLoad() {
             { "data": "firstName", title: "First Name", name: "firstName" },
             { "data": "lastName", title: "Last Name", name: "lastName" },
             { "data": "email", title: "Email", name: "email" },
-            { "data": "isEnabled", title: "Enabled", name: "isEnabled" },
+            {
+                "data": "isEnabled", title: "Enabled", name: "isEnabled",
+                render: function (data, row, type) {
+                    return `<span class="badge badge-success">${data ? 'Enabled' : 'Disabled'}</span>`
+                }
+            },
             { "data": "role", title: "Role", name: "role" }
         ]
     });

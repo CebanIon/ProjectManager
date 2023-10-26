@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
         </div>
     </div>
-    @if (ViewBag.TasksPending != null)
+    @if (ViewBag.TasksPending != null && ViewBag.TasksPending.Count > 0)
     {
         @foreach (var task in ViewBag.TasksPending)
         {
@@ -27,7 +27,4 @@
             <p>Nothing to display</p>
         </div>
     }
-    <div class="card-body">
-        <p>Nothing to display</p>
-    </div>
 </div>

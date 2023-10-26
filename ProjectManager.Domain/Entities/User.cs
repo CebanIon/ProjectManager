@@ -14,7 +14,6 @@ namespace ProjectManager.Domain.Entities
         public Role Role { get; set; }
 
         public List<UserProject> UserProjects { get; set; }
-
         public List<UserProjectTask> UserProjectTasks { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace ProjectManager.Domain.Entities
         public ProjectState ProjectState { get; set; }
 
         public List<ProjectTask> ProjectTasks { get; set; }
-
         public List<UserProject> UserProjects { get; set; }
     }
 }
