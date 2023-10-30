@@ -6,13 +6,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/lib/contextmenu/jquery.contextmenu.min.css" rel="stylesheet" />
-    <link href="~/lib/datatables/datatables-1.13.5/css/datatables.bootstrap5.min.css" rel="stylesheet" />
-    <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
+    <environment include="Development">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/contextmenu/jquery.contextmenu.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+        <link href="~/lib/datatables/datatables-1.13.5/css/datatables.bootstrap5.min.css" rel="stylesheet" />
+        <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/ProjectManager.MVC.styles.css" asp-append-version="true" />
+    </environment>
     <style>
         @@keyframes rotation {
           from {
@@ -27,7 +29,8 @@
         }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition">
+    @*sidebar-mini*@
     <div class="wrapper">
         <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
         <partial name="~/Views/Shared/Components/_Sidebar.cshtml" />
@@ -39,23 +42,27 @@
             </div>
         </div>
         <partial name="~/Views/Shared/Components/_Footer.cshtml" />
+
     </div>
 
     <div id="toast">
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/lib/DataTables/datatables.min.js"></script>
-    <script src="~/lib/contextmenu/jquery.contextmenu.min.js"></script>
-    <script src="~/lib/datatables/datatables-1.13.5/js/datatables.bootstrap5.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/admin-lte/dist/js/adminlte.min.js"></script>
-    <script src="~/js/project_manager.js"></script>
-    <script src="~/js/projectsmenu/projectsmenu.js"></script>
-    <script src="~/js/site.js"></script>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-3.6.0.min/jquery-3.6.0.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+        <script src="~/lib/DataTables/datatables.min.js"></script>
+        <script src="~/lib/contextmenu/jquery.contextmenu.min.js"></script>
+        <script src="~/lib/datatables/datatables-1.13.5/js/datatables.bootstrap5.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/admin-lte/dist/js/adminlte.min.js"></script>
+        <script src="~/js/project_manager.js"></script>
+        <script src="~/js/projectsmenu/projectsmenu.js"></script>
+        <script src="~/js/site.js"></script>
+    </environment>
     <script>
         function getApplicationRoot() {
             return '@Url.Content("~")';

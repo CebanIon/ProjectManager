@@ -1,86 +1,94 @@
-﻿let filter = $('#projectsInput').val();
-$('.list-group').empty();
+﻿$(document).ready(function () {
+    searchProjects("");
+});
 
-$.ajax({
-    url: "TaskManager/GetAllProjects",
-    type: "POST",
-    data: filter,
-    success: function (response) {
-        if (response) {
-            response.forEach(project => {
-                $('#projectItem').empty();
-                $('#projectItem').append(
-                    `<li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <div class="d-flex justify-space-between">
-                                <i class="bi bi-boxes mr-1 mt-1"></i>
-                                <h6 class="mt-1">
-                                    ${project.name}
-                                </h6>
-                                <i class="bi bi-three-dots-vertical ml-auto mt-1 mb-2 text-center"></i>
-
-                            </div>
-                            <small>Started ${project.startDate}</small>
-                        </a>
-                    </li>`
-                );
-            });
-        }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-        $('#projectItem').empty();
-        $('#projectItem').append(
-            `<li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-bookmark-fill"></i>
-                    <p>
-                        <span class="right badge badge-danger">Error fetching data</span>
-                    </p>
-                </a>
-            </li>`
-        );
+$('#projectsInput').on('input', function () {
+    $('.sidebar-search-results').remove();
+    let filter = $(this).val();
+    if (!filter){
+        searchProjects("");
+    }
+});
+$('#projectsInput').on('keypress', function (e) {
+    if (e.which === 13) { 
+        e.preventDefault();
+        $('#filterProjects').click();
     }
 });
 
 $('#filterProjects').on('click', function () {
     let filter = $('#projectsInput').val();
+    if (filter !== "") {
+        searchProjects(filter);
+    }
+});
 
+function searchProjects(filter) {
+    $('.list-group').empty();
+    let items = [];
     $.ajax({
-        url: "TaskManager/GetAllProjects&filter="+filter,
+        url: "TaskManager/GetAllProjects",
+        data: { filter: filter },
         type: "POST",
         success: function (response) {
-            if (response) {
-                response.forEach(project => {
-                    $('.list-group').empty();
-                    $('.list-group').append(
-                        `<a href="#" class="list-group-item">
+            if (response && response.length > 0) {
+                response.forEach((project, index) => {
+                    let dropDirection = (index === response.length - 1 && index > 3) ? 'dropup' : '';
+                    items.push(
+                        `<li class="nav-item" data-id=${project.id}>
+                        <a class="nav-link">
                             <div class="d-flex justify-space-between">
-                                <i class="nav-icon bi bi-arrow-down-right-square"></i>
+                                <i class="bi bi-boxes nav-icon"></i>
                                 <h6 class="mt-1">
                                     ${project.name}
                                 </h6>
-                                <i class="bi bi-three-dots-vertical ml-auto mt-1 mb-2 text-center"></i>
-
+                                <div class="ml-auto mt-1 mb-2 text-center">
+                                    <div class="btn-group dropdown ${dropDirection}">
+                                        <i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <ul class="dropdown-menu project-menu" aria-labelledby="${project.name}" style="right: 0!important;left: unset; z-index:1000; min-width: auto; padding: 0.5em;">
+                                            <li><button class="dropdown-item" onClick="viewProject(${project.id})" type="button">View</button></li>
+                                            <li><button class="dropdown-item" onClick="editProject(${project.id})" type="button">Edit</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <small>Started ${project.startDate}</small>
-                        </a>`
+                        </a>
+                    </li>`
                     );
                 });
+                updateSearchResults(items);
+                $('.bi-three-dots-vertical').dropdown();
+
+            } else {
+                showNoElementFound();
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            $('#projectItem').empty();
-            $('#projectItem').append(
-                `<li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-arrow-down-right-square"></i>
-                        <p>
-                            Simple Link
-                            <span class="right badge badge-danger">Error fetching data</span>
-                        </p>
-                    </a>
-                </li>`
-            );
+            showNoElementFound();
         }
-    });
+    })
+}
+
+$(document).on('click', '.bi-three-dots-vertical', function (e) {
+    let dropdownmenu = $(this).next('.project-menu');
+    dropdownmenu.addClass('show');
+    e.stoppropagation();
 });
+
+$(document).on('click', function (e) {
+    if (!$(e.target).closest('.btn-group').length) {
+        $('.project-menu').removeClass('show');
+    }
+});
+
+function updateSearchResults(items) {
+    if (items.length > 0) {
+        $('#projectItem').html(items.join(''));
+    } else {
+        showNoElementFound();
+    }
+}
+function showNoElementFound() {
+    $('#projectItem').html('<a href="#" class="list-group-item"><div class="search-title">No element found!</div><div class="search-path"></div></a>');
+}

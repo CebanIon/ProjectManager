@@ -34,19 +34,36 @@ namespace ProjectManager.Application.Projects.Queries.GetAllProjects
 
         public async Task<List<ViewSimpleProjectDTO>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _context.Projects
-               .Where(x => request.Filter != null ? x.Name.ToLower().Contains(request.Filter.ToLower()) : x.Name != null)
-               .Include(x => x.ProjectState)
-               .Include(x => x.UserProjects)
-               .Select(x => new ViewSimpleProjectDTO
-               {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Description = x.Description,
-                   StartDate = x.ProjectStartDate.Value.ToString("dd/mm/yyyy"),
-               }).
-               ToListAsync(cancellationToken);
+            var result = new List<ViewSimpleProjectDTO>();
 
+            if (request.Filter != null)
+            {
+                result = await _context.Projects
+                  .Where(x => x.Name.ToLower().Contains(request.Filter.ToLower()))
+                  .Include(x => x.ProjectState)
+                  .Include(x => x.UserProjects)
+                  .Select(x => new ViewSimpleProjectDTO
+                  {
+                      Id = x.Id,
+                      Name = x.Name,
+                      Description = x.Description,
+                      StartDate = x.ProjectStartDate.Value.ToString("dd/mm/yyyy"),
+                  }).
+                  ToListAsync(cancellationToken);
+                return result;
+            }
+
+            result = await _context.Projects
+                   .Include(x => x.ProjectState)
+                   .Include(x => x.UserProjects)
+                   .Select(x => new ViewSimpleProjectDTO
+                   {
+                       Id = x.Id,
+                       Name = x.Name,
+                       Description = x.Description,
+                       StartDate = x.ProjectStartDate.Value.ToString("dd/mm/yyyy"),
+                   }).
+                   ToListAsync(cancellationToken);
             return result;
         }
     }

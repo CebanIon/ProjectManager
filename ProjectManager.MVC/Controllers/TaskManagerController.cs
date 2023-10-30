@@ -35,16 +35,15 @@ using System.Security.Claims;
 
 namespace ProjectManager.MVC.Controllers
 {
+    [Authorize]
     public class TaskManagerController : BaseController
     {
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View("Index");
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> IndexContent(int projectId = 0, List<string> errors = null)
         {
@@ -64,7 +63,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> EditProject(int projectId, List<string> errors = null)
         {
             ViewBag.Error = errors;
@@ -84,7 +82,6 @@ namespace ProjectManager.MVC.Controllers
 
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> UsersOfProject(int projectId)
         {
             ViewBag.ProjectId = projectId;
@@ -94,7 +91,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> GetUsersOfProject(int projectId = 0, DataTablesParameters parameters = null)
         {
             Tuple<int, IList<UserOfProjectVM>> result = await Mediator.Send(new GetUsersOfProjectQuery { ProjectId = projectId, Parameters = parameters});
@@ -111,7 +107,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> TaskManagerMenu()
         {
 
@@ -123,7 +118,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> ProjectDetails(int projectId)
         {
             ViewBag.ProjectId = projectId;
@@ -165,7 +159,6 @@ namespace ProjectManager.MVC.Controllers
             return await EditProject(projectId);
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> CreateProject(List<string> errors = null)
         {
@@ -178,7 +171,6 @@ namespace ProjectManager.MVC.Controllers
             return View("CreateProject");
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> CreateTask(int projectId = 0, List<string> errors = null)
         {
@@ -245,7 +237,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> TaskDetails(int taskId)
         {
             ViewBag.TaskId = taskId;
@@ -264,7 +255,6 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> EditTask(int taskId, List<string> errors = null)
         {
             ViewBag.Error = errors;
@@ -428,6 +418,28 @@ namespace ProjectManager.MVC.Controllers
                return Ok(result);
 
             return BadRequest();
+        }
+
+
+
+
+        //==========================================================CLEAN CODE====================================================================
+
+        [HttpGet]
+        public async Task<IActionResult> _EditProjectModal(int projectId)
+        {
+            ViewBag.ProjectId = projectId;
+
+            ProjectDetailsVM selectedProject = await Mediator.Send(new GetProjectByIdQuery { Id = projectId });
+            ViewBag.SelectedProject = selectedProject;
+
+            List<UsersNotInVM> usersNoIt = await Mediator.Send(new GetUsersNotInProjectQuery { ProjectId = projectId });
+            ViewBag.UserNotIn = usersNoIt;
+
+            List<ProjectStateVM> projectStates = await Mediator.Send(new GetAllProjectStateQuery());
+            ViewBag.ProjectStates = projectStates;
+
+            return PartialView("_EditProjectModal");
         }
     }
 }

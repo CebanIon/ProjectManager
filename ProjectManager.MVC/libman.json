@@ -10,6 +10,34 @@
       "provider": "cdnjs",
       "library": "bootstrap-icons@1.11.1",
       "destination": "wwwroot/lib/bootstrap-icons/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@2.11.8",
+      "destination": "wwwroot/lib/popper.js/",
+      "files": [
+        "cjs/enums.js",
+        "cjs/enums.js.map",
+        "cjs/enums.min.js",
+        "cjs/popper-base.js",
+        "cjs/popper-base.js.map",
+        "cjs/popper-base.min.js",
+        "cjs/popper-lite.js",
+        "cjs/popper-lite.js.map",
+        "cjs/popper-lite.min.js",
+        "cjs/popper.js",
+        "cjs/popper.js.map",
+        "cjs/popper.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap@5.0.0",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "provider": "filesystem",
+      "library": "https://code.jquery.com/jquery-3.6.0.min.js",
+      "destination": "wwwroot/lib/jquery-3.6.0.min/"
     }
   ]
 }

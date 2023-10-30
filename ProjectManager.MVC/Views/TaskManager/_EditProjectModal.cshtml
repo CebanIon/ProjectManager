@@ -1,0 +1,86 @@
+﻿@using ProjectManager.Application.DTO_s.Projects;
+@model UpdateProjectDTO;
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="editProject"  role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    <i class="bi bi-pencil-square mr-2"></i>
+                    Edit project
+                </h1>
+                <button id="closeEditProject" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="bg-white" id="modifyProjectForm" asp-controller="TaskManager" asp-action="EditProject" asp-route-projectId="@ViewBag.ProjectId" asp-antiforgery="true" method="post">
+                    <div class="mb-1">
+                        <label class=" form-label">Name</label>
+                        <input class="form-control " type="text" asp-for="Name" value="@ViewBag.SelectedProject.Name" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class=" form-label">Description</label>
+                        @Html.TextArea("Description", (string)(@ViewBag.SelectedProject.Description), new { @class = "form-control", rows = "5"})
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class=" form-label">State</label>
+                        <select class="form-select" asp-for="ProjectStateId">
+                            @foreach (var state in ViewBag.ProjectStates)
+                            {
+                                @if (int.Parse(ViewBag.SelectedProject.ProjectStateId.ToString()) == state.Id)
+                                {
+                                    <option value="@state.Id" selected>@state.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@state.Id">@state.Name</option>
+                                }
+                            }
+                        </select>
+                        <span class="text-danger" asp-validation-for="ProjectStateId"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class=" form-label">Enabled</label>
+                        <select class="form-select" asp-for="IsDeleted">
+                            @if (ViewBag.SelectedProject.IsDeleted.ToString() == "True")
+                            {
+                                <option value="true" selected>True</option>
+                                <option value="false">False</option>
+                            }
+                            else
+                            {
+                                <option value="true">True</option>
+                                <option value="false" selected>False</option>
+                            }
+                        </select>
+                        <span class="text-danger" asp-validation-for="IsDeleted"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class=" form-label">Start Date</label>
+                        <input class=" form-control datepicker" type="text" id="datepickerStart" asp-for="ProjectStartDate" value="@ViewBag.SelectedProject.ProjectStartDate">
+                        <span class="text-danger" asp-validation-for="ProjectStartDate"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class=" form-label">End Date</label>
+                        <input class=" form-control datepicker" type="text" id="datepickerEnd" asp-for="ProjectEndDate" value="@ViewBag.SelectedProject.ProjectEndDate">
+                        <span class="text-danger" asp-validation-for="ProjectEndDate"></span>
+                        <br>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelEditProject" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button onClick="modifyProject(@ViewBag.ProjectId)" type="button" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>

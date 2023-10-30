@@ -1,7 +1,132 @@
-﻿function goToProjectFromDashboard(projectId) {
-    goToTaskManagerIndex();
-    goToProject(projectId);
+﻿//region Projects
+function goToTaskManagerIndex() {
+    startLoading();
+    $.ajax({
+        url: "TaskManager/Index",
+        xhrFields: {
+            withCredentials: true
+        },
+        method: "GET",
+        success: function (response) {
+            $('#content').html(null);
+            $('#content').html(response);
+            endLoading();
+            loadTaskManagerMenu();
+        }
+    });
 }
+function viewProject(projectId) {
+    startLoading();
+    $.ajax({
+        url: "TaskManager/IndexContent",
+        data: {
+            projectId: projectId
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        method: "GET",
+        success: function (response) {
+            $('#content').html(null);
+            $('#content').html(response);
+            endLoading();
+            taskManagerLoadProject(projectId);
+        }
+    });
+}
+
+function editProject(projectId) {
+    startLoading();
+
+    $.ajax({
+        url: "TaskManager/_EditProjectModal",
+        data: {
+            projectId: projectId
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        method: "GET",
+        success: function (response) {
+            if ($('#editProject').length) {
+                $('#editProject').remove();
+            }
+
+            $('#content').append(response);
+            $('#editProject').modal('show');
+
+            $("#datepickerStart, #datepickerEnd").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function () {
+                    updateDatepickerValue($(this));
+                }
+            });
+
+            $(".datepicker").each(function () {
+                let currentValue = $(this).attr('value');
+                if (currentValue !== undefined && currentValue !== '') {
+                    let formattedDate = formatDateValue(currentValue);
+                    $(this).val(formattedDate);
+                    $(this).attr('value', formattedDate);
+                }
+            });
+            endLoading();
+        }
+    });
+}
+
+function updateDatepickerValue(datepickerElement) {
+    let datetext = datepickerElement.val() + "T00:01";
+    datepickerElement.val(datetext);
+    datepickerElement.attr('value', datetext);
+}
+
+function formatDateValue(value) {
+    let [month, day, year] = value.split('/');
+    month = month.padStart(2, '0');
+    day = day.padStart(2, '0');
+    year = year.split(' ')[0];
+    return `${year}-${month}-${day}T00:01`;
+}
+
+function modifyProject(projectId) {
+    var form = $("#modifyProjectForm");
+    if (form.valid()) {
+        startLoading();
+        var url = form.attr('action');
+
+        $.ajax({
+            url: url,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: form.serialize(),
+            method: "POST",
+            success: function (response) {
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+
+                $('#editProject').modal('hide');
+                endLoading();
+            },
+            error: function (response) {
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+
+                endLoading();
+            }
+        })
+    };
+}
+
+//function archiveProject(projectId) {
+//    //goToTaskManagerIndex();
+//    goToProject(projectId);
+//}
+
+//region end
 
 function goToTaskFromDashboard(taskId) {
     goToTaskManagerIndex();
@@ -290,8 +415,8 @@ function goToprojectDetails(projectId) {
         },
         method: "GET",
         success: function (response) {
-            $('#taskManagerContent').html(null);
-            $('#taskManagerContent').html(response);
+            $('#content').html(null);
+            $('#content').html(response);
             endLoading();
         }
     });
@@ -457,22 +582,6 @@ function RemoveUserFromProjectProjectPage(projectId, userId) {
         }
     });
 }
-function goToTaskManagerIndex() {
-    startLoading();
-    $.ajax({
-        url: "TaskManager/Index",
-        xhrFields: {
-            withCredentials: true
-        },
-        method: "GET",
-        success: function (response) {
-            $('#contentDiv').html(null);
-            $('#contentDiv').html(response);
-            endLoading();
-            loadTaskManagerMenu();
-        }
-    });
-}
 function goToTaskManagerCreateProject() {
     startLoading();
     $.ajax({
@@ -524,7 +633,7 @@ function createProject() {
     };
 }
 function taskManagerLoadProject(projectId) {
-    let table = $('#example').DataTable({
+    let table = $('#tasksByProject').DataTable({
         processing: true,
         serverSide: true,
         "ajax": {
@@ -538,7 +647,7 @@ function taskManagerLoadProject(projectId) {
             { data: "id", title: "Id", name: "id", visible: false },
             { data: "name", title: "Name", name: "name" },
             { data: "description", title: "Description", name: "description" },
-            { data: "taskType", title: "TaskType", name: "taskType" },
+            { data: "taskType", title: "Task Type", name: "taskType" },
             { data: "priority", title: "Priority", name: "priority" },
             { data: "taskState", title: "State", name: "taskState" }
         ],
@@ -591,7 +700,6 @@ function deleteTask(taskId) {
         async: false,
         done: function (result) {
             endLoading();
-            console.log(result);
         }
     });
 }
@@ -669,26 +777,6 @@ function goToTaskEdit(taskId) {
         }
     });
 }
-
-function goToProject(projectId) {
-    startLoading();
-    $.ajax({
-        url: "TaskManager/IndexContent",
-        data: {
-            projectId: projectId
-        },
-        xhrFields: {
-            withCredentials: true
-        },
-        method: "GET",
-        success: function (response) {
-            $('#taskManagerContent').html(null);
-            $('#taskManagerContent').html(response);
-            endLoading();
-            taskManagerLoadProject(projectId);
-        }
-    });
-}
 function goToCreateTask(projectId) {
     startLoading();
     $.ajax({
@@ -737,109 +825,6 @@ function createTask(projectId) {
                 $("form").removeData("unobtrusiveValidation");
                 $.validator.unobtrusive.parse("form");
                 endLoading();
-            }
-        })
-    };
-}
-
-function modifyProject(projectId) {
-    var form = $("#modifyProjectForm");
-    if (form.valid()) {
-        startLoading();
-        var url = form.attr('action');
-
-        $.ajax({
-            url: url,
-            xhrFields: {
-                withCredentials: true
-            },
-            data: form.serialize(),
-            method: "POST",
-            success: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                endLoading();
-                loadTaskManagerMenu();
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                $("#datepickerStart").datepicker({
-                    dateFormat: "yy-mm-dd",
-                    onSelect: function (datetext) {
-                        datetext = datetext + "T00:01"
-                        $('#datepickerStart').val(datetext);
-                        $('#datepickerStart').attr('value', datetext);
-                    }
-                });
-
-                $("#datepickerEnd").datepicker({
-                    dateFormat: "yy-mm-dd",
-                    onSelect: function (datetext) {
-                        datetext = datetext + "T00:01"
-                        $('#datepickerEnd').val(datetext);
-                        $('#datepickerEnd').attr('value', datetext);
-                    }
-                });
-
-                $(".datepicker").each(function () {
-                    if ($(this).attr('value') !== undefined && $(this).attr('value') != '') {
-                        let month = $(this).attr('value').split('/')[0];
-                        month = parseInt(month) > 9 ? month : '0' + month;
-                        let day = $(this).attr('value').split('/')[1];
-                        day = parseInt(day) > 9 ? day : '0' + day;
-                        let year = $(this).attr('value').split('/')[2].split(' ')[0];
-                        let datetext = year + '-' + month + '-' + day + 'T00:01';
-                        console.log(datetext);
-                        $(this).val(datetext);
-                        $(this).attr('value', datetext);
-                    }
-                });
-            },
-            error: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                endLoading();
-                loadTaskManagerMenu();
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                $("#datepickerStart").datepicker({
-                    dateFormat: "yy-mm-dd",
-                    onSelect: function (datetext) {
-                        datetext = datetext + "T00:01"
-                        $('#datepickerStart').val(datetext);
-                        $('#datepickerStart').attr('value', datetext);
-                    }
-                });
-
-                $("#datepickerEnd").datepicker({
-                    dateFormat: "yy-mm-dd",
-                    onSelect: function (datetext) {
-                        datetext = datetext + "T00:01"
-                        $('#datepickerEnd').val(datetext);
-                        $('#datepickerEnd').attr('value', datetext);
-                    }
-                });
-
-                $(".datepicker").each(function () {
-                    if ($(this).attr('value') !== undefined && $(this).attr('value') != '') {
-                        let month = $(this).attr('value').split('/')[0];
-                        month = parseInt(month) > 9 ? month : '0' + month;
-                        let day = $(this).attr('value').split('/')[1];
-                        day = parseInt(day) > 9 ? day : '0' + day;
-                        let year = $(this).attr('value').split('/')[2].split(' ')[0];
-                        let datetext = year + '-' + month + '-' + day + 'T00:01';
-                        console.log(datetext);
-                        $(this).val(datetext);
-                        $(this).attr('value', datetext);
-                    }
-                });
             }
         })
     };
