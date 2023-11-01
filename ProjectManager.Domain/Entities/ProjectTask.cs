@@ -16,6 +16,8 @@ namespace ProjectManager.Domain.Entities
         public ProjectTaskState TaskState { get; set; }
         public Project Project { get; set; }
         public Priority Priority { get; set; }
+
+        public List<File> Files { get; set; }
         public List<UserProjectTask> UserProjectTasks { get; set; }
     }
 }
