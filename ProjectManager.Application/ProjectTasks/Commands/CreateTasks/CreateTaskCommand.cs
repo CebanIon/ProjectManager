@@ -1,13 +1,9 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Application.DTO_s.ProjectTasks;
 using ProjectManager.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using File = ProjectManager.Domain.Entities.File;
 
 namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
 {
@@ -49,10 +45,78 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
             projectTask.ProjectId = request.DTO.ProjectId;
             projectTask.Project = _context.Projects.FirstOrDefault(x => x.Id == request.DTO.ProjectId);
 
+
+            ///<summary>
+            /// Inserting files for project
+            /// </summary>
+            
+            projectTask.Files = new List<File>();
+            if (request.DTO.Files != null && request.DTO.Files.Count > 0)
+            {
+                foreach(var file in request.DTO.Files)
+                {
+                    var uploadedFile = new File();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await file.CopyToAsync(ms);
+                        uploadedFile.FileData = ms.ToArray();
+                        uploadedFile.FileName = file.FileName;
+                        uploadedFile.CreatedBy = request.DTO.CreatorId;
+                        uploadedFile.Created = DateTime.UtcNow;
+                        uploadedFile.LastModifiedBy = request.DTO.CreatorId;
+                        uploadedFile.LastModified = DateTime.UtcNow;
+
+                        var extension = Path.GetExtension(file.FileName);
+                        uploadedFile.Type = GetFileType(extension).ToString();
+                    }
+                    if(uploadedFile != null)
+                        projectTask.Files.Add(uploadedFile);
+                }
+            }
+
             await _context.ProjectTasks.AddAsync(projectTask, cancellationToken);
-
+            
             return await _context.SaveChangesAsync(cancellationToken);
+        }
 
+
+        public enum FileType
+        {
+            Image,
+            Document,
+            Archive,
+            Folder,
+            Other
+        }
+
+        public static FileType GetFileType(string filePath)
+        {
+            if (Directory.Exists(filePath))
+            {
+                return FileType.Folder;
+            }
+
+            var extension = Path.GetExtension(filePath).ToLower();
+
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg" };
+            if (Array.Exists(imageExtensions, ext => ext == extension))
+            {
+                return FileType.Image;
+            }
+
+            var documentExtensions = new[] { ".doc", ".docx", ".pdf", ".txt", ".xls", ".xlsx", ".ppt", ".pptx" };
+            if (Array.Exists(documentExtensions, ext => ext == extension))
+            {
+                return FileType.Document;
+            }
+
+            var archiveExtensions = new[] { ".zip", ".rar", ".tar", ".gz", ".7z" };
+            if (Array.Exists(archiveExtensions, ext => ext == extension))
+            {
+                return FileType.Archive;
+            }
+
+            return FileType.Other;
         }
     }
 }

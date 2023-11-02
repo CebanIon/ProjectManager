@@ -441,5 +441,19 @@ namespace ProjectManager.MVC.Controllers
 
             return PartialView("_EditProjectModal");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> _CreateTaskModal(int projectId = 0, List<string> errors = null)
+        {
+            ViewBag.Error = errors;
+            ViewBag.ProjectId = projectId;
+
+            List<TaskTypeVM> taskTypes = await Mediator.Send(new GetAllTaskTypesQuery());
+            ViewBag.TaskTypes = taskTypes;
+            List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
+            ViewBag.Priorities = priorities;
+
+            return View("_CreateTaskModal");
+        }
     }
 }

@@ -73,7 +73,7 @@ function searchProjects(filter) {
 $(document).on('click', '.bi-three-dots-vertical', function (e) {
     let dropdownmenu = $(this).next('.project-menu');
     dropdownmenu.addClass('show');
-    e.stoppropagation();
+    e.stopPropagation();
 });
 
 $(document).on('click', function (e) {

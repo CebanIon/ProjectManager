@@ -65,7 +65,7 @@ namespace ProjectManager.Infrastructure.Migrations
 
                     b.HasIndex("ProjectTaskId");
 
-                    b.ToTable("File");
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("ProjectManager.Domain.Entities.Priority", b =>

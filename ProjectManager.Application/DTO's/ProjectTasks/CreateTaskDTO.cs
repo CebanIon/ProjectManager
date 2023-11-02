@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace ProjectManager.Application.DTO_s.ProjectTasks
 {
@@ -16,5 +12,6 @@ namespace ProjectManager.Application.DTO_s.ProjectTasks
         public int PriorityId { get; set; }
         public DateTime? TaskStartDate { get; set; }
         public DateTime? TaskEndDate { get; set; }
+        public List<IFormFile> Files { get; set; }
     }
 }

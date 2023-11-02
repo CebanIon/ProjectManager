@@ -121,80 +121,11 @@ function modifyProject(projectId) {
     };
 }
 
-//function archiveProject(projectId) {
-//    //goToTaskManagerIndex();
-//    goToProject(projectId);
-//}
-
-//region end
-
-function goToTaskFromDashboard(taskId) {
-    goToTaskManagerIndex();
-    goToTaskDetails(taskId);
-}
-
-function startLoading() {
-    $("#loader").show();
-}
-
-function endLoading() {
-    $("#loader").hide();
-}
-
-function userpageLoad() {
-    let table = $('#userTable').DataTable({
-        processing: true,
-        serverSide: true,
-        "scrollX": true,
-        "ajax": {
-            url: "User/GetAllUsers",
-            type: "POST"
-        },
-        "columns": [
-            { "data": "id", title: "Id", name: "id", visible: false },
-            { "data": "userName", title: "Username", name: "userName" },
-            { "data": "firstName", title: "First Name", name: "firstName" },
-            { "data": "lastName", title: "Last Name", name: "lastName" },
-            { "data": "email", title: "Email", name: "email" },
-            {
-                "data": "isEnabled", title: "Enabled", name: "isEnabled",
-                render: function (data, row, type) {
-                    return `<span class="badge badge-success">${data ? 'Enabled' : 'Disabled'}</span>`
-                }
-            },
-            { "data": "role", title: "Role", name: "role" }
-        ]
-    });
-    let contextmenu = $('#userTable').contextMenu({
-        selector: 'tr',
-        trigger: 'right',
-        callback: function (key, options) {
-            console.log(table);
-            console.log(table.rows());
-            let row = table.row(options.$trigger);
-            console.log(row.data());
-            switch (key) {
-                case 'details':
-                    gotToUserDetailsPage(row.data()["id"]);
-                    break;
-                case 'edit':
-                    gotToUserEditPage(row.data()["id"]);
-                    break;
-                default:
-                    break
-            }
-        },
-        items: {
-            "edit": { name: "Edit" },
-            "details": { name: "Details" }
-        }
-    })
-};
-
 function usersOfProjectLoad(projectId) {
     let table = $('#projectUserTable').DataTable({
         processing: true,
         serverSide: true,
+        scrollX: true,
         "ajax": {
             url: "TaskManager/GetUsersOfProject",
             type: "POST",
@@ -240,7 +171,7 @@ function usersOfProjectLoad(projectId) {
     })
 };
 
-function goToUsersofProject(projectId) {
+function viewUsersOfProject(projectId) {
     startLoading();
     $.ajax({
         url: "TaskManager/UsersOfProject",
@@ -253,13 +184,170 @@ function goToUsersofProject(projectId) {
         async: false,
         method: "GET",
         success: function (response) {
-            $('#taskManagerContent').html(null);
-            $('#taskManagerContent').html(response);
+            $('#content').html(null);
+            $('#content').html(response);
             endLoading();
             usersOfProjectLoad(projectId);
         }
     });
 }
+
+//region end
+
+
+//region Tasks
+
+function viewCreateTask(projectId) {
+    startLoading();
+    $.ajax({
+        url: "TaskManager/_CreateTaskModal",
+        data: {
+            projectId: projectId
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        method: "GET",
+        success: function (response) {
+            if ($('#createTask').length) {
+                $('#createTask').remove();
+            }
+            $('#content').append(response);
+            $("#file").fileinput({
+                showUpload: false,
+                showBrowse: true,
+                browseOnZoneClick: true,
+                showRemove: true,
+                overwriteInitial: true,
+                maxFileSize: 10000
+            });
+            $('#createTask').modal('show');
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+            endLoading();
+        }
+    });
+}
+
+function createTask(projectId) {
+    $('#kvFileinputModal').on('hidden.bs.modal', function () {
+        $('body').css('overflow', 'auto');
+    });
+
+    var form = $("#createTaskForm");
+    if (form.valid()) {
+        startLoading();
+        var url = form.attr('action');
+
+        var formData = new FormData(form[0]);
+        $.ajax({
+            url: url,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: formData,
+            contentType: false,
+            processData: false, 
+            method: "POST",
+            success: function (response) {
+
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+
+                $('#createTask').modal('hide');
+                endLoading();
+
+                taskManagerLoadProject(projectId);
+            },
+            error: function (response) {
+                $('#content').html(response);
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+                endLoading();
+            }
+        })
+    };
+}
+
+//region end
+
+function goToTaskFromDashboard(taskId) {
+    goToTaskManagerIndex();
+    goToTaskDetails(taskId);
+}
+
+function startLoading() {
+    $("#loader").show();
+}
+
+function endLoading() {
+    $("#loader").hide();
+}
+
+function userpageLoad() {
+    let table = $('#userTable').DataTable({
+        processing: true,
+        serverSide: true,
+        "scrollX": true,
+        //--------------------------------------------------------------------------------------------------------
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 0
+        }],
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+        //--------------------------------------------------------------------------------------------------------
+        "ajax": {
+            url: "User/GetAllUsers",
+            type: "POST"
+        },
+        "columns": [
+            { "data": "id", title: "Id", name: "id", visible: false },
+            { "data": "userName", title: "Username", name: "userName" },
+            { "data": "firstName", title: "First Name", name: "firstName" },
+            { "data": "lastName", title: "Last Name", name: "lastName" },
+            { "data": "email", title: "Email", name: "email" },
+            {
+                "data": "isEnabled", title: "Enabled", name: "isEnabled",
+                render: function (data, row, type) {
+                    return `<span class="badge badge-success">${data ? 'Enabled' : 'Disabled'}</span>`
+                }
+            },
+            { "data": "role", title: "Role", name: "role" }
+        ]
+    });
+    let contextmenu = $('#userTable').contextMenu({
+        selector: 'tr',
+        trigger: 'right',
+        callback: function (key, options) {
+            console.log(table);
+            console.log(table.rows());
+            let row = table.row(options.$trigger);
+            console.log(row.data());
+            switch (key) {
+                case 'details':
+                    gotToUserDetailsPage(row.data()["id"]);
+                    break;
+                case 'edit':
+                    gotToUserEditPage(row.data()["id"]);
+                    break;
+                default:
+                    break
+            }
+        },
+        items: {
+            "edit": { name: "Edit" },
+            "details": { name: "Details" }
+        }
+    })
+};
 
 function gotToUserCreate() {
     startLoading();
@@ -636,6 +724,9 @@ function taskManagerLoadProject(projectId) {
     let table = $('#tasksByProject').DataTable({
         processing: true,
         serverSide: true,
+        scrollX: true,
+        stateSave: true,
+        "bDestroy": true,
         "ajax": {
             url: "TaskManager/ReturnData",
             data: {
@@ -664,7 +755,7 @@ function taskManagerLoadProject(projectId) {
             $(row).find('td:eq(3)').html('<h6>' + data['priority'] + '</h6>');
         }
     });
-    let contextmenu = $('#example').contextMenu({
+    let contextmenu = $('#tasksByProject').contextMenu({
         selector: 'tr',
         trigger: 'right',
         callback: function (key, options) {
@@ -776,58 +867,6 @@ function goToTaskEdit(taskId) {
             endLoading();
         }
     });
-}
-function goToCreateTask(projectId) {
-    startLoading();
-    $.ajax({
-        url: "TaskManager/CreateTask",
-        data: {
-            projectId: projectId
-        },
-        xhrFields: {
-            withCredentials: true
-        },
-        method: "GET",
-        success: function (response) {
-            $('#taskManagerContent').html(null);
-            $('#taskManagerContent').html(response);
-            $("form").removeData("validator");
-            $("form").removeData("unobtrusiveValidation");
-            $.validator.unobtrusive.parse("form");
-            endLoading();
-        }
-    });
-}
-function createTask(projectId) {
-    var form = $("#createTaskForm");
-    if (form.valid()) {
-        startLoading();
-        var url = form.attr('action');
-
-        $.ajax({
-            url: url,
-            xhrFields: {
-                withCredentials: true
-            },
-            data: form.serialize(),
-            method: "POST",
-            success: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                taskManagerLoadProject(projectId);
-                endLoading();
-            },
-            error: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                endLoading();
-            }
-        })
-    };
 }
 
 function modifyTask(taskId) {

@@ -9,6 +9,8 @@
     <environment include="Development">
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="~/lib/contextmenu/jquery.contextmenu.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-fileinput-master/css/fileinput.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-fileinput-master/css/fileinput-rtl.min.css" rel="stylesheet" />
         <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
         <link href="~/lib/datatables/datatables-1.13.5/css/datatables.bootstrap5.min.css" rel="stylesheet" />
         <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
@@ -30,7 +32,6 @@
     </style>
 </head>
 <body class="hold-transition">
-    @*sidebar-mini*@
     <div class="wrapper">
         <partial name="~/Views/Shared/Components/_Navbar.cshtml" />
         <partial name="~/Views/Shared/Components/_Sidebar.cshtml" />
@@ -42,17 +43,16 @@
             </div>
         </div>
         <partial name="~/Views/Shared/Components/_Footer.cshtml" />
-
     </div>
-
-    <div id="toast">
-    </div>
-
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery-3.6.0.min/jquery-3.6.0.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+        <script src="~/lib/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+        <script src="~/lib/bootstrap-fileinput-master/js/plugins/buffer.min.js"></script>
+        <script src="~/lib/bootstrap-fileinput-master/js/plugins/filetype.min.js"></script>
+        <script src="~/lib/bootstrap-fileinput-master/js/plugins/piexif.min.js"></script>
+        <script src="~/lib/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
         <script src="~/lib/DataTables/datatables.min.js"></script>
         <script src="~/lib/contextmenu/jquery.contextmenu.min.js"></script>
         <script src="~/lib/datatables/datatables-1.13.5/js/datatables.bootstrap5.min.js"></script>

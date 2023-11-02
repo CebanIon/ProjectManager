@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManager.Domain.Entities;
+using File = ProjectManager.Domain.Entities.File;
 
 namespace ProjectManager.Application.Common.Interfaces
 {
@@ -16,6 +17,7 @@ namespace ProjectManager.Application.Common.Interfaces
         DbSet<UserProjectTask> UserProjectTask { get; }
         DbSet<Priority> Priority{get;}
         DbSet<User> Users { get; }
+        DbSet<File> Files { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
