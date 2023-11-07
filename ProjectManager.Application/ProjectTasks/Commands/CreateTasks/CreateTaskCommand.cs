@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Application.DTO_s.ProjectTasks;
+using ProjectManager.Application.Enums;
 using ProjectManager.Domain.Entities;
 using System.Net.Http.Headers;
 using File = ProjectManager.Domain.Entities.File;
@@ -77,16 +78,6 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
             await _context.ProjectTasks.AddAsync(projectTask, cancellationToken);
             
             return await _context.SaveChangesAsync(cancellationToken);
-        }
-
-
-        public enum FileType
-        {
-            Image,
-            Document,
-            Archive,
-            Folder,
-            Other
         }
 
         public static FileType GetFileType(string filePath)

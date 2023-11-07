@@ -51,5 +51,31 @@ namespace ProjectManager.Infrastructure.Persistence
         public static readonly Priority highPriority = new Priority { Id = 3, Name = "High", PriorityValue = 3 };
         public static readonly Priority urgentPriority = new Priority { Id = 4, Name = "Urgent", PriorityValue = 4 };
         #endregion
+
+        #region FileType
+        public static readonly List<FileType> fileTypes = new List<FileType>
+        {
+            new FileType
+            {
+                Type = "Image"
+            },
+            new FileType
+            {
+                Type = "Document"
+            },
+            new FileType
+            {
+                Type = "Archive"
+            },
+            new FileType
+            {
+                Type = "Folder"
+            },
+            new FileType
+            {
+                Type = "Other"
+            }
+        };
+        #endregion
     }
 }
