@@ -57,22 +57,27 @@ namespace ProjectManager.Infrastructure.Persistence
         {
             new FileType
             {
+                Id = 1,
                 Type = "Image"
             },
             new FileType
             {
+                Id = 2,
                 Type = "Document"
             },
             new FileType
             {
+                Id = 3,
                 Type = "Archive"
             },
             new FileType
             {
+                Id = 4,
                 Type = "Folder"
             },
             new FileType
             {
+                Id = 5,
                 Type = "Other"
             }
         };

@@ -1,10 +1,14 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Application.DTO_s.ProjectTasks;
-using ProjectManager.Application.Enums;
+using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
+using ProjectManager.Application.TaskPriority.Queries.GetAllTaskPriorities;
+using ProjectManager.Application.TaskState.Queries;
+using ProjectManager.Application.TaskType.Queries.GetAllTaskTypes;
 using ProjectManager.Domain.Entities;
-using System.Net.Http.Headers;
 using File = ProjectManager.Domain.Entities.File;
+using FileType = ProjectManager.Application.Enums.FileType;
 
 namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
 {
@@ -27,30 +31,29 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
                 return 0;
             }
 
-            ProjectTask projectTask = new ProjectTask();
-
-            projectTask.Name = request.DTO.Name;
-            projectTask.Description = request.DTO.Description;
-            projectTask.TaskState = _context.ProjectTaskStates.FirstOrDefault(x => x.Name == "Pending");
-            projectTask.TaskStateId = projectTask.TaskState.Id;
-            projectTask.TaskTypeId = request.DTO.TaskTypeId;
-            projectTask.TaskType = _context.ProjectTaskTypes.FirstOrDefault(x => x.Id == request.DTO.TaskTypeId);
-            projectTask.TaskStartDate = request.DTO.TaskStartDate;
-            projectTask.TaskEndDate = request.DTO.TaskEndDate;
-            projectTask.CreatedBy = request.DTO.CreatorId;
-            projectTask.PriorityId = request.DTO.PriorityId;
-            projectTask.Priority = _context.Priority.FirstOrDefault(x => x.Id == request.DTO.PriorityId);
-            projectTask.LastModified = DateTime.UtcNow;
-            projectTask.Created = DateTime.UtcNow;
-            projectTask.LastModifiedBy = request.DTO.CreatorId;
-            projectTask.ProjectId = request.DTO.ProjectId;
-            projectTask.Project = _context.Projects.FirstOrDefault(x => x.Id == request.DTO.ProjectId);
-
+            ProjectTask projectTask = new ProjectTask
+            {
+                Name = request.DTO.Name,
+                Description = request.DTO.Description,
+                TaskState = _context.ProjectTaskStates.FirstOrDefault(x => x.Name == "Pending"),
+                TaskStateId = _context.ProjectTaskStates.FirstOrDefault(x => x.Name == "Pending").Id,
+                TaskTypeId = request.DTO.TaskTypeId,
+                TaskType = _context.ProjectTaskTypes.FirstOrDefault(x => x.Id == request.DTO.TaskTypeId),
+                TaskStartDate = request.DTO.TaskStartDate,
+                TaskEndDate = request.DTO.TaskEndDate,
+                CreatedBy = request.DTO.CreatorId,
+                PriorityId = request.DTO.PriorityId,
+                Priority = _context.Priority.FirstOrDefault(x => x.Id == request.DTO.PriorityId),
+                LastModified = DateTime.UtcNow,
+                Created = DateTime.UtcNow,
+                LastModifiedBy = request.DTO.CreatorId,
+                ProjectId = request.DTO.ProjectId,
+                Project = _context.Projects.FirstOrDefault(x => x.Id == request.DTO.ProjectId)
+            };
 
             ///<summary>
             /// Inserting files for project
             /// </summary>
-            
             projectTask.Files = new List<File>();
             if (request.DTO.Files != null && request.DTO.Files.Count > 0)
             {
@@ -68,7 +71,7 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
                         uploadedFile.LastModified = DateTime.UtcNow;
 
                         var extension = Path.GetExtension(file.FileName);
-                        uploadedFile.Type = GetFileType(extension).ToString();
+                        //uploadedFile.FileTypeId = await GetFileType(extension, cancellationToken);
                     }
                     if(uploadedFile != null)
                         projectTask.Files.Add(uploadedFile);
@@ -76,38 +79,34 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
             }
 
             await _context.ProjectTasks.AddAsync(projectTask, cancellationToken);
-            
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public static FileType GetFileType(string filePath)
+        public async Task<int> GetFileType(string filePath, CancellationToken cancellationToken)
         {
+            var fileType = "";
+
             if (Directory.Exists(filePath))
-            {
-                return FileType.Folder;
-            }
+                fileType = "Folder";
 
             var extension = Path.GetExtension(filePath).ToLower();
 
             var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg" };
             if (Array.Exists(imageExtensions, ext => ext == extension))
-            {
-                return FileType.Image;
-            }
+                filePath = "Image";
 
             var documentExtensions = new[] { ".doc", ".docx", ".pdf", ".txt", ".xls", ".xlsx", ".ppt", ".pptx" };
             if (Array.Exists(documentExtensions, ext => ext == extension))
-            {
-                return FileType.Document;
-            }
+                filePath = "Document";
 
             var archiveExtensions = new[] { ".zip", ".rar", ".tar", ".gz", ".7z" };
             if (Array.Exists(archiveExtensions, ext => ext == extension))
-            {
-                return FileType.Archive;
-            }
+                filePath = "Archive";
 
-            return FileType.Other;
+            int result = (await _context.FileTypes
+                .FirstOrDefaultAsync(x => x.Type == fileType, cancellationToken)).Id;
+
+            return result;
         }
     }
 }

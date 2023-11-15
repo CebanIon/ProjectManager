@@ -27,10 +27,11 @@ namespace ProjectManager.Infrastructure.Persistence
         public DbSet<ProjectTaskState> ProjectTaskStates { get; set; }
         public DbSet<ProjectTaskType> ProjectTaskTypes { get; set; }
         public DbSet<Priority> Priority { get; set; }
-        public DbSet<Domain.Entities.File> Files { get; set; }
         public DbSet<UserProjectTask> UserProjectTask { get; set; }
         public DbSet<UserProject> UserProject { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Domain.Entities.File> Files { get; set; }
+        public DbSet<FileType> FileTypes {get; set;}
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -56,7 +57,6 @@ namespace ProjectManager.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -13,6 +13,9 @@ namespace ProjectManager.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<FileType> builder)
         {
+            builder.HasKey(x => x.Id)
+                .IsClustered(false);
+
             builder.HasData(ProjectManagerDbContextSeed.fileTypes);
         }
     }

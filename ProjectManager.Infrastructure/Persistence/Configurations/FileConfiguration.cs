@@ -24,6 +24,10 @@ namespace ProjectManager.Infrastructure.Persistence.Configurations
             builder.HasOne(f => f.ProjectTask)
               .WithMany(pt => pt.Files)
               .HasForeignKey(f => f.ProjectTaskId);
+
+            builder.HasOne(e => e.FileType)
+                .WithMany(e => e.FilesByFileType)
+                .HasForeignKey(e => e.FileTypeId);
         }
     }
 }
