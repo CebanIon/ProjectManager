@@ -47,7 +47,7 @@ namespace ProjectManager.Application.Projects.Queries.GetAllProjects
                       Id = x.Id,
                       Name = x.Name,
                       Description = x.Description,
-                      StartDate = x.ProjectStartDate.Value.ToString("dd/mm/yyyy"),
+                      StartDate = x.ProjectStartDate.Value.ToString("dd/MM/yyyy"),
                   }).
                   ToListAsync(cancellationToken);
                 return result;
@@ -61,7 +61,7 @@ namespace ProjectManager.Application.Projects.Queries.GetAllProjects
                        Id = x.Id,
                        Name = x.Name,
                        Description = x.Description,
-                       StartDate = x.ProjectStartDate.Value.ToString("dd/mm/yyyy"),
+                       StartDate = x.ProjectStartDate.Value.ToString("dd/MM/yyyy"),
                    }).
                    ToListAsync(cancellationToken);
             return result;

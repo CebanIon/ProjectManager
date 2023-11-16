@@ -8,3 +8,16 @@ html {
     font-size: 16px;
   }
 }
+
+/*==========================SIDEBAR STYLE=====================================*/
+.nav-link.active {
+    background-color: #6c757d!important;
+}
+
+.nav-link .bi-three-dots-vertical {
+    display: none;
+}
+
+.nav-link.active .bi-three-dots-vertical {
+    display: inline-block;
+}

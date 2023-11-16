@@ -72,11 +72,6 @@ namespace ProjectManager.Infrastructure.Persistence
             },
             new FileType
             {
-                Id = 4,
-                Type = "Folder"
-            },
-            new FileType
-            {
                 Id = 5,
                 Type = "Other"
             }

@@ -56,4 +56,31 @@ const projectManager = {
             $('#toast').html('<partial name="~/Views/Shared/Components/_Toast.cshtml" />');
         }
     },
+    Base64ToArrayBuffer: function (base64) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    },
+    SaveByteArray: function (fileName, fileType, byte) {
+        var bytes = this.Base64ToArrayBuffer(byte);
+        var blob = new Blob([bytes], { type: fileType });
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+        }
+        else {
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+            link.remove();
+        }
+    },
 }

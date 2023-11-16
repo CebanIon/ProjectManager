@@ -1,0 +1,63 @@
+﻿@using ProjectManager.Application.DTO_s.Projects;
+
+@{
+    Layout = null;
+}
+@model CreateProjectDTO;
+
+<div class="modal fade" style="overflow: auto!important" id="createProject" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    <i class="bi bi-plus-circle mr-2"></i>
+                    Create project
+                </h1>
+                <button id="closeEditProject" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="bg-white" id="createProjectForm" asp-controller="TaskManager" asp-action="CreateProject" asp-antiforgery="true" method="post">
+                    @if (ViewBag.Error != null)
+                    {
+                        @foreach (var error in ViewBag.Error)
+                        {
+                            <p class="text-danger">@error</p>
+                        }
+                    }
+                    <div class="mb-3">
+                        <label class=" form-label">Name</label>
+                        <input class=" form-control" type="text" asp-for="Name">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                        <br>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class=" form-label">Description</label>
+                        @Html.TextArea("Description", "", new { @class = "form-control", rows = "5"})
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label">Start Date</label>
+                        <input class="form-control datepicker" type="text" id="datepickerStart" asp-for="ProjectStartDate" value="">
+                        <span class="text-danger" asp-validation-for="ProjectStartDate"></span>
+                        <br>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label">End Date</label>
+                        <input class="form-control datepicker" type="text" id="datepickerEnd" asp-for="ProjectEndDate" value="">
+                        <span class="text-danger" asp-validation-for="ProjectEndDate"></span>
+                        <br>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelCreateProject" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="createProject()">
+                    <i class="fas fa-sign-in-alt mr-1"></i>
+                    Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

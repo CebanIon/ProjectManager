@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
     searchProjects("");
+
+    $('#createProjectButton').on('click', function(){
+        viewCreateProject();
+    });
 });
 
 $('#projectsInput').on('input', function () {
@@ -36,26 +40,26 @@ function searchProjects(filter) {
                     let dropDirection = (index === response.length - 1 && index > 3) ? 'dropup' : '';
                     items.push(
                         `<li class="nav-item" data-id=${project.id}>
-                        <a class="nav-link">
-                            <div class="d-flex justify-space-between">
-                                <i class="bi bi-boxes nav-icon"></i>
-                                <h6 class="mt-1">
-                                    ${project.name}
-                                </h6>
-                                <div class="ml-auto mt-1 mb-2 text-center">
-                                    <div class="btn-group dropdown ${dropDirection}">
-                                        <i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                        <ul class="dropdown-menu project-menu" aria-labelledby="${project.name}" style="right: 0!important;left: unset; z-index:1000; min-width: auto; padding: 0.5em;">
-                                            <li><button class="dropdown-item" onClick="viewProject(${project.id})" type="button">View</button></li>
-                                            <li><button class="dropdown-item" onClick="editProject(${project.id})" type="button">Edit</button></li>
-                                        </ul>
+                            <a class="nav-link" role="button" onClick="viewProject(${project.id}, this)">
+                                <div class="d-flex justify-space-between">
+                                    <i class="bi bi-boxes nav-icon"></i>
+                                    <h6 class="mt-1">
+                                        ${project.name}
+                                    </h6>
+                                    <div class="ml-auto mt-1 mb-2 text-center">
+                                        <div class="btn-group dropdown ${dropDirection}">
+                                            <i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                            <ul class="dropdown-menu project-menu" aria-labelledby="${project.name}" style="right: 0!important;left: unset; z-index:1000; min-width: auto; padding: 0.5em;">
+                                                <li><button class="dropdown-item" onClick="viewProject(${project.id})" type="button">View</button></li>
+                                                <li><button class="dropdown-item" onClick="editProject(${project.id})" type="button">Edit</button></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <small>Started ${project.startDate}</small>
-                        </a>
-                    </li>`
-                    );
+                                <small>Started ${project.startDate}</small>
+                            </a>
+                        </li>`);
+                        //<i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
                 });
                 updateSearchResults(items);
                 $('.bi-three-dots-vertical').dropdown();

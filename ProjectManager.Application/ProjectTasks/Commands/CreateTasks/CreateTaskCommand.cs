@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Application.DTO_s.ProjectTasks;
@@ -52,26 +53,29 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
             };
 
             ///<summary>
-            /// Inserting files for project
+            /// Inserting files in project task
             /// </summary>
             projectTask.Files = new List<File>();
             if (request.DTO.Files != null && request.DTO.Files.Count > 0)
             {
-                foreach(var file in request.DTO.Files)
+                foreach(IFormFile file in request.DTO.Files)
                 {
                     var uploadedFile = new File();
                     using (MemoryStream ms = new MemoryStream())
                     {
                         await file.CopyToAsync(ms);
-                        uploadedFile.FileData = ms.ToArray();
-                        uploadedFile.FileName = file.FileName;
-                        uploadedFile.CreatedBy = request.DTO.CreatorId;
-                        uploadedFile.Created = DateTime.UtcNow;
-                        uploadedFile.LastModifiedBy = request.DTO.CreatorId;
-                        uploadedFile.LastModified = DateTime.UtcNow;
-
                         var extension = Path.GetExtension(file.FileName);
-                        //uploadedFile.FileTypeId = await GetFileType(extension, cancellationToken);
+
+                        uploadedFile = new()
+                        {
+                            FileData = ms.ToArray(),
+                            FileName = file.FileName,
+                            CreatedBy = request.DTO.CreatorId,
+                            Created = DateTime.UtcNow,
+                            LastModifiedBy = request.DTO.CreatorId,
+                            LastModified = DateTime.UtcNow,
+                            FileTypeId = await GetFileType(extension, cancellationToken)
+                        };
                     }
                     if(uploadedFile != null)
                         projectTask.Files.Add(uploadedFile);
@@ -85,23 +89,19 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
         public async Task<int> GetFileType(string filePath, CancellationToken cancellationToken)
         {
             var fileType = "";
-
-            if (Directory.Exists(filePath))
-                fileType = "Folder";
-
             var extension = Path.GetExtension(filePath).ToLower();
 
             var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg" };
             if (Array.Exists(imageExtensions, ext => ext == extension))
-                filePath = "Image";
+                fileType = "Image";
 
             var documentExtensions = new[] { ".doc", ".docx", ".pdf", ".txt", ".xls", ".xlsx", ".ppt", ".pptx" };
             if (Array.Exists(documentExtensions, ext => ext == extension))
-                filePath = "Document";
+                fileType = "Document";
 
             var archiveExtensions = new[] { ".zip", ".rar", ".tar", ".gz", ".7z" };
             if (Array.Exists(archiveExtensions, ext => ext == extension))
-                filePath = "Archive";
+                fileType = "Archive";
 
             int result = (await _context.FileTypes
                 .FirstOrDefaultAsync(x => x.Type == fileType, cancellationToken)).Id;

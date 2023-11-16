@@ -1,4 +1,5 @@
 ﻿//region Projects
+
 function goToTaskManagerIndex() {
     startLoading();
     $.ajax({
@@ -15,7 +16,10 @@ function goToTaskManagerIndex() {
         }
     });
 }
-function viewProject(projectId) {
+function viewProject(projectId, linkItem) {
+    $('.nav-link').removeClass('active');
+    $(linkItem).addClass('active');
+
     startLoading();
     $.ajax({
         url: "TaskManager/IndexContent",
@@ -108,6 +112,7 @@ function modifyProject(projectId) {
                 $.validator.unobtrusive.parse("form");
 
                 $('#editProject').modal('hide');
+                $('#editProject').remove();
                 endLoading();
             },
             error: function (response) {
@@ -190,6 +195,79 @@ function viewUsersOfProject(projectId) {
             usersOfProjectLoad(projectId);
         }
     });
+}
+
+function viewCreateProject() {
+    startLoading();
+    $.ajax({
+        url: "TaskManager/_CreateProjectModal",
+        xhrFields: {
+            withCredentials: true
+        },
+        method: "GET",
+        success: function (response) {
+            if ($('#createProject').length) {
+                $('#createProject').remove();
+            }
+
+            $('#content').append(response);
+            $('#createProject').modal('show');
+
+            $("#datepickerStart, #datepickerEnd").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function () {
+                    updateDatepickerValue($(this));
+                }
+            });
+
+            $(".datepicker").each(function () {
+                let currentValue = $(this).attr('value');
+                if (currentValue !== undefined && currentValue !== '') {
+                    let formattedDate = formatDateValue(currentValue);
+                    $(this).val(formattedDate);
+                    $(this).attr('value', formattedDate);
+                }
+            });
+
+            $("form").removeData("validator");
+            $("form").removeData("unobtrusiveValidation");
+            $.validator.unobtrusive.parse("form");
+            endLoading();
+            searchProjects("");
+        }
+    });
+}
+function createProject() {
+    var form = $("#createProjectForm");
+    if (form.valid()) {
+        startLoading();
+        var url = form.attr('action');
+
+        $.ajax({
+            url: url,
+            xhrFields: {
+                withCredentials: true
+            },
+            data: form.serialize(),
+            method: "POST",
+            success: function (response) {
+                $('#taskManagerContent').html(response);
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+
+                $('#createProject').modal('hide');
+                $('#createProject').remove();
+                endLoading();
+            },
+            error: function (response) {
+                $("form").removeData("validator");
+                $("form").removeData("unobtrusiveValidation");
+                $.validator.unobtrusive.parse("form");
+                endLoading();
+            }
+        })
+    };
 }
 
 //region end
@@ -669,56 +747,6 @@ function RemoveUserFromProjectProjectPage(projectId, userId) {
             goToEditProject(projectId);
         }
     });
-}
-function goToTaskManagerCreateProject() {
-    startLoading();
-    $.ajax({
-        url: "TaskManager/CreateProject",
-        xhrFields: {
-            withCredentials: true
-        },
-        method: "GET",
-        success: function (response) {
-            $('#taskManagerContent').html(null);
-            $('#taskManagerContent').html(response);
-            $("form").removeData("validator");
-            $("form").removeData("unobtrusiveValidation");
-            $.validator.unobtrusive.parse("form");
-            endLoading();
-        }
-    });
-}
-function createProject() {
-    var form = $("#createProjectForm");
-    if (form.valid()) {
-        startLoading();
-        var url = form.attr('action');
-
-        $.ajax({
-            url: url,
-            xhrFields: {
-                withCredentials: true
-            },
-            data: form.serialize(),
-            method: "POST",
-            success: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                loadTaskManagerMenu();
-                endLoading();
-            },
-            error: function (response) {
-                $('#taskManagerContent').html(response);
-                $("form").removeData("validator");
-                $("form").removeData("unobtrusiveValidation");
-                $.validator.unobtrusive.parse("form");
-                loadTaskManagerMenu();
-                endLoading();
-            }
-        })
-    };
 }
 function taskManagerLoadProject(projectId) {
     let table = $('#tasksByProject').DataTable({

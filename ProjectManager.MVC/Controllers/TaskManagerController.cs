@@ -39,7 +39,7 @@ namespace ProjectManager.MVC.Controllers
     public class TaskManagerController : BaseController
     {
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View("Index");
         }
@@ -312,14 +312,17 @@ namespace ProjectManager.MVC.Controllers
         {
             Tuple<int,List<ProjectTaskRowVM>> result = await Mediator.Send(new GetAllTasksByProjectIdQuery { ProjectId = projectId, Parameters = parameters });
 
-            var v = new {
+            if (result is null)
+                return Ok(null);
+
+            var resultF = new {
                 Draw = parameters.Draw,
                 RecordsFiltered = result.Item1,
                 RecordsTotal = result.Item1,
                 Data = result.Item2
             };
 
-            return Ok(v);
+            return Ok(resultF);
         }
 
         [HttpPost]
@@ -443,7 +446,7 @@ namespace ProjectManager.MVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> _CreateTaskModal(int projectId = 0, List<string> errors = null)
+        public async Task<IActionResult> _CreateTaskModal(int projectId = 0, List<string>? errors = null)
         {
             ViewBag.Error = errors;
             ViewBag.ProjectId = projectId;
@@ -453,7 +456,19 @@ namespace ProjectManager.MVC.Controllers
             List<PriorityVM> priorities = await Mediator.Send(new GetAllTaskPrioritiesQuery());
             ViewBag.Priorities = priorities;
 
-            return View("_CreateTaskModal");
+            return PartialView("_CreateTaskModal");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> _CreateProjectModal(List<string>? errors = null)
+        {
+            ViewBag.Error = errors;
+
+            List<ProjectVM> projects = await Mediator.Send(new GetAllProjetsByUserIdQuery { UserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)) });
+
+            ViewBag.Projects = projects;
+
+            return PartialView("_CreateProjectModal");
         }
     }
 }
