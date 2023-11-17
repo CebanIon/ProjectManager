@@ -88,7 +88,7 @@ namespace ProjectManager.Application.ProjectTasks.Commands.CreateTasks
 
         public async Task<int> GetFileType(string filePath, CancellationToken cancellationToken)
         {
-            var fileType = "";
+            var fileType = "Other";
             var extension = Path.GetExtension(filePath).ToLower();
 
             var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".svg" };

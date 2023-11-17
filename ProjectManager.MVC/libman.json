@@ -31,10 +31,6 @@
       ]
     },
     {
-      "library": "bootstrap@5.0.0",
-      "destination": "wwwroot/lib/bootstrap/"
-    },
-    {
       "provider": "filesystem",
       "library": "https://code.jquery.com/jquery-3.6.0.min.js",
       "destination": "wwwroot/lib/jquery-3.6.0.min/"
@@ -451,6 +447,49 @@
         "themes/vader/images/ui-icons_cd0a0a_256x240.png",
         "themes/vader/images/ui-icons_f29a00_256x240.png"
       ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "select2@4.0.3",
+      "destination": "wwwroot/lib/select2/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "ionicons@2.0.1",
+      "destination": "wwwroot/lib/ionicons/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "pace@latest",
+      "destination": "wwwroot/lib/pace/",
+      "files": [
+        "pace.js"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "animate.css@3.7.0",
+      "destination": "wwwroot/lib/animate.css/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jAlert@4.9.1",
+      "destination": "wwwroot/lib/jAlert/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "pretty-checkbox@3.0.3",
+      "destination": "wwwroot/lib/pretty-checkbox/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap@4.6.2",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@5.15.4",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }

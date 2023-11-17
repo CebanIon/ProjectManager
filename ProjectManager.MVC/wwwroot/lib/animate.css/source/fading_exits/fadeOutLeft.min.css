@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/fading_exits/fadeOutLeft.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes fadeOutLeft{from{opacity:1}to{opacity:0;transform:translate3d(-100%,0,0)}}.fadeOutLeft{animation-name:fadeOutLeft}
+/*# sourceMappingURL=/sm/24b13a57d79e2515a1f401e8b107917b5e726f2e706112176b09987af1df53c0.map */

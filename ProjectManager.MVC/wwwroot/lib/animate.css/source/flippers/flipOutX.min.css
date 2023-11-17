@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/flippers/flipOutX.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes flipOutX{from{transform:perspective(400px)}30%{transform:perspective(400px) rotate3d(1,0,0,-20deg);opacity:1}to{transform:perspective(400px) rotate3d(1,0,0,90deg);opacity:0}}.flipOutX{animation-duration:.75s;animation-name:flipOutX;backface-visibility:visible!important}
+/*# sourceMappingURL=/sm/f36d26d7a58ab126f3b52102eeedb766a954f77bcb9b157ff35de1eb3c50b572.map */

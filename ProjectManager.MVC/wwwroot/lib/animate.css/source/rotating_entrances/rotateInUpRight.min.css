@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/rotating_entrances/rotateInUpRight.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes rotateInUpRight{from{transform-origin:right bottom;transform:rotate3d(0,0,1,-90deg);opacity:0}to{transform-origin:right bottom;transform:translate3d(0,0,0);opacity:1}}.rotateInUpRight{animation-name:rotateInUpRight}
+/*# sourceMappingURL=/sm/05b91402cb7c530dc1ccb828d12d52c914395dca7599d6ec867556a98c917cca.map */

@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/attention_seekers/flash.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes flash{50%,from,to{opacity:1}25%,75%{opacity:0}}.flash{animation-name:flash}
+/*# sourceMappingURL=/sm/9cb2817ed743fb3abf1bb925967c7cc1f246d7b470c2b9530a05d25e883c6ef3.map */

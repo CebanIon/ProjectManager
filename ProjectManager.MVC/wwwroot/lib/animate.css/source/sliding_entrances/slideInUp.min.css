@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/sliding_entrances/slideInUp.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes slideInUp{from{transform:translate3d(0,100%,0);visibility:visible}to{transform:translate3d(0,0,0)}}.slideInUp{animation-name:slideInUp}
+/*# sourceMappingURL=/sm/53dae7b71cd61009ffe4224cb6d926035c3b62a56838abf4f86a8e63c5698a15.map */

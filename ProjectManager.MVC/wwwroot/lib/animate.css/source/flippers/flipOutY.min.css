@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/flippers/flipOutY.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes flipOutY{from{transform:perspective(400px)}30%{transform:perspective(400px) rotate3d(0,1,0,-15deg);opacity:1}to{transform:perspective(400px) rotate3d(0,1,0,90deg);opacity:0}}.flipOutY{animation-duration:.75s;backface-visibility:visible!important;animation-name:flipOutY}
+/*# sourceMappingURL=/sm/d5b8e99d6096029c8d51a0480d2a2b9dc3b97d29cb9c43cdf6919cac921c0eec.map */

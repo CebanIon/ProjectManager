@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/attention_seekers/pulse.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes pulse{from{transform:scale3d(1,1,1)}50%{transform:scale3d(1.05,1.05,1.05)}to{transform:scale3d(1,1,1)}}.pulse{animation-name:pulse}
+/*# sourceMappingURL=/sm/c8ddf7f667d9a6c0324dcab0dfbe6c5bc7ce8f0de4b6d2ff8c0abad32a8e61e9.map */

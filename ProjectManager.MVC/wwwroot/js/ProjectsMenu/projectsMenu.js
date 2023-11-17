@@ -38,32 +38,30 @@ function searchProjects(filter) {
             if (response && response.length > 0) {
                 response.forEach((project, index) => {
                     let dropDirection = (index === response.length - 1 && index > 3) ? 'dropup' : '';
-                    items.push(
-                        `<li class="nav-item" data-id=${project.id}>
-                            <a class="nav-link" role="button" onClick="viewProject(${project.id}, this)">
-                                <div class="d-flex justify-space-between">
-                                    <i class="bi bi-boxes nav-icon"></i>
-                                    <h6 class="mt-1">
-                                        ${project.name}
-                                    </h6>
-                                    <div class="ml-auto mt-1 mb-2 text-center">
-                                        <div class="btn-group dropdown ${dropDirection}">
-                                            <i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                            <ul class="dropdown-menu project-menu" aria-labelledby="${project.name}" style="right: 0!important;left: unset; z-index:1000; min-width: auto; padding: 0.5em;">
-                                                <li><button class="dropdown-item" onClick="viewProject(${project.id})" type="button">View</button></li>
-                                                <li><button class="dropdown-item" onClick="editProject(${project.id})" type="button">Edit</button></li>
-                                            </ul>
+                    items.push(`<li class="nav-item"  data-id="${project.id}">
+                                    <a class="nav-link" role="button" onClick="viewProject(${project.id}, this)">
+                                        <div class="d-flex justify-content-between">
+                                            <i class="bi bi-boxes nav-icon"></i>
+                                            <h6 class="mt-1">
+                                                ${project.name}
+                                            </h6>
+                                            <div class="ml-auto mt-1 mb-2 text-center">
+                                                <div class="btn-group dropdown">
+                                                    <i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-toggle="dropdown" aria-expanded="false"></i>
+                                                    <ul class="dropdown-menu" aria-labelledby="${project.name}" style="left: unset; z-index: 9999; min-width: auto; padding: 1em;margin-left: 13rem;">
+                                                        <li><button class="dropdown-item" onClick="viewProject(${project.id})" type="button">View</button></li>
+                                                        <li><button class="dropdown-item" onClick="editProject(${project.id})" type="button">Edit</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <small>Started ${project.startDate}</small>
-                            </a>
-                        </li>`);
-                        //<i class="bi bi-three-dots-vertical" role="button" id="${project.name}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <small>Started ${project.startDate}</small>
+                                    </a>
+                                </li>`
+                    );
+                    $(`#${project.name}`).dropdown();
                 });
                 updateSearchResults(items);
-                $('.bi-three-dots-vertical').dropdown();
-
             } else {
                 showNoElementFound();
             }
@@ -74,17 +72,17 @@ function searchProjects(filter) {
     })
 }
 
-$(document).on('click', '.bi-three-dots-vertical', function (e) {
-    let dropdownmenu = $(this).next('.project-menu');
-    dropdownmenu.addClass('show');
-    e.stopPropagation();
-});
+//$(document).on('click', '.bi-three-dots-vertical', function (e) {
+//    let dropdownmenu = $(this).next('.project-menu');
+//    dropdownmenu.addClass('show');
+//    e.stopPropagation();
+//});
 
-$(document).on('click', function (e) {
-    if (!$(e.target).closest('.btn-group').length) {
-        $('.project-menu').removeClass('show');
-    }
-});
+//$(document).on('click', function (e) {
+//    if (!$(e.target).closest('.btn-group').length) {
+//        $('.project-menu').removeClass('show');
+//    }
+//});
 
 function updateSearchResults(items) {
     if (items.length > 0) {

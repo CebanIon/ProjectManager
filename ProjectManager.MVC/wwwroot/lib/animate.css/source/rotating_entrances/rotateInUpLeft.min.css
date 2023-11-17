@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/rotating_entrances/rotateInUpLeft.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes rotateInUpLeft{from{transform-origin:left bottom;transform:rotate3d(0,0,1,45deg);opacity:0}to{transform-origin:left bottom;transform:translate3d(0,0,0);opacity:1}}.rotateInUpLeft{animation-name:rotateInUpLeft}
+/*# sourceMappingURL=/sm/c9558894f4a44eee05bf7cff4958afe29a123680c7083c866304edb18cad3631.map */

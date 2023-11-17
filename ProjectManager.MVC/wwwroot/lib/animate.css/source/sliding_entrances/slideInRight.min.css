@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/sliding_entrances/slideInRight.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes slideInRight{from{transform:translate3d(100%,0,0);visibility:visible}to{transform:translate3d(0,0,0)}}.slideInRight{animation-name:slideInRight}
+/*# sourceMappingURL=/sm/377461349f66b2ccbd1e1f289cee9ebe37b81a366f5cda5846fd289996a7ec7e.map */

@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/fading_entrances/fadeInDown.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes fadeInDown{from{opacity:0;transform:translate3d(0,-100%,0)}to{opacity:1;transform:translate3d(0,0,0)}}.fadeInDown{animation-name:fadeInDown}
+/*# sourceMappingURL=/sm/b8e54a324c37db150543ce9403c8e8509ccc5d64215e4394b986e4775aad908f.map */

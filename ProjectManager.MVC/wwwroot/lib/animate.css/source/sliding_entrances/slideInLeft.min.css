@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/sliding_entrances/slideInLeft.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes slideInLeft{from{transform:translate3d(-100%,0,0);visibility:visible}to{transform:translate3d(0,0,0)}}.slideInLeft{animation-name:slideInLeft}
+/*# sourceMappingURL=/sm/ce63909f7c431b77f0232fb908d7bf020718d2e0b66de60a41a85f45300d92de.map */

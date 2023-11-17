@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/rotating_entrances/rotateIn.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes rotateIn{from{transform-origin:center;transform:rotate3d(0,0,1,-200deg);opacity:0}to{transform-origin:center;transform:translate3d(0,0,0);opacity:1}}.rotateIn{animation-name:rotateIn}
+/*# sourceMappingURL=/sm/306a9587379b8b3e0f404a7f816895ba945efb066fbdf6c44839d8846a93c4af.map */

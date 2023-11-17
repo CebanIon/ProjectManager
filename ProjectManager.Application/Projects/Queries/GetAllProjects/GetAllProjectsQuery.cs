@@ -2,14 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectManager.Application.Common.Interfaces;
 using ProjectManager.Application.DTO_s.Projects;
-using ProjectManager.Application.Projects.Queries.GetAllProjectsByUserId;
-using ProjectManager.Application.TableParameters;
-using ProjectManager.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManager.Application.Projects.Queries.GetAllProjects
 {

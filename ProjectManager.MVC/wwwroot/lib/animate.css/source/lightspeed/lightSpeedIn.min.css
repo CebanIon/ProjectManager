@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/lightspeed/lightSpeedIn.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes lightSpeedIn{from{transform:translate3d(100%,0,0) skewX(-30deg);opacity:0}60%{transform:skewX(20deg);opacity:1}80%{transform:skewX(-5deg)}to{transform:translate3d(0,0,0)}}.lightSpeedIn{animation-name:lightSpeedIn;animation-timing-function:ease-out}
+/*# sourceMappingURL=/sm/33ff24b03f1cb9f335a6de45532976ea3e7dc1c3b64a2a5b4122f7dc74489d67.map */

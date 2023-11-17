@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using clean-css v4.2.1.
+ * Original file: /npm/animate.css@3.7.0/source/fading_entrances/fadeInLeft.css
+ * 
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+@keyframes fadeInLeft{from{opacity:0;transform:translate3d(-100%,0,0)}to{opacity:1;transform:translate3d(0,0,0)}}.fadeInLeft{animation-name:fadeInLeft}
+/*# sourceMappingURL=/sm/8e042a7cd87b45d2246c7b1d29483984b503b168f157f29a59783880b62b22c5.map */
